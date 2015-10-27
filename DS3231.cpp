@@ -133,8 +133,8 @@ static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
 
 DateTime RTClib::now() {
   Wire.beginTransmission(CLOCK_ADDRESS);
-  Wire.write(0);	// I'm guessing the "0" is the I2C start signal
-                // i.e. go over everything, not just 1 register -ADW
+  Wire.write(0);	// This is the first register address (Seconds)
+  			// We'll read from here on for 7 bytes: secs reg, minutes reg, hours, days, months and years.
   Wire.endTransmission();
   
   Wire.requestFrom(CLOCK_ADDRESS, 7);
