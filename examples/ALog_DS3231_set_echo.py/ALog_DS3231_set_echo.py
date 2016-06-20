@@ -11,10 +11,6 @@ Added printing back of time stamps and increased baud rate
 Andy Wickert
 5/15/2011
 
-Works for the current model ALog
-Andy Wickert
-6/19/2016
-
 */
 
 #include <DS3231.h>
@@ -118,19 +114,26 @@ void loop() {
   // If something is coming in on the serial line, it's
   // a time correction so set the clock accordingly.
   if (Serial.available()) {    
+
+    //int _start = millis();
+    
     GetDateStuff(Year, Month, Date, DoW, Hour, Minute, Second);
 
     Clock.setClockMode(false);  // set to 24h
     //setClockMode(true); // set to 12h
 
-    Clock.setYear(Year);
-    Clock.setMonth(Month);
-    Clock.setDate(Date);
-    Clock.setDoW(DoW);
-    Clock.setHour(Hour);
-    Clock.setMinute(Minute);
     Clock.setSecond(Second);
+    Clock.setMinute(Minute);
+    Clock.setHour(Hour);
+    Clock.setDate(Date);
+    Clock.setMonth(Month);
+    Clock.setYear(Year);
+    Clock.setDoW(DoW);
 
+    //int _end = millis();
+
+    //Serial.println(_start - _end);
+    
     // Flash the LED to show that it has been received properly
     pinMode(LEDpin, OUTPUT);
     digitalWrite(LEDpin, HIGH);
