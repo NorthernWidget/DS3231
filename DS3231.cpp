@@ -334,9 +334,9 @@ void DS3231::setClockMode(bool h12) {
 
 	// Set the flag to the requested value:
 	if (h12) {
-		temp_buffer = temp_buffer | 0x01000000;
+		temp_buffer = temp_buffer | 0b01000000;
 	} else {
-		temp_buffer = temp_buffer & 0x10111111;
+		temp_buffer = temp_buffer & 0b10111111;
 	}
 
 	// Write the byte
