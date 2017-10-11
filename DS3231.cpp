@@ -15,7 +15,11 @@ Released into the public domain.
 
 // These included for the DateTime class inclusion; will try to find a way to
 // not need them in the future...
+#if defined(__AVR__)
 #include <avr/pgmspace.h>
+#elif defined(ESP8266)
+#include <pgmspace.h>
+#endif
 // Changed the following to work on 1.0
 //#include "WProgram.h"
 #include <Arduino.h>
