@@ -8,6 +8,12 @@ from Jean-Claude Wippler and Limor Fried
 Andy Wickert
 5/15/11
 
+Fixed problem with SD processors(no function call) by replacing all occurences of the term PM, which
+is defined as a macro on SAMD controllers by PM_time. 
+Simon Gassner
+11/28/2017
+
+
 Released into the public domain.
 */
 
@@ -173,7 +179,7 @@ byte DS3231::getMinute() {
 	return bcdToDec(Wire.read());
 }
 
-byte DS3231::getHour(bool& h12, bool& PM) {
+byte DS3231::getHour(bool& h12, bool& PM_time) {
 	byte temp_buffer;
 	byte hour;
 	Wire.beginTransmission(CLOCK_ADDRESS);
@@ -184,7 +190,7 @@ byte DS3231::getHour(bool& h12, bool& PM) {
 	temp_buffer = Wire.read();
 	h12 = temp_buffer & 0b01000000;
 	if (h12) {
-		PM = temp_buffer & 0b00100000;
+		PM_time = temp_buffer & 0b00100000;
 		hour = bcdToDec(temp_buffer & 0b00011111);
 	} else {
 		hour = bcdToDec(temp_buffer & 0b00111111);
