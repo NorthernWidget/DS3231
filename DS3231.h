@@ -12,7 +12,7 @@
  */
 
 // Modified by Andy Wickert 5/15/11: Spliced in stuff from RTClib
-
+// Modified by Simon Gassner 11/28/2017: Changed Term "PM" to "PM_time" for compability with SAMD Processors
 #ifndef DS3231_h
 #define DS3231_h
 
@@ -68,7 +68,7 @@ class DS3231 {
 		// the get*() functions retrieve current values of the registers.
 		byte getSecond(); 
 		byte getMinute(); 
-		byte getHour(bool& h12, bool& PM); 
+		byte getHour(bool& h12, bool& PM_time); 
 			// In addition to returning the hour register, this function
 			// returns the values of the 12/24-hour flag and the AM/PM flag.
 		byte getDoW(); 
