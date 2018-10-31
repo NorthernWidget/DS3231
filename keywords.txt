@@ -1,9 +1,9 @@
 DS3231	KEYWORD1
-RTClib KEYWORD1
-DateTime KEYWORD1
-now KEYWORD2
-secondstime KEYWORD2
-unixtime KEYWORD2
+RTClib	KEYWORD1
+DateTime	KEYWORD1
+now	KEYWORD2
+secondstime	KEYWORD2
+unixtime	KEYWORD2
 getSecond	KEYWORD2
 getMinute	KEYWORD2
 getHour	KEYWORD2
