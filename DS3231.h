@@ -45,10 +45,12 @@ public:
     // OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
     // SETTING YOUR CLOCK TO UTC
     uint32_t unixtime(void) const;
-
 protected:
     uint8_t yOff, m, d, hh, mm, ss;
 };
+
+//checks if a year is a leap year
+bool isleapYear(const uint8_t);
 
 class RTClib {
   public:

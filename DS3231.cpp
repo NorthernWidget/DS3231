@@ -57,7 +57,7 @@ static uint16_t date2days(uint16_t y, uint8_t m, uint8_t d) {
     uint16_t days = d;
     for (uint8_t i = 1; i < m; ++i)
         days += pgm_read_byte(daysInMonth + i - 1);
-    if (m > 2 && y % 4 == 0)
+    if (m > 2 && isleapYear(y))
         ++days;
     return days + 365 * y + (y + 3) / 4 - 1;
 }
@@ -92,7 +92,7 @@ DateTime::DateTime (uint32_t t) {
     uint16_t days = t / 24;
     uint8_t leap;
     for (yOff = 0; ; ++yOff) {
-        leap = yOff % 4 == 0;
+        leap = isleapYear(yOff);
         if (days < 365 + leap)
             break;
         days -= 365 + leap;
@@ -140,6 +140,13 @@ uint32_t DateTime::unixtime(void) const {
 // Get all date/time at once to avoid rollover (e.g., minute/second don't match)
 static uint8_t bcd2bin (uint8_t val) { return val - 6 * (val >> 4); }
 static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
+
+bool isleapYear(const uint8_t y) {
+  if(y&3)//check if divisible by 4
+    return false;
+  //only check other, when first failed
+  return (y % 100 || y % 400 == 0);
+}
 
 DateTime RTClib::now() {
   Wire.beginTransmission(CLOCK_ADDRESS);
