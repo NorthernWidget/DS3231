@@ -17,7 +17,7 @@ Arduino library for the DS3231 real-time clock (RTC). Abstracts functionality fo
 
 ### Second Method
 
-1. Navigate to the Releases page.
+1. Navigate to the [Releases page](https://github.com/NorthernWidget/DS3231/releases).
 1. Download the latest release.
 1. Extract the zip file
 1. In the Arduino IDE, navigate to Sketch > Include Library > Add .ZIP Library
@@ -36,7 +36,7 @@ This library depends on wire header file. To use this library functions, the use
 
     DS3231 is a low-cost module
 
--Accuracy
+- ### Accuracy
 
     DS3231 is an extremely accurate I2C realtime clock (RTC) with an integrated temperature-compensated crystal oscillator (TCXO) and crystal.
 
@@ -137,6 +137,13 @@ Please read [CONTRIBUTING.md](https://github.com/NorthernWidget/DS3231/blob/mast
 
 The authors of this library are A. Wickert <awickert@umn.edu>, E. Ayars, J. C. Wippler, N. W. LLC <info@northernwidget.com> and it is maintained by A. Wickert. This library is released into the public domain by Jeelabs, Ladyada, and E. Ayar.
 
+Based on previous work by:
+
+- S. T. Andersen
+- SimGas
+- Per1234
+- Glownt
+
 ## License
 
-DS3231 is licensed under the [The Unlicense](https://github.com/NorthernWidget/DS3231/blob/master/LICENSE)
+DS3231 is licensed under [The Unlicense](https://github.com/NorthernWidget/DS3231/blob/master/LICENSE).
