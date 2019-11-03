@@ -13,7 +13,7 @@ Arduino library for the DS3231 real-time clock (RTC). Abstracts functionality fo
 1. In the Arduino IDE, navigate to Sketch > Include Library > Manage Libraries
 1. Then the Library Manager will open and you will find a list of libraries that are already installed or ready for installation.
 1. Then search for DS3231 using the search bar.
-1. Click on the text area and then select the zpecific version and install it.
+1. Click on the text area and then select the specific version and install it.
 
 ### Second Method
 
@@ -24,7 +24,7 @@ Arduino library for the DS3231 real-time clock (RTC). Abstracts functionality fo
 
 ## Requirements
 
-This library depends on wire header file. To use this library functions, the user have to include **wire.h** (header) file.
+This library depends on the wire header file. To use this library functions, the user has to include **wire.h** (header) file.
 
 ## Features
 

@@ -1,4 +1,4 @@
-# Contribution Guidlines
+# Contribution Guidelines
 
 This library is the culmination of the expertise of many members of the open source community who have dedicated their time and hard work. The best way to ask for help or propose a new idea is to [create a new issue](https://github.com/NorthernWidget/DS3231/issues/new) while creating a Pull Request with your code changes allows you to share your own innovations with the rest of the community.
 
