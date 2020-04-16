@@ -13,6 +13,11 @@ is defined as a macro on SAMD controllers by PM_time.
 Simon Gassner
 11/28/2017
 
+Fixed setting 12-hour clock in setHour function so that 12:xx AM is not stored as 00:xx and corrected 
+the setting of the PM flag for 12:xx PM.  These address certain DS3231 errors in properly setting the 
+AM/PM (bit 5) flag in the 02h register when passing from AM to PM and PM to AM.
+David Merrifield
+04/14/2020
 
 Released into the public domain.
 */
@@ -266,11 +271,14 @@ void DS3231::setMinute(byte Minute) {
 	Wire.endTransmission();
 }
 
+// Following setHour revision by David Merrifield 4/14/2020 correcting handling of 12-hour clock
+
 void DS3231::setHour(byte Hour) {
 	// Sets the hour, without changing 12/24h mode.
 	// The hour must be in 24h format.
 
 	bool h12;
+	byte temp_hour;
 
 	// Start by figuring out what the 12/24 mode is
 	Wire.beginTransmission(CLOCK_ADDRESS);
@@ -282,19 +290,23 @@ void DS3231::setHour(byte Hour) {
 
 	if (h12) {
 		// 12 hour
-		if (Hour > 12) {
-			Hour = decToBcd(Hour-12) | 0b01100000;
-		} else {
-			Hour = decToBcd(Hour) & 0b11011111;
+		bool am_pm = (Hour > 11);
+		temp_hour = Hour;
+		if (temp_hour > 11) {
+			temp_hour = temp_hour - 12;
 		}
+		if (temp_hour == 0) {
+			temp_hour = 12;
+		}
+		temp_hour = decToBcd(temp_hour) | (am_pm << 5) | 0b01000000;
 	} else {
 		// 24 hour
-		Hour = decToBcd(Hour) & 0b10111111;
+		temp_hour = decToBcd(Hour) & 0b10111111;
 	}
 
 	Wire.beginTransmission(CLOCK_ADDRESS);
 	Wire.write(0x02);
-	Wire.write(Hour);
+	Wire.write(temp_hour);
 	Wire.endTransmission();
 }
 
