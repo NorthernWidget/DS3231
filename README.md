@@ -93,34 +93,6 @@ This library depends on the wire header file. To use this library functions, the
 
 There are many examples implemented where this library is used. You can find other examples from [Github-DS3231](https://github.com/NorthernWidget/DS3231/tree/master/examples)
 
-- ### DS3231_oscillator_test
-
-    Test/demo of oscillator routines for a DS3231 RTC.
-
-```Cpp
-
-#include <DS3231.h>
-#include <Wire.h>
-
-DS3231 Clock;
-byte j;
-bool on = false;
-
-void setup() {
-    Wire.begin();
-    Serial.begin(9600);
-}
-
-void loop() {
-    for (j=0;j<4;j++) {
-        on = !on;
-        Clock.enable32kHz(on);
-        Clock.enableOscillator(true, false, j);
-        delay(4000);
-    }
-}
-```
-
 ## Contributing
 
 If you want to contribute to this project:

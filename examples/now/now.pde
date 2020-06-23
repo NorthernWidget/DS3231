@@ -4,9 +4,9 @@
 // 5/15/11
 
 #include <Wire.h>
-#include "DS3231.h"
+#include <DS3231.h>
 
-RTClib RTC;
+RTClib myRTC;
 
 void setup () {
     Serial.begin(57600);
@@ -17,7 +17,7 @@ void loop () {
   
     delay(1000);
   
-    DateTime now = RTC.now();
+    DateTime now = myRTC.now();
     
     Serial.print(now.year(), DEC);
     Serial.print('/');
@@ -38,4 +38,3 @@ void loop () {
     Serial.print(now.unixtime() / 86400L);
     Serial.println("d");
 }
-
