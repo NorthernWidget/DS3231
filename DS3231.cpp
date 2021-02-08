@@ -127,7 +127,7 @@ DateTime::DateTime (uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uin
 // supported formats are date "Mmm dd yyyy" and time "hh:mm:ss" (same as __DATE__ and __TIME__)
 DateTime::DateTime(const char* date, const char* time) {
    static const char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
-   static const char buff[4];
+   static const char buff[4] {};
    int y;
    sscanf(date, "%s %d %d", buff, &d, &y);
    yOff = y >= 2000 ? y - 2000 : y;
