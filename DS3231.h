@@ -174,6 +174,9 @@ class DS3231 {
 			// Convert normal decimal numbers to binary coded decimal
 		byte bcdToDec(byte val); 
 			// Convert binary coded decimal to normal decimal numbers
+
+	protected:
+
 		byte readControlByte(bool which); 
 			// Read selected control byte: (0); reads 0x0e, (1) reads 0x0f
 		void writeControlByte(byte control, bool which); 
