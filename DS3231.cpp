@@ -411,7 +411,7 @@ float DS3231::getTemperature() {
     temp3231 = ( (float)itemp / 256.0 );              // Scale and return
   }
   else {
-    temp3231 = nanf(""); // Not a number
+    temp3231 = -9999; // Impossible temperature; error value
   }
    
   return temp3231;
