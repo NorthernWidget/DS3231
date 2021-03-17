@@ -127,7 +127,7 @@ DateTime::DateTime (uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uin
 // supported formats are date "Mmm dd yyyy" and time "hh:mm:ss" (same as __DATE__ and __TIME__)
 DateTime::DateTime(const char* date, const char* time) {
    static const char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
-   static const char buff[4]={'0','0','0','0'};
+   static char buff[4] = {'0','0','0','0'};
    int y;
    sscanf(date, "%s %d %d", buff, &d, &y);
    yOff = y >= 2000 ? y - 2000 : y;
@@ -259,6 +259,25 @@ byte DS3231::getYear() {
 
 	Wire.requestFrom(CLOCK_ADDRESS, 1);
 	return bcdToDec(Wire.read());
+}
+
+// setEpoch function gives the epoch as parameter and feeds the RTC
+// epoch = UnixTime and starts at 01.01.1970 00:00:00
+void DS3231::setEpoch(time_t epoch, bool flag_localtime) {
+	struct tm tmnow;
+	if (flag_localtime) {
+		localtime_r(&epoch, &tmnow);
+	}
+	else {
+		gmtime_r(&epoch, &tmnow);
+	}
+	setSecond(tmnow.tm_sec);
+	setMinute(tmnow.tm_min);
+	setHour(tmnow.tm_hour);
+	setDoW(tmnow.tm_wday + 1);
+	setDate(tmnow.tm_mday);
+	setMonth(tmnow.tm_mon + 1);
+	setYear(tmnow.tm_year - 100);
 }
 
 void DS3231::setSecond(byte Second) {
