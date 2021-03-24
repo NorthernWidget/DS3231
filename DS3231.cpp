@@ -129,10 +129,10 @@ DateTime::DateTime(const char* date, const char* time) {
    static const char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
    static char buff[4] = {'0','0','0','0'};
    int y;
-   sscanf(date, "%s %d %d", buff, &d, &y);
+   sscanf(date, "%s %c %d", buff, &d, &y);
    yOff = y >= 2000 ? y - 2000 : y;
    m = (strstr(month_names, buff) - month_names) / 3 + 1;
-   sscanf(time, "%d:%d:%d", &hh, &mm, &ss);
+   sscanf(time, "%c:%c:%c", &hh, &mm, &ss);
 }
 
 static uint8_t conv2d(const char* p) {
@@ -241,7 +241,6 @@ byte DS3231::getDate() {
 
 byte DS3231::getMonth(bool& Century) {
 	byte temp_buffer;
-	byte hour;
 	Wire.beginTransmission(CLOCK_ADDRESS);
 	Wire.write(0x05);
 	Wire.endTransmission();
