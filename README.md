@@ -52,7 +52,6 @@ This library depends on the wire header file. To use this library functions, the
 
 - date2days()
 - time2long()
-- conv2d()
 - unixtime()
 - bcd2bin()
 - bin2bcd()
