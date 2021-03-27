@@ -148,7 +148,9 @@ uint32_t DateTime::unixtime(void) const {
 // Slightly modified from JeeLabs / Ladyada
 // Get all date/time at once to avoid rollover (e.g., minute/second don't match)
 static uint8_t bcd2bin (uint8_t val) { return val - 6 * (val >> 4); }
-static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
+// Commented to avoid compiler warnings, but keeping in case we want this
+// eventually
+//static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
 
 bool isleapYear(const uint8_t y) {
   if(y&3)//check if divisible by 4
