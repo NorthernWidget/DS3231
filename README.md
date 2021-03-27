@@ -63,6 +63,7 @@ This library depends on the wire header file. To use this library functions, the
 - getDate()
 - getMonth()
 - getYear()
+- setEpoch()
 - setSecond()
 - setMinute()
 - setHour()
