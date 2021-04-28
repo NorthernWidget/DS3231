@@ -166,12 +166,12 @@ DateTime RTClib::now() {
   Wire.endTransmission();
   
   Wire.requestFrom(CLOCK_ADDRESS, 7);
-  uint8_t ss = bcd2bin(Wire.read() & 0x7F);
-  uint8_t mm = bcd2bin(Wire.read());
-  uint8_t hh = bcd2bin(Wire.read());
+  uint16_t ss = bcd2bin(Wire.read() & 0x7F);
+  uint16_t mm = bcd2bin(Wire.read());
+  uint16_t hh = bcd2bin(Wire.read());
   Wire.read();
-  uint8_t d = bcd2bin(Wire.read());
-  uint8_t m = bcd2bin(Wire.read());
+  uint16_t d = bcd2bin(Wire.read());
+  uint16_t m = bcd2bin(Wire.read());
   uint16_t y = bcd2bin(Wire.read()) + 2000;
   
   return DateTime (y, m, d, hh, mm, ss);
