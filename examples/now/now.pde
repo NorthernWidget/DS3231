@@ -11,12 +11,14 @@ RTClib myRTC;
 void setup () {
     Serial.begin(57600);
     Wire.begin();
+    delay(500);
+    Serial.println("Nano Ready!");
 }
 
 void loop () {
-  
+    
     delay(1000);
-  
+    
     DateTime now = myRTC.now();
     
     Serial.print(now.year(), DEC);

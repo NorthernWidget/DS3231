@@ -21,7 +21,7 @@ void setup() {
 	// Start the I2C interface
 	Wire.begin();
 	// Start the serial interface
-	Serial.begin(9600);
+	Serial.begin(57600);
 }
 
 void loop() {
