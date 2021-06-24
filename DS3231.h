@@ -66,7 +66,7 @@ class DS3231 {
 		DS3231();
 		DS3231(TwoWire & w);
 
-	  TwoWire & _Wire;
+		TwoWire & _Wire;
 
 		// Time-retrieval functions
     
