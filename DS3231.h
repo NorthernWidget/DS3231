@@ -55,7 +55,7 @@ bool isleapYear(const uint8_t);
 class RTClib {
   public:
 		// Get date and time snapshot
-    static DateTime now();
+    static DateTime now(TwoWire & _Wire = Wire);
 };
 
 // Eric's original code is everything below this line
@@ -64,6 +64,9 @@ class DS3231 {
 			
 		//Constructor
 		DS3231();
+		DS3231(TwoWire & w);
+
+		TwoWire & _Wire;
 
 		// Time-retrieval functions
     
