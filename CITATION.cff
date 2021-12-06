@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Ayars"
+  given-names: "Eric"
+  orcid: "https://orcid.org/0000-0003-2150-6935"
+- family-names: "Wickert"
+  given-names: "Andrew D."
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "et al."
+title: "DS3231"
+version: 1.1.0
+doi: 10.5281/zenodo.2008621
+date-released: 2021-12-06
+url: "https://github.com/NorthernWidget/DS3231"
