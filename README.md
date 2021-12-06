@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4540372.svg)](https://doi.org/10.5281/zenodo.4540372)
+
 # DS3231
 
 ## Description
