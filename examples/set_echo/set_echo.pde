@@ -11,7 +11,7 @@ Added printing back of time stamps and increased baud rate
 Andy Wickert
 5/15/2011
 
-Clean for SAMD arch, add explanation, respect code-style and 
+Clean for SAMD arch, add explanation, respect code-style and
 fix interpretation of Serial input if used more than once
 Olivier Staquet
 4/26/2020
@@ -21,7 +21,7 @@ Olivier Staquet
 #include <DS3231.h>
 #include <Wire.h>
 
-DS3231 clock;
+DS3231 myRTC;
 
 byte year;
 byte month;
@@ -74,30 +74,30 @@ void loop() {
   if (Serial.available()) {
     inputDateFromSerial();
 
-    clock.setClockMode(false);  // set to 24h
+    myRTC.setClockMode(false);  // set to 24h
 
-    clock.setYear(year);
-    clock.setMonth(month);
-    clock.setDate(date);
-    clock.setDoW(dow);
-    clock.setHour(hour);
-    clock.setMinute(minute);
-    clock.setSecond(second);
-    
+    myRTC.setYear(year);
+    myRTC.setMonth(month);
+    myRTC.setDate(date);
+    myRTC.setDoW(dow);
+    myRTC.setHour(hour);
+    myRTC.setMinute(minute);
+    myRTC.setSecond(second);
+
     // Give time at next five seconds
     for (uint8_t i = 0; i < 5; i++){
         delay(1000);
-        Serial.print(clock.getYear(), DEC);
+        Serial.print(myRTC.getYear(), DEC);
         Serial.print("-");
-        Serial.print(clock.getMonth(century), DEC);
+        Serial.print(myRTC.getMonth(century), DEC);
         Serial.print("-");
-        Serial.print(clock.getDate(), DEC);
+        Serial.print(myRTC.getDate(), DEC);
         Serial.print(" ");
-        Serial.print(clock.getHour(h12Flag, pmFlag), DEC); //24-hr
+        Serial.print(myRTC.getHour(h12Flag, pmFlag), DEC); //24-hr
         Serial.print(":");
-        Serial.print(clock.getMinute(), DEC);
+        Serial.print(myRTC.getMinute(), DEC);
         Serial.print(":");
-        Serial.println(clock.getSecond(), DEC);
+        Serial.println(myRTC.getSecond(), DEC);
     }
 
     // Notify that we are ready for the next input
@@ -112,8 +112,8 @@ void loop() {
  *  - Store the data in global variables
  *****************************************************************************************************/
 void inputDateFromSerial() {
-	// Call this if you notice something coming in on 
-	// the serial port. The stuff coming in should be in 
+	// Call this if you notice something coming in on
+	// the serial port. The stuff coming in should be in
 	// the order YYMMDDwHHMMSS, with an 'x' at the end.
 	boolean isStrComplete = false;
 	char inputChar;
@@ -146,35 +146,35 @@ void inputDateFromSerial() {
 
   // Consider 0 character in ASCII
   uint8_t zeroAscii = '0';
- 
+
 	// Read Year first
 	temp1 = (byte)inputStr[posX - 13] - zeroAscii;
 	temp2 = (byte)inputStr[posX - 12] - zeroAscii;
 	year = temp1 * 10 + temp2;
-  
+
 	// now month
 	temp1 = (byte)inputStr[posX - 11] - zeroAscii;
 	temp2 = (byte)inputStr[posX - 10] - zeroAscii;
 	month = temp1 * 10 + temp2;
-	
+
 	// now date
 	temp1 = (byte)inputStr[posX - 9] - zeroAscii;
 	temp2 = (byte)inputStr[posX - 8] - zeroAscii;
 	date = temp1 * 10 + temp2;
-	
+
 	// now Day of Week
-	dow = (byte)inputStr[posX - 7] - zeroAscii;		
-	
+	dow = (byte)inputStr[posX - 7] - zeroAscii;
+
 	// now Hour
 	temp1 = (byte)inputStr[posX - 6] - zeroAscii;
 	temp2 = (byte)inputStr[posX - 5] - zeroAscii;
 	hour = temp1 * 10 + temp2;
-	
+
 	// now Minute
 	temp1 = (byte)inputStr[posX - 4] - zeroAscii;
 	temp2 = (byte)inputStr[posX - 3] - zeroAscii;
 	minute = temp1 * 10 + temp2;
-	
+
 	// now Second
 	temp1 = (byte)inputStr[posX - 2] - zeroAscii;
 	temp2 = (byte)inputStr[posX - 1] - zeroAscii;
