@@ -132,10 +132,10 @@ DateTime::DateTime(const char* date, const char* time) {
    static const char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
    static char buff[4] = {'0','0','0','0'};
    int y;
-   sscanf(date, "%s %c %d", buff, &d, &y);
+   sscanf(date, "%s %hhu %d", buff, &d, &y);
    yOff = y >= 2000 ? y - 2000 : y;
    m = (strstr(month_names, buff) - month_names) / 3 + 1;
-   sscanf(time, "%c:%c:%c", &hh, &mm, &ss);
+   sscanf(time, "%hhu:%hhu:%hhu", &hh, &mm, &ss);
 }
 
 // UNIX time: IS CORRECT ONLY WHEN SET TO UTC!!!
