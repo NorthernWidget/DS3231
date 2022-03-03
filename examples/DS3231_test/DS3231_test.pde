@@ -13,7 +13,7 @@ working as they should.
 #include <DS3231.h>
 #include <Wire.h>
 
-DS3231 clock;
+DS3231 myRTC;
 bool century = false;
 bool h12Flag;
 bool pmFlag;
@@ -38,27 +38,27 @@ void loop() {
 	} else {
 		Serial.print("0");
 	}
-	Serial.print(clock.getYear(), DEC);
+	Serial.print(myRTC.getYear(), DEC);
 	Serial.print(' ');
 	
 	// then the month
-	Serial.print(clock.getMonth(century), DEC);
+	Serial.print(myRTC.getMonth(century), DEC);
 	Serial.print(" ");
   
 	// then the date
-	Serial.print(clock.getDate(), DEC);
+	Serial.print(myRTC.getDate(), DEC);
 	Serial.print(" ");
   
 	// and the day of the week
-	Serial.print(clock.getDoW(), DEC);
+	Serial.print(myRTC.getDoW(), DEC);
 	Serial.print(" ");
   
 	// Finally the hour, minute, and second
-	Serial.print(clock.getHour(h12Flag, pmFlag), DEC);
+	Serial.print(myRTC.getHour(h12Flag, pmFlag), DEC);
 	Serial.print(" ");
-	Serial.print(clock.getMinute(), DEC);
+	Serial.print(myRTC.getMinute(), DEC);
 	Serial.print(" ");
-	Serial.print(clock.getSecond(), DEC);
+	Serial.print(myRTC.getSecond(), DEC);
  
 	// Add AM/PM indicator
 	if (h12Flag) {
@@ -73,21 +73,21 @@ void loop() {
  
 	// Display the temperature
 	Serial.print("T=");
-	Serial.print(clock.getTemperature(), 2);
+	Serial.print(myRTC.getTemperature(), 2);
   
 	// Tell whether the time is (likely to be) valid
-	if (clock.oscillatorCheck()) {
+	if (myRTC.oscillatorCheck()) {
 		Serial.print(" O+");
 	} else {
 		Serial.print(" O-");
 	}
  
 	// Indicate whether an alarm went off
-	if (clock.checkIfAlarm(1)) {
+	if (myRTC.checkIfAlarm(1)) {
 		Serial.print(" A1!");
 	}
  
-	if (clock.checkIfAlarm(2)) {
+	if (myRTC.checkIfAlarm(2)) {
 		Serial.print(" A2!");
 	}
  
@@ -96,7 +96,7 @@ void loop() {
 	
 	// Display Alarm 1 information
 	Serial.print("Alarm 1: ");
-	clock.getA1Time(alarmDay, alarmHour, alarmMinute, alarmSecond, alarmBits, alarmDy, alarmH12Flag, alarmPmFlag);
+	myRTC.getA1Time(alarmDay, alarmHour, alarmMinute, alarmSecond, alarmBits, alarmDy, alarmH12Flag, alarmPmFlag);
 	Serial.print(alarmDay, DEC);
 	if (alarmDy) {
 		Serial.print(" DoW");
@@ -117,14 +117,14 @@ void loop() {
 			Serial.print("am ");
 		}
 	}
-	if (clock.checkAlarmEnabled(1)) {
+	if (myRTC.checkAlarmEnabled(1)) {
 		Serial.print("enabled");
 	}
 	Serial.println();
  
 	// Display Alarm 2 information
 	Serial.print("Alarm 2: ");
-	clock.getA2Time(alarmDay, alarmHour, alarmMinute, alarmBits, alarmDy, alarmH12Flag, alarmPmFlag);
+	myRTC.getA2Time(alarmDay, alarmHour, alarmMinute, alarmBits, alarmDy, alarmH12Flag, alarmPmFlag);
 	Serial.print(alarmDay, DEC);
 	if (alarmDy) {
 		Serial.print(" DoW");
@@ -143,7 +143,7 @@ void loop() {
 			Serial.print("am");
 		}
 	}
-	if (clock.checkAlarmEnabled(2)) {
+	if (myRTC.checkAlarmEnabled(2)) {
 		Serial.print("enabled");
 	}
  

@@ -16,7 +16,7 @@ Andy Wickert
 #include <DS3231.h>
 #include <Wire.h>
 
-DS3231 clock;
+DS3231 myRTC;
 
 bool century = false;
 bool h12Flag;
@@ -32,17 +32,17 @@ void setup() {
 
   for (int i=0; i<5; i++){
       delay(1000);
-      Serial.print(clock.getYear(), DEC);
+      Serial.print(myRTC.getYear(), DEC);
       Serial.print("-");
-      Serial.print(clock.getMonth(century), DEC);
+      Serial.print(myRTC.getMonth(century), DEC);
       Serial.print("-");
-      Serial.print(clock.getDate(), DEC);
+      Serial.print(myRTC.getDate(), DEC);
       Serial.print(" ");
-      Serial.print(clock.getHour(h12Flag, pmFlag), DEC); //24-hr
+      Serial.print(myRTC.getHour(h12Flag, pmFlag), DEC); //24-hr
       Serial.print(":");
-      Serial.print(clock.getMinute(), DEC);
+      Serial.print(myRTC.getMinute(), DEC);
       Serial.print(":");
-      Serial.println(clock.getSecond(), DEC);
+      Serial.println(myRTC.getSecond(), DEC);
   }
 }
 

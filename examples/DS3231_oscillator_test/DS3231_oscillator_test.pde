@@ -13,7 +13,7 @@ working as they should.
 #include <DS3231.h>
 #include <Wire.h>
 
-DS3231 Clock;
+DS3231 myRTC;
 byte j;
 bool on = false;
 
@@ -28,9 +28,9 @@ void loop() {
 	for (j=0;j<4;j++) {
 		// invert state of 32kHz oscillator.
 		on = !on;
-		Clock.enable32kHz(on);
+		myRTC.enable32kHz(on);
 		// Turn on oscillator pin, frequency j
-		Clock.enableOscillator(true, false, j);
+		myRTC.enableOscillator(true, false, j);
 		delay(4000);
 	}
 	// So... The 32kHz oscillator (pin 1) will turn on or off once each 2s,

@@ -10,7 +10,7 @@ Test of set-time routines for a DS3231 RTC
 #include <DS3231.h>
 #include <Wire.h>
 
-DS3231 clock;
+DS3231 myRTC;
 
 byte year;
 byte month;
@@ -85,28 +85,28 @@ void loop() {
     if (Serial.available()) {
         getDateStuff(year, month, date, dOW, hour, minute, second);
         
-        clock.setClockMode(false);  // set to 24h
+        myRTC.setClockMode(false);  // set to 24h
         //setClockMode(true); // set to 12h
         
-        clock.setYear(year);
-        clock.setMonth(month);
-        clock.setDate(date);
-        clock.setDoW(dOW);
-        clock.setHour(hour);
-        clock.setMinute(minute);
-        clock.setSecond(second);
+        myRTC.setYear(year);
+        myRTC.setMonth(month);
+        myRTC.setDate(date);
+        myRTC.setDoW(dOW);
+        myRTC.setHour(hour);
+        myRTC.setMinute(minute);
+        myRTC.setSecond(second);
         
         // Test of alarm functions
         // set A1 to one minute past the time we just set the clock
         // on current day of week.
-        clock.setA1Time(dOW, hour, minute+1, second, 0x0, true,
+        myRTC.setA1Time(dOW, hour, minute+1, second, 0x0, true,
                         false, false);
         // set A2 to two minutes past, on current day of month.
-        clock.setA2Time(date, hour, minute+2, 0x0, false, false,
+        myRTC.setA2Time(date, hour, minute+2, 0x0, false, false,
                         false);
         // Turn on both alarms, with external interrupt
-        clock.turnOnAlarm(1);
-        clock.turnOnAlarm(2);
+        myRTC.turnOnAlarm(1);
+        myRTC.turnOnAlarm(2);
         
     }
     delay(1000);
