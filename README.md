@@ -118,6 +118,10 @@ Based on previous work by:
 - Per1234
 - Glownt
 
+## Additional Resources
+
+* [Working with the DS3231 libraries and interrupts](https://github.com/IowaDave/RTC-DS3231-Arduino-Interrupt) by [IowaDave](https://github.com/IowaDave)
+
 ## License
 
 DS3231 is licensed under [The Unlicense](https://github.com/NorthernWidget/DS3231/blob/master/LICENSE).
