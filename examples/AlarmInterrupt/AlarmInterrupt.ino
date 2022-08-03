@@ -1,19 +1,31 @@
+/*
+AlarmInterrupt.ino
+Jacob Nuernberg
+08/22
+
+Example on using interrupts with DS3231 alarms.
+
+Connect DS3231 SQW pin to Arduino interrupt pin 2
+
+Tested on:
+- Arduino UNO
+- Arduino nano
+
+*/
+
 #include <DS3231.h>
 #include <Wire.h>
 
 // Clock interrupt pin
 #define CLINT 2
 
+// Setup clock
 DS3231 Clock;
 
-volatile int tick = 1;
+// Interrupt signaling byte
+volatile byte tick = 1;
 
 void setup() {
-    // Begin serial communction
-    Serial.begin(19200);
-    Serial.println("DS3231 AlarmInterrupt Example");
-    Serial.println("=============================");
-
     // Begin I2C communication
     Wire.begin();
 
@@ -26,19 +38,29 @@ void setup() {
     // attach clock interrupt
     pinMode(CLINT, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(CLINT), isr_TickTock, FALLING);
+
+    // Use builtin LED to blink
+    pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop() {
+    // static variable to keep track of LED on/off state
+    static byte state = false;
+
+    // if alarm went of, do alarm stuff
     if (tick) {
-        Serial.println("Tick.");
         tick = 0;
+        state = ~state;
+        digitalWrite(LED_BUILTIN, state);
+        // Clear alarm state
         Clock.checkIfAlarm(1);
     }
-    delay(100);
+    delay(10);
 }
 
 
 void isr_TickTock() {
+    // interrupt signals to loop
     tick = 1;
     return;
 }
