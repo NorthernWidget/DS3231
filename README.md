@@ -1,4 +1,4 @@
-# DS3231
+# DS3231 Library
 An Arduino library for the DS3231 real-time clock (RTC).  
 
 ## Description
@@ -17,7 +17,7 @@ This document explains the installation and usage of the Library with the Arduin
 * [How to Install the Library](#installation)
 * [Functions Provided in the Library](#functions)
 * [Examples of Using the Library](#examples-of-use)
-* [Helpful Resources](#additional-resources)
+* [Helpful Resources](#additional-resources-and-references)
 * [To-Do List](#to-do)
 
 <hr>
@@ -72,7 +72,7 @@ This document explains the installation and usage of the Library with the Arduin
 - readControlByte()
 - writeControlByte()
 
-[back to top](#d3231)
+[back to top](#d3231-library)
 <hr>
 
 ## Examples of Use
@@ -81,7 +81,7 @@ There are many examples provided in the [examples](https://github.com/NorthernWi
 
 See also [Working with the DS3231 libraries and interrupts](https://github.com/IowaDave/RTC-DS3231-Arduino-Interrupt), a tutorial provided by [IowaDave](https://github.com/IowaDave).
 
-[back to top](#d3231)
+[back to top](#d3231-library)
 <hr>
 
 ## About the DS3231
@@ -101,7 +101,7 @@ According to the [datasheet](https://datasheets.maximintegrated.com/en/ds/DS3231
 * Month,  and
 * Year, with Leap-Year Compensation Valid Up to 2100"
 
-[back to top](#d3231)
+[back to top](#d3231-library)
 <hr>
 
 ## Installation
@@ -140,14 +140,14 @@ void setup() {}
 void loop() {}
 ```
 
-[back to top](#d3231)
+[back to top](#d3231-library)
 <hr>
 
 ## Additional Resources and References
 
 * [Maxim DS3231 Data Sheet](https://datasheets.maximintegrated.com/en/ds/DS3231-DS3231S.pdf)
 
-[back to top](#d3231)
+[back to top](#d3231-library)
 <hr>
 
 ## To Do
@@ -158,7 +158,7 @@ A project is underway to update the library's documentation.
 * \#24 DateTime Comparison Operators
 * \#20 AlarmBits Documentation
 
-[back to top](#d3231)
+[back to top](#d3231-library)
 <hr>
 
 ## Contributing
@@ -173,7 +173,7 @@ If you want to contribute to this project:
 
 Please read [CONTRIBUTING.md](https://github.com/NorthernWidget/DS3231/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-[back to top](#d3231)
+[back to top](#d3231-library)
 <hr>
 
 ## Credits
@@ -188,7 +188,7 @@ Based on previous work by:
 - Per1234
 - Glownt
 
-[back to top](#d3231)
+[back to top](#d3231-library)
 <hr>
 
 ## License
