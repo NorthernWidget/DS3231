@@ -16,11 +16,11 @@ Tested on:
 #include <DS3231.h>
 #include <Wire.h>
 
-// Clock interrupt pin
+// myRTC interrupt pin
 #define CLINT 2
 
 // Setup clock
-DS3231 Clock;
+DS3231 myRTC;
 
 // Interrupt signaling byte
 volatile byte tick = 1;
@@ -29,11 +29,11 @@ void setup() {
     // Begin I2C communication
     Wire.begin();
 
-    // Setup alarm two to fire every second
-    Clock.turnOffAlarm(1);
-    Clock.setA1Time(0, 0, 0, 0, 0b01111111, false, false, false);
-    Clock.turnOnAlarm(1);
-    Clock.checkIfAlarm(1);
+    // Setup alarm one to fire every second
+    myRTC.turnOffAlarm(1);
+    myRTC.setA1Time(0, 0, 0, 0, 0b01111111, false, false, false);
+    myRTC.turnOnAlarm(1);
+    myRTC.checkIfAlarm(1);
 
     // attach clock interrupt
     pinMode(CLINT, INPUT_PULLUP);
@@ -53,8 +53,10 @@ void loop() {
         state = ~state;
         digitalWrite(LED_BUILTIN, state);
         // Clear alarm state
-        Clock.checkIfAlarm(1);
+        myRTC.checkIfAlarm(1);
     }
+
+    // Loop delay to emulate other running code
     delay(10);
 }
 
