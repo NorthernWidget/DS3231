@@ -173,7 +173,7 @@ Presently, the best sources for additional information are the [Examples of Use]
 - getMonth()
 - getYear()
 
-\* The *RTC::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in [RTC::now()](#the-special-rtc::now()-function).
+\* The *RTC::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in [RTC::now\(\)](#the-special-rtc::now()-function).
 
 
 ### Set the Date or Time
