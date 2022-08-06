@@ -69,7 +69,7 @@ The Library defines two other classes to assist with managing date and time data
 * ```DateTime``` enables a versatile object for managing date and time data. A variable of the DateTime type can represent a specific date and time in two different ways:
     1. as distinct values for year, month, day, hour, minute and second, or
     2. as a single, unsigned integer. The latter is handy for doing arithmetic with dates.
-* ```RTClib``` institutes a convenient ```RTC::now()``` function for receiving a date/time snapshot, as a DateTime object, from the DS3231 device.
+* ```RTClib``` institutes a convenient ```RTClib::now()``` function for receiving a date/time snapshot, as a DateTime object, from the DS3231 device.
 
 ## About the DS3231
 DS3231 is a low-cost integrated circuit (IC) providing a highly accurate, real time clock for use with Arduino, Raspberry Pi, BBC micro:bit and other popular small computing devices. 
@@ -164,7 +164,7 @@ Presently, additional information about the functions is available in the [Examp
 * [DS3231.cpp](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.cpp)
 
 ### Read the Date or Time
-- *RTC::now()* <sup>\*</sup>
+- *RTClib::now()* <sup>\*</sup>
 - getSecond()
 - getMinute()
 - getHour()
@@ -173,7 +173,7 @@ Presently, additional information about the functions is available in the [Examp
 - getMonth()
 - getYear()
 
-\* The *RTC::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in <a href="#RTC_now_function">The Special <code>RTC::now&#40;&#41;</code> Function</a>.
+\* The *RTClib::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in <a href="#RTClib_now_function">The Special <code>RTClib::now&#40;&#41;</code> Function</a>.
 
 
 ### Set the Date or Time
@@ -214,13 +214,13 @@ Presently, additional information about the functions is available in the [Examp
 - readControlByte()
 - writeControlByte()
 
-<h3 id="RTC_now_function">The Special <code>RTC::now()</code> Function </h3>
+<h3 id="RTClib_now_function">The Special <code>RTClib::now()</code> Function </h3>
 
-```RTC::now()``` is the precise, complete name for a special function that returns a ```DateTime``` object from the DS3231. Always write it just so: ```RTC::now()```.
+```RTClib::now()``` is the precise, complete name for a special function that returns a ```DateTime``` object from the DS3231. Always write it just so: ```RTClib::now()```.
 
 The function returns a DateTime object. To use it in your program, declare a DateTime type of variable to receive the value. For example, 
 
-```DateTime currentMoment = RTC::now();```
+```DateTime currentMoment = RTClib::now();```
 
 The value of ```currentMoment``` can then be accessed as either:
 * an unsigned integer containing the number of seconds since 1/1/1970 or 1/1/2000, or
