@@ -214,7 +214,7 @@ Presently, the best sources for additional information are the [Examples of Use]
 - readControlByte()
 - writeControlByte()
 
-  <h3 id="RTC_now_function"> The Special <code>RTC::now()</code> Function </h3>
+<h3 id="RTC_now_function">The Special <code>RTC::now()</code> Function </h3>
 
 ```RTC::now()``` is the precise, complete name for a special function that returns a ```DateTime``` object from the DS3231. Always write it just so: ```RTC::now()```.
 
