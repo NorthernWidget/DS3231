@@ -157,10 +157,10 @@ void loop() {}
 <hr>
 
 ## Functions
-Future development of this document may include specific pages for each of the functions listed here. 
-Presently, the best sources for additional information are the [Examples of Use](#examples-of-use) described below, and the source files in this repository:
+Future development of this document may include specific pages for the functions listed here. 
+Presently, additional information about the functions is available in the [Examples of Use](#examples-of-use) described below, and in the source files in this repository:
 
-* [DS3231.h](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.h) and
+* [DS3231.h](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.h)
 * [DS3231.cpp](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.cpp)
 
 ### Read the Date or Time
