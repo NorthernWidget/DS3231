@@ -223,7 +223,7 @@ The function returns a DateTime object. To use it in your program, declare a Dat
 ```DateTime currentMoment = RTC::now();```
 
 The value of ```currentMoment``` can then be accessed as either:
-* an unsigned integer continaing the number of seconds since 1/1/1970 or 1/1/2000, or
+* an unsigned integer containing the number of seconds since 1/1/1970 or 1/1/2000, or
 * distinct values for Year, Month, Day, Date, Hour, Minute, or Second.
 
 [back to the list of functions](#functions)<br>
