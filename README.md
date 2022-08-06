@@ -49,7 +49,7 @@ DS3231 myRTC;
 ```
 
 <ol start="3">
-  <li>Start the Wire library, typically in the setup() code block:</li>
+  <li>Start the Wire library to enable I2C communications with the DS3231 hardware, typically in the setup() code block:</li>
 </ol>
 
 
@@ -94,12 +94,6 @@ According to the [datasheet](https://datasheets.maximintegrated.com/en/ds/DS3231
 
 Data for the time and date are stored in memory locations on the DS3231. Each, distinct value is stored separately. This means the seconds are in one location, the minutes in another, and so forth. The DS3231 updates the values in the memory locations every second.
 
-The Library supports both reading values from and writing values to the DS3231 memory. It uses I2C communications for this purpose. Most of this takes place behind the scenes. Your code need only to include a one-time instruction, typically in the setup() block, to start the Wire library. Like this:
-
-```
-Wire.begin();
-```
-
 The device keeps track of time by operating its own 32.768 kHz crystal oscillator, similar to the timekeeper in an electronic watch. Temperature can affect oscillator speed. Accordingly, the DS3231 takes further steps to maintain accuracy. It senses the temperature around the crystal and adjusts the speed of the oscillator.
 
 The temperature can be read from the DS3231 using a Library function. The data sheet declares it to be accurate to within 3 degrees, Celsius. 
@@ -137,7 +131,7 @@ One point regarding the choice of battery may deserve consideration: the questio
 
 ### Dependencies
 
-The user must also ensure that two, other, required libraries are available to the Arduino IDE. This DS3231 library depends upon the following, but does not supply them:
+The user must also ensure that two, other, required libraries are available to the Arduino IDE. This DS3231 library takes care to ```#include```  the following in a program, but it does not install them in your Arduino IDE:
 
 * Wire.h : a widely-used Arduino library for I2C communications
 * time.h : a modified C language header file packaged with avr-libc and the AVR-GCC compiler
@@ -214,6 +208,18 @@ Presently, additional information about the functions is available in the [Examp
 - readControlByte()
 - writeControlByte()
 
+The above list covers for interacting with the DS3231 hardware. Those listed below provide read-only access to information contained inside a DateTime object variable declared in program code.
+
+### DateTime Object
+- year()
+- month()
+- day()
+- hour()
+- minute()
+- second()
+- dayOfTheWeek()
+- unixtime()
+
 <h3 id="RTClib_now_function">The Special <code>RTClib::now()</code> Function </h3>
 
 ```RTClib::now()``` is the precise, complete name for a special function that returns a ```DateTime``` object from the DS3231. Always write it just so: ```RTClib::now()```.
@@ -223,7 +229,7 @@ The function returns a DateTime object. To use it in your program, declare a Dat
 ```DateTime currentMoment = RTClib::now();```
 
 The value of ```currentMoment``` can then be accessed as either:
-* an unsigned integer containing the number of seconds since 1/1/1970 or 1/1/2000, or
+* an unsigned integer containing the number of seconds since a certain reference date, or
 * distinct values for Year, Month, Day, Date, Hour, Minute, or Second.
 
 [back to the list of functions](#functions)<br>
