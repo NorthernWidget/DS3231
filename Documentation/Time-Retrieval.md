@@ -7,7 +7,16 @@ The DS3231 register addresses mentioned below are documented on page 11 of the [
 The examples provided below assume a variable has been declared as follows:
 ```DS3231 myRTC;```
 
-### getSecond()
+<ul>
+  <li><a href="#getSecond">getSecond&#40;&#41;</a></li>
+  <li><a href="#getMinute">getMinute&#40;&#41;</a></li>
+  <li><a href="#getHour">getHour&#40;&#41;</a></li>
+  <li><a href="#getDow">getDoW&#40;&#41;</a></li>
+  <li><a href="#getDate">getDate&#40;&#41;</a></li>
+  <li><a href="#getMonth">getMonth&#40;&#41;</a></li>
+  <li><a href="#getYear">getYear&#40;&#41;</a></li>
+
+<h3 id="getSecond">getSecond&#40;&#41;</h3>
 ```
 /*
  * returns: byte = 0 to 59
@@ -20,7 +29,7 @@ The examples provided below assume a variable has been declared as follows:
 byte theSecond = myRTC.getSecond();
 ```
 
-### getMinute()
+<h3 id="getMinute">getMinute&#40;&#41;</h3>
 ```
 /*
  * returns: byte = 0 to 59
@@ -33,7 +42,7 @@ byte theSecond = myRTC.getSecond();
 byte theMinute = myRTC.getMinute();
 ```
 
-### getHour()
+<h3 id="getHour">getHour&#40;&#41;</h3>
 ```
 /*
  * returns: byte, value depending on mode settings in the DS3231
@@ -78,7 +87,7 @@ if (h12 == true) { // 12-hour mode
 ```
 Note that supplying boolean constants as parameters will halt program compilation with an error. The parameters must be the names of boolean variables defined in the program code.
 
-### getDoW()
+<h3 id="getDoW">getDoW&#40;&#41;</h3>
 ```
 /*
  * returns: byte = 1 to 7
@@ -92,7 +101,7 @@ byte theWeekday = myRTC.getDoW();
 ```
 Note that the meaning of the day-of-week value is determined by the user when the time is *set* on the DS3231. See the documentation for setDoW(). In other words, "1" can signify any day of the week that the code writer chooses it to mean when setting the time. The values "2" through "7" then refer to the succeeding days, in their usual order.
 
-### getDate()
+<h3 id="getDate">getDate&#40;&#41;</h3>
 ```
 /*
  * returns: byte = 1 to 28, 29, 30 or 31, depending on the month and year
@@ -105,7 +114,7 @@ Note that the meaning of the day-of-week value is determined by the user when th
 byte theDate = myRTC.getDate();
 ```
 
-### getMonth()
+<h3 id="getMonth">getMonth&#40;&#41;</h3>
 ```
 /*
  * returns: byte = 1 to 12
@@ -118,13 +127,16 @@ byte theDate = myRTC.getDate();
  * DS3231 register addressed: 0x05
  */
 
-byte theDate = myRTC.getMonth();
+// declare a variable to receive the Century bit
+bool CenturyBit;
+
+byte theDate = myRTC.getMonth(CenturyBit);
 ```
 Note: according to the datasheet, "The century bit (bit 7 of the month register) is toggled when the years register overflows from 99 to 00."
 
 Note also that supplying a boolean constant as the parameter will halt program compilation with an error. The parameter must be the name of a boolean variable defined in the program code.
 
-### getYear()
+<h3 id="getYear">getYear&#40;&#41;</h3>
 ```
 /*
  * returns: byte = 00 to 99
