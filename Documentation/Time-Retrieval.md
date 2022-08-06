@@ -15,6 +15,7 @@ The examples provided below assume a variable has been declared as follows:
   <li><a href="#getDate">getDate&#40;&#41;</a></li>
   <li><a href="#getMonth">getMonth&#40;&#41;</a></li>
   <li><a href="#getYear">getYear&#40;&#41;</a></li>
+</ul>
 
 <h3 id="getSecond">getSecond&#40;&#41;</h3>
 
