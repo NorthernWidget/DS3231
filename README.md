@@ -173,7 +173,7 @@ Presently, the best sources for additional information are the [Examples of Use]
 - getMonth()
 - getYear()
 
-\* The *RTC::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in [RTC::now&#40;&#41;](#the-special-rtc::now-function).
+\* The *RTC::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in <a href="#RTC_now_function">The Special <code>RTC::now&#40;&#41;</code> Function</a>.
 
 
 ### Set the Date or Time
@@ -214,7 +214,7 @@ Presently, the best sources for additional information are the [Examples of Use]
 - readControlByte()
 - writeControlByte()
 
-### The Special ```RTC::now()``` Function
+  <h3 id="RTC_now_function"> The Special <code>RTC::now()</code> Function </h3>
 
 ```RTC::now()``` is the precise, complete name for a special function that returns a ```DateTime``` object from the DS3231. Always write it just so: ```RTC::now()```.
 
