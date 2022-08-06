@@ -17,6 +17,7 @@ The examples provided below assume a variable has been declared as follows:
   <li><a href="#getYear">getYear&#40;&#41;</a></li>
 
 <h3 id="getSecond">getSecond&#40;&#41;</h3>
+
 ```
 /*
  * returns: byte = 0 to 59
@@ -30,6 +31,7 @@ byte theSecond = myRTC.getSecond();
 ```
 
 <h3 id="getMinute">getMinute&#40;&#41;</h3>
+
 ```
 /*
  * returns: byte = 0 to 59
@@ -43,6 +45,7 @@ byte theMinute = myRTC.getMinute();
 ```
 
 <h3 id="getHour">getHour&#40;&#41;</h3>
+
 ```
 /*
  * returns: byte, value depending on mode settings in the DS3231
@@ -85,9 +88,11 @@ if (h12 == true) { // 12-hour mode
   Serial.println(" in 24-hour mode.");
 }
 ```
+
 Note that supplying boolean constants as parameters will halt program compilation with an error. The parameters must be the names of boolean variables defined in the program code.
 
 <h3 id="getDoW">getDoW&#40;&#41;</h3>
+
 ```
 /*
  * returns: byte = 1 to 7
@@ -99,9 +104,11 @@ Note that supplying boolean constants as parameters will halt program compilatio
 
 byte theWeekday = myRTC.getDoW();
 ```
+
 Note that the meaning of the day-of-week value is determined by the user when the time is *set* on the DS3231. See the documentation for setDoW(). In other words, "1" can signify any day of the week that the code writer chooses it to mean when setting the time. The values "2" through "7" then refer to the succeeding days, in their usual order.
 
 <h3 id="getDate">getDate&#40;&#41;</h3>
+
 ```
 /*
  * returns: byte = 1 to 28, 29, 30 or 31, depending on the month and year
@@ -115,6 +122,7 @@ byte theDate = myRTC.getDate();
 ```
 
 <h3 id="getMonth">getMonth&#40;&#41;</h3>
+
 ```
 /*
  * returns: byte = 1 to 12
@@ -132,11 +140,13 @@ bool CenturyBit;
 
 byte theDate = myRTC.getMonth(CenturyBit);
 ```
+
 Note: according to the datasheet, "The century bit (bit 7 of the month register) is toggled when the years register overflows from 99 to 00."
 
 Note also that supplying a boolean constant as the parameter will halt program compilation with an error. The parameter must be the name of a boolean variable defined in the program code.
 
 <h3 id="getYear">getYear&#40;&#41;</h3>
+
 ```
 /*
  * returns: byte = 00 to 99
@@ -149,6 +159,8 @@ Note also that supplying a boolean constant as the parameter will halt program c
 byte theDate = myRTC.getDate();
 ```
 
+### Contemplations of An Aging Documentarian 
+
 The Century bit may be useful when operating the DS3231 near the end of a century. For example, the bit would have toggled when the year changed from 1999 to 2000. It would have been important to recognize that a year "00" actually represented an *increase* of time compared to the year "99".
 
 The bit will toggle again when the year changes from 2099 to 2100, and so forth.
@@ -159,6 +171,6 @@ It might have been nicer if the DS3231 afforded the capacity to maintain a 4-dig
 
 We users of the device might find little use for the Century bit during the years 2000 through 2098 or so. Anyone planning to use this Library with a DS3231 in the year 2099 may wish to experiment with code to evaluate and correctly use the Century bit. 
 
-My beard will probably not grow long enough for me to reach that future era. I would probably look for a different RTC chip then. The reason is the DS3231 makes no promise to handle Leap Years correctly in or after the year 2100.
+My beard will probably not grow long enough for me to reach that future era. Even so, by then I would probably look for a different RTC chip. The reason is the DS3231 makes no promise to handle Leap Years correctly in or after the year 2100.
 
 
