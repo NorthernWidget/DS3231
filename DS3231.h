@@ -61,7 +61,7 @@ class RTClib {
 // Eric's original code is everything below this line
 class DS3231 {
 	public:
-			
+
 		//Constructor
 		DS3231();
 		DS3231(TwoWire & w);
@@ -69,55 +69,55 @@ class DS3231 {
 		TwoWire & _Wire;
 
 		// Time-retrieval functions
-    
+
 		// the get*() functions retrieve current values of the registers.
-		byte getSecond(); 
-		byte getMinute(); 
-		byte getHour(bool& h12, bool& PM_time); 
+		byte getSecond();
+		byte getMinute();
+		byte getHour(bool& h12, bool& PM_time);
 			// In addition to returning the hour register, this function
 			// returns the values of the 12/24-hour flag and the AM/PM flag.
-		byte getDoW(); 
-		byte getDate(); 
-		byte getMonth(bool& Century); 
+		byte getDoW();
+		byte getDate();
+		byte getMonth(bool& Century);
 			// Also sets the flag indicating century roll-over.
-		byte getYear(); 
+		byte getYear();
 			// Last 2 digits only
 
 		// Time-setting functions
 		// Note that none of these check for sensibility: You can set the
 		// date to July 42nd and strange things will probably result.
-		
+
 		// set epoch function gives the epoch as parameter and feeds the RTC
 		// epoch = UnixTime and starts at 01.01.1970 00:00:00
 		void setEpoch(time_t epoch = 0, bool flag_localtime = false);
 
-		void setSecond(byte Second); 
-			// In addition to setting the seconds, this clears the 
+		void setSecond(byte Second);
+			// In addition to setting the seconds, this clears the
 			// "Oscillator Stop Flag".
-		void setMinute(byte Minute); 
+		void setMinute(byte Minute);
 			// Sets the minute
-		void setHour(byte Hour); 
+		void setHour(byte Hour);
 			// Sets the hour
-		void setDoW(byte DoW); 
+		void setDoW(byte DoW);
 			// Sets the Day of the Week (1-7);
-		void setDate(byte Date); 
+		void setDate(byte Date);
 			// Sets the Date of the Month
-		void setMonth(byte Month); 
+		void setMonth(byte Month);
 			// Sets the Month of the year
-		void setYear(byte Year); 
+		void setYear(byte Year);
 			// Last two digits of the year
-		void setClockMode(bool h12); 
+		void setClockMode(bool h12);
 			// Set 12/24h mode. True is 12-h, false is 24-hour.
 
 		// Temperature function
 
-		float getTemperature(); 
+		float getTemperature();
 
 		// Alarm functions
-		
-		void getA1Time(byte& A1Day, byte& A1Hour, byte& A1Minute, byte& A1Second, byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM); 
+
+		void getA1Time(byte& A1Day, byte& A1Hour, byte& A1Minute, byte& A1Second, byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM);
 /* Retrieves everything you could want to know about alarm
- * one. 
+ * one.
  * A1Dy true makes the alarm go on A1Day = Day of Week,
  * A1Dy false makes the alarm go on A1Day = Date of month.
  *
@@ -137,28 +137,31 @@ class DS3231 {
  *	0	0		0		0		Alarm when date, hour, min match
  *	1	0		0		0		Alarm when DoW, hour, min match
  */
-		void getA2Time(byte& A2Day, byte& A2Hour, byte& A2Minute, byte& AlarmBits, bool& A2Dy, bool& A2h12, bool& A2PM); 
+		void getA2Time(byte& A2Day, byte& A2Hour, byte& A2Minute, byte& AlarmBits, bool& A2Dy, bool& A2h12, bool& A2PM);
 			// Same as getA1Time();, but A2 only goes on seconds == 00.
-		void setA1Time(byte A1Day, byte A1Hour, byte A1Minute, byte A1Second, byte AlarmBits, bool A1Dy, bool A1h12, bool A1PM); 
+		void setA1Time(byte A1Day, byte A1Hour, byte A1Minute, byte A1Second, byte AlarmBits, bool A1Dy, bool A1h12, bool A1PM);
 			// Set the details for Alarm 1
-		void setA2Time(byte A2Day, byte A2Hour, byte A2Minute, byte AlarmBits, bool A2Dy, bool A2h12, bool A2PM); 
+		void setA2Time(byte A2Day, byte A2Hour, byte A2Minute, byte AlarmBits, bool A2Dy, bool A2h12, bool A2PM);
 			// Set the details for Alarm 2
-		void turnOnAlarm(byte Alarm); 
+		void turnOnAlarm(byte Alarm);
 			// Enables alarm 1 or 2 and the external interrupt pin.
 			// If Alarm != 1, it assumes Alarm == 2.
-		void turnOffAlarm(byte Alarm); 
+		void turnOffAlarm(byte Alarm);
 			// Disables alarm 1 or 2 (default is 2 if Alarm != 1);
 			// and leaves the interrupt pin alone.
-		bool checkAlarmEnabled(byte Alarm); 
+		bool checkAlarmEnabled(byte Alarm);
 			// Returns T/F to indicate whether the requested alarm is
 			// enabled. Defaults to 2 if Alarm != 1.
-		bool checkIfAlarm(byte Alarm); 
+		bool checkIfAlarm(byte Alarm);
 			// Checks whether the indicated alarm (1 or 2, 2 default);
-			// has been activated.
+			// has been activated. Always clears flag.
+		bool checkIfAlarm(byte Alarm, bool clearflag);
+			// Checks whether the indicated alarm (1 or 2, 2 default);
+			// has been activated. IF clearflag is set, clears alarm flag.
 
 		// Oscillator functions
 
-		void enableOscillator(bool TF, bool battery, byte frequency); 
+		void enableOscillator(bool TF, bool battery, byte frequency);
 			// turns oscillator on or off. True is on, false is off.
 			// if battery is true, turns on even for battery-only operation,
 			// otherwise turns off if Vcc is off.
@@ -167,7 +170,7 @@ class DS3231 {
 			// 1 = 1.024 kHz
 			// 2 = 4.096 kHz
 			// 3 = 8.192 kHz (Default if frequency byte is out of range);
-		void enable32kHz(bool TF); 
+		void enable32kHz(bool TF);
 			// Turns the 32kHz output pin on (true); or off (false).
 		bool oscillatorCheck();;
 			// Checks the status of the OSF (Oscillator Stop Flag);.
@@ -177,17 +180,17 @@ class DS3231 {
 
 	private:
 
-		byte decToBcd(byte val); 
+		byte decToBcd(byte val);
 			// Convert normal decimal numbers to binary coded decimal
-		byte bcdToDec(byte val); 
+		byte bcdToDec(byte val);
 			// Convert binary coded decimal to normal decimal numbers
 
 	protected:
 
-		byte readControlByte(bool which); 
+		byte readControlByte(bool which);
 			// Read selected control byte: (0); reads 0x0e, (1) reads 0x0f
-		void writeControlByte(byte control, bool which); 
-			// Write the selected control byte. 
+		void writeControlByte(byte control, bool which);
+			// Write the selected control byte.
 			// which == false -> 0x0e, true->0x0f.
 
 };
