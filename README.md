@@ -15,6 +15,8 @@ You do have to install the Library in your Arduino IDE environment before you ca
 
 ## Contents
 
+* [Summary](#summary)
+* [How to Cite](#how-to-cite)
 * [About the DS3231](#about-the-ds3231)
 * [How to Install the Library](#installation)
 * [Functions Provided in the Library](#functions)
@@ -70,6 +72,14 @@ The Library defines two other classes to assist with managing date and time data
     1. as distinct values for year, month, day, hour, minute and second, or
     2. as a single, unsigned integer. The latter is handy for doing arithmetic with dates.
 * ```RTClib``` institutes a convenient ```RTClib::now()``` function for receiving a date/time snapshot, as a DateTime object, from the DS3231 device.
+
+## How to Cite
+
+If you use this library in a publicatoin, please cite it in one or both of the following two ways:
+1. Through the `CITATION.cff` file here, which should be up to date with the permanent archive available from Zenodo
+2. If you need an academic journal reference and/or you are discussing the integration of the DS3231 into a larger hardware + firmware ecosystem,<br/>
+**Wickert, A. D., Sandell, C. T., Schulz, B., & Ng, G. H. C. (2019), [Open-source Arduino-compatible data loggers designed for field research](https://hess.copernicus.org/articles/23/2065/2019/), *Hydrology and Earth System Sciences*, *23*(4), 2065-2076, doi:10.5194/hess-23-2065-2019.**<br/>
+This option should not be the only one used because it does not credit the original library developer, Eric Ayars.
 
 ## About the DS3231
 DS3231 is a low-cost integrated circuit (IC) providing a highly accurate, real time clock for use with Arduino, Raspberry Pi, BBC micro:bit and other popular small computing devices. 
