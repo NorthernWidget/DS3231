@@ -21,7 +21,7 @@ The Library does not check the values to be set. The compiler only checks that t
   <li><a href="#setSecond">setSecond&#40;&#41;</a></li>
   <li><a href="#setMinute">setMinute&#40;&#41;</a></li>
   <li><a href="#setHour">setHour&#40;&#41;</a></li>
-  <li><a href="#setDow">setDoW&#40;&#41;</a></li>
+  <li><a href="#setDoW">setDoW&#40;&#41;</a></li>
   <li><a href="#setDate">setDate&#40;&#41;</a></li>
   <li><a href="#setMonth">setMonth&#40;&#41;</a></li>
   <li><a href="#setYear">setYear&#40;&#41;</a></li>
@@ -35,7 +35,7 @@ The Library does not check the values to be set. The compiler only checks that t
 /*
  * returns: nothing (void)
  * parameters: bool = true or false
- * side effects: sets the clock mode, 12-hour or 24-hour, in the DS3231
+ * effect: sets the clock mode, 12-hour (`true`) or 24-hour (`false`), in the DS3231
  * DS3231 register addressed: 0x02
  */
 
@@ -53,7 +53,7 @@ The clock mode should certainly be set prior to setting the hour. In other words
 /*
  * returns: nothing (void)
  * parameters: byte = 0 to 59
- * side effects: 
+ * effects: 
  *   1. writes the seconds to the DS3231
  *   2. clears the Oscillator Stop Flag in the DS3231 hardware
  * DS3231 registers addressed: 0x00, 0x0F
@@ -62,7 +62,7 @@ The clock mode should certainly be set prior to setting the hour. In other words
 // Illustrate passing the seconds value in a variable
 byte theSecond = 42; // 42 seconds
 myRTC.setSecond(theSecond); // uploads 42 to register 0x00
-// side-effect also clears bit 7 of register 0x0F
+// side-effect: also clears bit 7 of register 0x0F
 ```
 
 Note: the oscillator stop flag is an informational data item indicating that the DS3231's oscillator stopped at some point in the past. The flag does not affect the operation of the DS3231 hardware. Clearing the flag makes good housekeeping sense when setting the time.
@@ -73,7 +73,7 @@ Note: the oscillator stop flag is an informational data item indicating that the
 /*
  * returns: nothing (void)
  * parameters: byte = 0 to 59
- * side effects: writes the minutes to the DS3231
+ * effects: writes the minutes to the DS3231
  * DS3231 register addressed: 0x01
  */
 
@@ -87,7 +87,7 @@ myRTC.setMinute(17); // uploads 17 to register 0x01
 /*
  * returns: nothing (void)
  * parameters: byte = 0 to 23 (use 24-hour mode here)
- * side effects: writes the hour to the DS3231
+ * effect: writes the hour to the DS3231
  * DS3231 register addressed: 0x02
  */
 
@@ -106,7 +106,7 @@ Rather, the mode should be set by another function, setClockMode(), prior to inv
 /*
  * returns: nothing (void)
  * parameters: byte = 1 to 7
- * side effects: writes the Day of Week to the DS3231
+ * effect: writes the Day of Week to the DS3231
  * DS3231 register addressed: 0x03
  */
 
@@ -132,7 +132,7 @@ On the other hand, if Monday were selected as the start of a week, then:
 /*
  * returns: nothing (void)
  * parameters: byte = 1 to 28, 29, 30, or 31, depending on the month and year
- * side effects: writes the date of the month to the DS3231
+ * effect: writes the day of the month to the DS3231
  * DS3231 register addressed: 0x04
  */
 
@@ -149,7 +149,7 @@ Reminder: it is the code developer's responsibility to ensure that a sensible va
 /*
  * returns: nothing (void)
  * parameters: byte = 1 to 12
- * side effects: writes the month to the DS3231
+ * effect: writes the month to the DS3231
  * DS3231 register addressed: 0x05
  */
 
@@ -164,7 +164,7 @@ myRTC.setMonth(theMonth); // uploads 6 to register 0x05
 /*
  * returns: nothing (void)
  * parameters: byte = 00 to 99
- * side effects: writes the year to the DS3231
+ * effect: writes the year to the DS3231
  * DS3231 register addressed: 0x06
  */
 
