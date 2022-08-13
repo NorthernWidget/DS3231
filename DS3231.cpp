@@ -477,6 +477,13 @@ void DS3231::getA1Time(byte& A1Day, byte& A1Hour, byte& A1Minute, byte& A1Second
 	}
 }
 
+void DS3231::getA1Time(byte& A1Day, byte& A1Hour, byte& A1Minute, byte& A1Second, byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM, bool& clearAlarmBits) {
+    if (clearAlarmBits) {
+        AlarmBits = 0x0;
+    }
+    getA1Time(A1Day, A1Hour, A1Minute, A1Second, AlarmBits, A1Dy, A1h12, A1PM);
+}
+
 void DS3231::getA2Time(byte& A2Day, byte& A2Hour, byte& A2Minute, byte& AlarmBits, bool& A2Dy, bool& A2h12, bool& A2PM) {
 	byte temp_buffer;
 	_Wire.beginTransmission(CLOCK_ADDRESS);
@@ -513,6 +520,13 @@ void DS3231::getA2Time(byte& A2Day, byte& A2Hour, byte& A2Minute, byte& AlarmBit
 		// alarm is by date, not day of week.
 		A2Day	= bcdToDec(temp_buffer & 0b00111111);
 	}
+}
+
+void DS3231::getA2Time(byte& A2Day, byte& A2Hour, byte& A2Minute, byte& AlarmBits, bool& A2Dy, bool& A2h12, bool& A2PM, bool& clearAlarmBits) {
+    if (clearAlarmBits) {
+        AlarmBits = 0x0;
+    }
+    getA2Time(A2Day, A2Hour, A2Minute, AlarmBits, A2Dy, A2h12, A2PM);
 }
 
 void DS3231::setA1Time(byte A1Day, byte A1Hour, byte A1Minute, byte A1Second, byte AlarmBits, bool A1Dy, bool A1h12, bool A1PM) {
