@@ -136,6 +136,9 @@ class DS3231 {
  *	X	1		0		0		Alarm when hours and minutes match
  *	0	0		0		0		Alarm when date, hour, min match
  *	1	0		0		0		Alarm when DoW, hour, min match
+ *
+ *	Note: byte AlarmBits is not cleared for the getAXTime methods to support
+ *	sequential retreival of both alarms with the same byte AlarmBits.
  */
 		void getA2Time(byte& A2Day, byte& A2Hour, byte& A2Minute, byte& AlarmBits, bool& A2Dy, bool& A2h12, bool& A2PM);
 			// Same as getA1Time();, but A2 only goes on seconds == 00.
