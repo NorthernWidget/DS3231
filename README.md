@@ -198,6 +198,7 @@ Presently, additional information about the functions is available in the [Examp
 - setA2Time()
 - turnOnAlarm()
 - turnOffAlarm()
+- checkAlarmEnabled()
 - checkIfAlarm()
 
 ### Manage DS3231 Hardware
@@ -215,7 +216,6 @@ The above list covers for interacting with the DS3231 hardware. Those listed bel
 - hour()
 - minute()
 - second()
-- dayOfTheWeek()
 - unixtime()
 
 <h3 id="RTClib_now_function">The Special <code>RTClib::now()</code> Function </h3>
