@@ -198,7 +198,6 @@ Presently, additional information about the functions is available in the [Examp
 - setA2Time()
 - turnOnAlarm()
 - turnOffAlarm()
-- checkAlarmEnabled()
 - checkIfAlarm()
 
 ### Manage DS3231 Hardware
@@ -206,8 +205,6 @@ Presently, additional information about the functions is available in the [Examp
 - enableOscillator()
 - enable32kHz()
 - oscillatorCheck()
-- readControlByte()
-- writeControlByte()
 
 The above list covers for interacting with the DS3231 hardware. Those listed below provide read-only access to information contained inside a DateTime object variable declared in program code.
 
