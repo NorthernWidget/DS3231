@@ -4,6 +4,8 @@ When adding new features to the repository (i.e. by merging your PR), please add
 
 ## -- Upcoming --
 - Overloaded `getAXTime()` methods with `bool clearAlarmBits` flag.
+- Added `tests` directory for rudimentary unit tests
+- Added Arduino test script for `getAXTime()` methods
 - Introduced Changelog
 
 
