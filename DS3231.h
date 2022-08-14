@@ -136,9 +136,18 @@ class DS3231 {
  *	X	1		0		0		Alarm when hours and minutes match
  *	0	0		0		0		Alarm when date, hour, min match
  *	1	0		0		0		Alarm when DoW, hour, min match
+ *
+ *	Note: byte AlarmBits is not explicitly cleared for the getAXTime methods to
+ *	support sequential retreival of both alarms with the same byte AlarmBits.
+ *	Use the flag bool clearAlarmBits=True to explicitly clear byte AlarmBits on
+ *  call to getAXTime.
  */
 		void getA2Time(byte& A2Day, byte& A2Hour, byte& A2Minute, byte& AlarmBits, bool& A2Dy, bool& A2h12, bool& A2PM);
 			// Same as getA1Time();, but A2 only goes on seconds == 00.
+		void getA1Time(byte& A1Day, byte& A1Hour, byte& A1Minute, byte& A1Second, byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM, bool clearAlarmBits);
+			// Same as getA1Time();, but clears byte AlarmBits.
+		void getA2Time(byte& A1Day, byte& A1Hour, byte& A1Minute,byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM, bool clearAlarmBits);
+			// Same as getA1Time();, but clears byte AlarmBits.
 		void setA1Time(byte A1Day, byte A1Hour, byte A1Minute, byte A1Second, byte AlarmBits, bool A1Dy, bool A1h12, bool A1PM);
 			// Set the details for Alarm 1
 		void setA2Time(byte A2Day, byte A2Hour, byte A2Minute, byte AlarmBits, bool A2Dy, bool A2h12, bool A2PM);
