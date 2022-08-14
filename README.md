@@ -201,15 +201,6 @@ Presently, additional information about the functions is available in the [Examp
 - checkAlarmEnabled()
 - checkIfAlarm()
 
-### Perform Calculations on Time Data
-- date2days()
-- time2long()
-- unixtime()
-- bcd2bin()
-- bin2bcd()
-- decToBcd()
-- bcdToDec()
-
 ### Manage DS3231 Hardware
 - getTemperature()
 - enableOscillator()
