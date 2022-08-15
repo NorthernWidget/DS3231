@@ -201,22 +201,11 @@ Presently, additional information about the functions is available in the [Examp
 - checkAlarmEnabled()
 - checkIfAlarm()
 
-### Perform Calculations on Time Data
-- date2days()
-- time2long()
-- unixtime()
-- bcd2bin()
-- bin2bcd()
-- decToBcd()
-- bcdToDec()
-
 ### Manage DS3231 Hardware
 - getTemperature()
 - enableOscillator()
 - enable32kHz()
 - oscillatorCheck()
-- readControlByte()
-- writeControlByte()
 
 The above list covers for interacting with the DS3231 hardware. Those listed below provide read-only access to information contained inside a DateTime object variable declared in program code.
 
@@ -227,7 +216,6 @@ The above list covers for interacting with the DS3231 hardware. Those listed bel
 - hour()
 - minute()
 - second()
-- dayOfTheWeek()
 - unixtime()
 
 <h3 id="RTClib_now_function">The Special <code>RTClib::now()</code> Function </h3>
