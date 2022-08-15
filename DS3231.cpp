@@ -279,7 +279,7 @@ void DS3231::setEpoch(time_t epoch, bool flag_localtime) {
 	setDoW(tmnow.tm_wday + 1);
 	setDate(tmnow.tm_mday);
 	setMonth(tmnow.tm_mon + 1);
-	setYear(tmnow.tm_year - 100);
+	setYear(tmnow.tm_year);
 }
 
 void DS3231::setSecond(byte Second) {
