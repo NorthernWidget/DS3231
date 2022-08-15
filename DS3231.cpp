@@ -261,6 +261,11 @@ byte DS3231::getYear() {
 // setEpoch function gives the epoch as parameter and feeds the RTC
 // epoch = UnixTime and starts at 01.01.1970 00:00:00
 void DS3231::setEpoch(time_t epoch, bool flag_localtime) {
+	/*
+	 Arduino implementation of these `time` C++ functions
+	 is from Jan 1st, 2000, instead of Jan 1st, 1970.
+	*/
+	epoch -= SECONDS_FROM_1970_TO_2000; // Unix to y2k time
 	struct tm tmnow;
 	if (flag_localtime) {
 		localtime_r(&epoch, &tmnow);
