@@ -7,6 +7,7 @@ When adding new features to the repository (i.e. by merging your PR), please add
 - Added `tests` directory for rudimentary unit tests
 - Added Arduino test script for `getAXTime()` methods
 - Introduced Changelog
+- PR #66 fixes a bug in setEpoch() and adds an example
 
 
 ## v1.1.1
