@@ -261,7 +261,7 @@ byte DS3231::getYear() {
 // setEpoch function gives the epoch as parameter and feeds the RTC
 // epoch = UnixTime and starts at 01.01.1970 00:00:00
 // HINT: => the AVR time.h Lib is based on the year 2000
-void DS3231::setEpoch(time_t epoch, bool flag_localtime) {
+void DS3231::setEpoch(time_t epoch = 0, bool flag_localtime = false) {
 #if defined (__AVR__)
 	epoch -= SECONDS_FROM_1970_TO_2000;
 #endif
