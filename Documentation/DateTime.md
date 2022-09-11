@@ -173,7 +173,7 @@ timeStamp += SECONDS_IN_ONE_DAY;
 myDT = DateTime(timeStamp);
 ```
 
-###Limitations
+### Limitations
 DateTime variables do not maintain information about time zones. 
 
 The idea of a timestamp originated in the notion of a "system time" accumulated inside a computer running the Unix operating system. It was just an integer that began at zero when the computer started up. It would keep count of how many seconds the computer had been running. A timestamp is just the value of the system time at a given instant.
