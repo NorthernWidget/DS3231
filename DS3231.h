@@ -9,6 +9,12 @@
  * (just out of pure curiosity!) by sending me an email:
  * eric@ayars.org
  *
+ * Changed the parameter type in isleapYear() to uint16_t from uint8_t
+ * for two reasons: the function uses 16-bit arithmetic, i.e., (y % 400); and
+ * one of the calling functions sends a 16-bit parameter.
+ * David Sparks
+ * 08 Sept 2022
+ *
  */
 
 // Modified by Andy Wickert 5/15/11: Spliced in stuff from RTClib
@@ -49,8 +55,8 @@ protected:
     uint8_t yOff, m, d, hh, mm, ss;
 };
 
-//checks if a year is a leap year
-bool isleapYear(const uint8_t);
+// Checks if a year is a leap year
+bool isleapYear(const uint16_t);
 
 class RTClib {
   public:
