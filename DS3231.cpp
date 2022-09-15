@@ -19,6 +19,11 @@ AM/PM (bit 5) flag in the 02h register when passing from AM to PM and PM to AM.
 David Merrifield
 04/14/2020
 
+Changed parameter to uint16_t in isleapYear() because the function performs 16-bit arithmetic
+at (y % 400) and because date2days() calls it with a uint16_t parameter. Grouped and typecast certain parameters and intermediate results in the constructor DateTime::DateTime (uint32_t t) to resolve a couple of non-fatal compiler warnings.
+David Sparks
+08 Sept 2022
+
 Released into the public domain.
 */
 
@@ -100,10 +105,10 @@ DateTime::DateTime (uint32_t t) {
     uint16_t days = t / 24;
     uint8_t leap;
     for (yOff = 0; ; ++yOff) {
-        leap = isleapYear(yOff);
-        if (days < 365 + leap)
+        leap = isleapYear((uint16_t) yOff);
+        if (days < (uint16_t)(365 + leap))
             break;
-        days -= 365 + leap;
+        days -= (365 + leap);
     }
     for (m = 1; ; ++m) {
         uint8_t daysPerMonth = pgm_read_byte(daysInMonth + m - 1);
@@ -155,7 +160,8 @@ static uint8_t bcd2bin (uint8_t val) { return val - 6 * (val >> 4); }
 // eventually
 //static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
 
-bool isleapYear(const uint8_t y) {
+// Sept 2022 changed parameter to uint16_t from uint8_t
+bool isleapYear(const uint16_t y) {
   if(y&3)//check if divisible by 4
     return false;
   //only check other, when first failed
