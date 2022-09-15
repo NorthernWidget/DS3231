@@ -434,7 +434,7 @@ bool checkAlarmEnabled(byte Alarm);
 bool checkIfAlarm(byte Alarm);
 ```
 
-NOTE TO PROGRAMMERS: this version of the method always overwrites the value of the alarm flag to zero.
+NOTE TO PROGRAMMERS: this version of the method always overwrites the value of the alarm flag to zero. An alternate version, below, allows programs an option to preserve the value of the flag in the DS3231.
 
 It may be desirable to do so in programs that re-use a single alarm repeatedly.
 
@@ -442,7 +442,7 @@ The flag value is returned to the program, where it may be assigned to a program
 
 Keep two things in mind:
 
-1. The alarm flag *must* be reset to zero (cleared) by the program before the DS3231 a subsequent alarm event can be detected. 
+1. The alarm flag *must* be reset to zero (cleared) by the program before a subsequent alarm event can be detected. 
 2. This method is the only one in the Library that can clear an alarm flag with certainty.
 
 [Back to Contents](#contents)
@@ -460,7 +460,9 @@ Keep two things in mind:
  *     (false) if the flag is clear = logic 0
  * two parameters:
  *     Alarm, 1 or 2, determines which alarm flag to examine
- *     clearFlag, true or false, determines whether to clear the flag
+ *     clearFlag, determines whether to clear the alarm flag
+ *         (true) clears the flag
+ *         (false) preserves the value of the flag in the DS3231
  * side effect:
  *     Clears the alarm flag only if the clearFlag parameter is equal to true
  */
@@ -470,7 +472,7 @@ bool checkIfAlarm(byte Alarm, bool clearFlag);
 
 This version of the method may be preferable when both alarms are in use, with interrupts enabled,  and the program desires to preserve the flags in the hardware temporarily. 
 
-Version 2 performs exactly like Version 1, clearing the flag after checking, when the "clearFlag" parameter is equal to "true".
+Version 2 performs exactly like Version 1, above, clearing the flag after checking, when the "clearFlag" parameter is equal to "true".
 
 Note that this version cannot guarantee to clear the alarm flag automatically, because it will not clear the flag if the program passes a value of "false" to the second parameter.
 
