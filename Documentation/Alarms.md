@@ -341,7 +341,7 @@ Alarm 2 does not have a parameter for seconds of time. By contrast, Alarm 1 (abo
 
 ---
 
-### <a it="turn-on-alarm">turnOnAlarm()</a>
+### <a id="turn-on-alarm">turnOnAlarm()</a>
 
 ```
 /*
@@ -712,6 +712,8 @@ myRTC.turnOnAlarm(2);
 
 An [example program](https://github.com/NorthernWidget/DS3231/tree/master/examples/AdvanceAlarm) demonstrates using an alarm-triggered interrupt to blink an LED and print a message to the screen at 3-second intervals.
 
+[Back to Contents](#contents)
+
 ## <a id="prevent-alarm">How (and Why) to Prevent an Alarm Entirely</a>
 
 An alarm that your program is not using can covertly block the output of an interrupt by the DS3231. 
@@ -750,5 +752,6 @@ Then it assigns the value 0b01100000 to the AlarmBits parameter, which means to 
     // clear Alarm 2 flag
     myRTC.checkIfAlarm(2);
 ```
+[Back to Contents](#contents)
 
 
