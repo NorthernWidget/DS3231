@@ -650,6 +650,8 @@ The binary number format might be the most clear way to spell out a constant val
 
 ```byte AlarmBits = 0b01100000; // alarm when minutes match```
 
+[Back to Contents](#contents)
+
 ## How to Advance an Alarm Time
 **Problem**: your program needs to execute a procedure at precise, ten-minute intervals. You would like to have the DS3231 generate an interrupt every ten minutes. The DS3231 hardware supports automatically repeating interrupts at intervals of one second, one minute, one hour, one day, one week or one month, but not ten minutes.
 
