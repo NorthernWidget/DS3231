@@ -153,7 +153,8 @@ The data access methods listed above are invoked from a DateTime variable with t
 ```
 
 ## Uses and Limitations of the Timestamp
-###Uses
+
+### Uses
 The timestamp returned by the *unixtime()* method of a DateTime is an unsigned, 32-bit integer. It can be very useful for adding or subtracting an interval of time measured in seconds.
 
 Suppose you want to add one day to to an existing DateTime variable. It could be cumbersome to do this by adjusting first the date, then perhaps the month, then perhaps the year.
