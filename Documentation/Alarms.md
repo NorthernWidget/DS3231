@@ -362,7 +362,7 @@ Consider clearing both of the alarms' flags after enabling an interrupt, even if
 
 The reason is that the DS3231 cannot signal an interrupt if *either one of the flags* is set HIGH, that is, equal to logic 1.
 
-See the discussion of [checkIfAlarm()](#check-if-alarm"), below.
+See the discussion of [checkIfAlarm()](#check-if-alarm), below.
 
 ```
 myRTC.turnOnAlarm(1); // enable alarm 1 interrupt
