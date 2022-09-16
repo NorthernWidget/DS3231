@@ -45,6 +45,28 @@ public:
     // OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
     // SETTING YOUR CLOCK TO UTC
     uint32_t unixtime(void) const;
+
+	//Operators to support DateTime comparisons
+
+    //Subtraction returns the difference, in seconds, between two DateTimes
+    //allows for negative differences (i.e. rhs > lhs).
+    long operator - (DateTime const &rhs);
+
+    //Addition accepts a positive number of seconds to add
+    //and returns a new DateTime
+    DateTime operator + (uint32_t const &rhs);
+
+    //Greater-than returns TRUE if all non-UNIX time fields in a DateTime are
+    // > corresponding fields in rhs when evaluated hierarchically
+    bool operator > (DateTime const &rhs);
+
+    //Less-than returns TRUE if all non-UNIX time fields in a DateTime are
+    // < corresponding fields in rhs when evaluated hierarchically
+    bool operator < (DateTime const &rhs);
+	
+    //Comparison checks if all non-UNIX time fields in a DateTime match, but NOT if the UNIX time matches,
+    //since UNIX time involes setting the clock to UTC
+    bool operator == (DateTime const &rhs);
 protected:
     uint8_t yOff, m, d, hh, mm, ss;
 };

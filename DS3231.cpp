@@ -180,6 +180,35 @@ DateTime RTClib::now(TwoWire & _Wire) {
   return DateTime (y, m, d, hh, mm, ss);
 }
 
+//Subtraction returns difference in seconds between 2 DateTimes.
+//This is signed so that you can express situations when the LHS is earlier in time than the RHS.
+long DateTime::operator - (DateTime const &rhs){
+	return this->unixtime() - rhs.unixtime();
+}
+
+//Addition accepts seconds as the RHS, RHS >= 0
+//and returns a new DateTime where RHS is added to LHS.
+//I did not implement addition of negative numbers because that causes underflow with the
+//unixtime uint32_t.
+DateTime DateTime::operator + (uint32_t const &rhs){
+	return DateTime(this->unixtime() + rhs);
+}
+
+	//Greater-than returns TRUE if any non-UNIX time fields in a DateTime in this are strictly greater than values in rhs, evaluated in hierarchical order 
+bool DateTime::operator > (DateTime const &rhs){
+	return this->year() > rhs.year() || this->month() > rhs.month() || this->day() > rhs.day() || this->hour() > rhs.hour() || this->minute() > rhs.minute() || this->second() > rhs.second();
+}
+	//Less-than returns TRUE if any non-UNIX time fields in a DateTime in this are strictly lesser than values in rhs, evaluated in hierarchical order 
+bool DateTime::operator < (DateTime const &rhs){
+	return this->year() < rhs.year() || this->month() < rhs.month() || this->day() < rhs.day() || this->hour() < rhs.hour() || this->minute() < rhs.minute() || this->second() < rhs.second();
+}
+	
+	//Comparison checks if all non-UNIX time fields in a DateTime match, but NOT if the UNIX time matches,
+	//since UNIX time involes setting the clock to UTC
+bool DateTime::operator == (DateTime const &rhs){
+	return this->second() == rhs.second() && this->minute() == rhs.minute() && this->hour() == rhs.hour() && this->day() == rhs.day() && this->month() == rhs.month() && this->year() == rhs.year();
+}
+
 ///// ERIC'S ORIGINAL CODE FOLLOWS /////
 
 byte DS3231::getSecond() {
