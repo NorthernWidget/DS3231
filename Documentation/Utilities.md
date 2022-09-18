@@ -12,7 +12,7 @@ The versatile DS3231 is more than just an alarm clock. It supplies a timer and a
 
 ### <a id="32k">enable32kHz()</a>
 
-The 32K output pin of a DS3231 can supply a highly accurate timer for interrupt-driven Arduino programming. Connect the pin to an interrupt-enabled Arduino input pin, enable the 32K output, and explore the benefits of programming with timer-driven interrupts, without the complexities of configuring timers built into the Arduino's microcontroller.. 
+The 32K output pin of a DS3231 can supply a highly accurate timer for interrupt-driven Arduino programming. Connect the pin to an interrupt-enabled Arduino input pin, enable the 32K output, and explore the benefits of programming with timer-driven interrupts, without the complexities of configuring timers built into the Arduino's microcontroller.
 
 ```
 
@@ -34,9 +34,13 @@ void enable32kHz(bool TF);
 
 The heart of a DS3231 Real Time Clock device is an oscillator switching a voltage from HIGH to LOW and back again at an exquisitely maintained frequency of 32,768 cycles per second, or 32.768 kHz.
 
-An output pin on the DS3231 makes this voltage fluctuation available to other devices. The Arduino can use the signal as a timer for interrupt-drive applications. Simply connect an interrrupt-enabled input pin to the 32K output.
+An output pin on the DS3231 makes these voltage levels available to other devices. The Arduino can use the signal as a timer for interrupt-drive applications. It takes just a few steps:
 
-The following example demonstrates turning an LED first on or off 16 times per second, using the output of a DS3231 oscillator. Notice that there is *no code* in the idle process, also known as *loop()*. 
+* Connect an interrrupt-capable input pin to the 32K output.
+* Set a few bits in certain Arduino registers to enable the interrupt.
+* Write program code to "service" the interrupt, that is, to be executed after each interrupt occurs.
+
+The following example toggles an LED on or off 16 times per second, using the output of a DS3231 oscillator. Notice that there is *no code* in the idle process, also known as *loop()*. 
 
 Significantly, the alarms of the DS3231 do not come into play here. Instead, the Arduino program determines the interval between actions.
 
@@ -66,11 +70,15 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(PIN32K, INPUT);
 
-  // configure the interrupt to detect the 32K oscillator
-  attachInterrupt(digitalPinToInterrupt(PIN32K), blinky, CHANGE);
+  /*
+   * Configure the interrupt to detect the 32K oscillator.
+   * Note that interrupting on CHANGE will generate 2 interrupts per cycle,
+   * once when the voltage changes to LOW from HIGH, 
+   * then again when it changes to HIGH from LOW,
+   * for a total of 32768 x 2 = 65536 interrupts per second
+   */
 
-  // Note that interrupting on CHANGE will generate 2 interrupts per cycle
-  // or 32768 x 2 = 65536 interrupts per second
+  attachInterrupt(digitalPinToInterrupt(PIN32K), blinky, CHANGE);
 
   // enable output on the 32K pin of the DS3231
   myRTC.enable32kHz(true);
@@ -115,7 +123,7 @@ Each voltage change triggers an interrupt because the code specifies CHANGE to b
 
 A counter variable is incremented upon each interrupt. An unsigned 16-bit counter being incremented 2<sup>16</sup> times per second will "roll over" to a value of zero exactly once every second. 
 
-The ISR can test for and act upon lesser values. It means programmers can design ISRs to perform actions at intervals shorter than one second.
+The ISR can test for and act upon lesser values. It means programmers can design ISRs to perform actions at intervals shorter than one second. For an example of an interval that is not a power of two, see the section on [Pin Change Interrupts](#pin-change-interrupt), below.
 
 Note that the output on the 32K pin is independent of that on the INT/SQW pin. The two pins can separately drive interrupts to two, different input pins on an Arduino.
 
@@ -205,7 +213,7 @@ The flag will remain at logic level 1 until it is written to zero by program cod
 
 The setEpoch() method invokes setSeconds(), which means that setEpoch() will clear the OSF flag also.
 
-To be clear, the OSF flag will be written to 1 and the oscillator will not be running when power is first applied to the DS3231. Setting the time, specifically setting the seconds value of the time, writes OSF to zero and starts the oscillator which drives the timekeeping process.
+Reminder: the OSF flag will be written to 1 and the oscillator will not be running when power is first applied to the DS3231. Setting the time, specifically setting the seconds value of the time, writes OSF to zero and starts the oscillator which drives the timekeeping process.
 
 ### <a id="temperature">getTemperature()</a>
 
@@ -241,7 +249,7 @@ Why would a clock chip contain a temperature sensor? The answer helps to underst
 
 Your friendly neighborhood Documentarian will make a non-engineer's attempt to explain. 
 
-An oscillator's frequency can vary with temperature. It can also vary with minute changes in electrical capacitance.
+An oscillator's frequency can vary with temperature. It can also vary with small changes in electrical capacitance.
 
 The DS3231 hardware includes an array of tiny capacitors that become engaged or disengaged in regulating the oscillator, based on the measured voltage level from a temperature sensor. 
 
@@ -373,7 +381,7 @@ ISR(PCINT1_vect) {
 
 * Williams, Elliot. *Make: AVR Programming". 2014. Maker Media Inc. pp 155-165.
 
-* "Engineer, Wandering". *Arduino Pin Change Interrupts*. Date unknown. Web page: https://thewanderingengineer.com/2014/08/11/arduino-pin-change-interrupts/. Accessed Sept 17, 2022. 
+* "Engineer, Wandering". *Arduino Pin Change Interrupts*. 2014. Web page: https://thewanderingengineer.com/2014/08/11/arduino-pin-change-interrupts/. Accessed Sept 17, 2022. 
 
 
 
