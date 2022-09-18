@@ -161,8 +161,7 @@ void loop() {}
 <hr>
 
 ## Functions
-Future development of this document may include specific pages for the functions listed here. 
-Presently, additional information about the functions is available in the [Examples of Use](#examples-of-use) described below, and in the source files in this repository:
+Readers are encouraged to visit the [Documentation folder](https://github.com/NorthernWidget/DS3231/tree/master/Documentation) for detailed information about the functions in this Library. Additional information is available in the [Examples of Use](#examples-of-use) described below, and in the code source files of this repository:
 
 * [DS3231.h](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.h)
 * [DS3231.cpp](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.cpp)
