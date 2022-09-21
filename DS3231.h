@@ -56,17 +56,30 @@ public:
     //and returns a new DateTime
     DateTime operator + (uint32_t const &rhs);
 
-    //Greater-than returns TRUE if all non-UNIX time fields in a DateTime are
-    // > corresponding fields in rhs when evaluated hierarchically
+    //Greater-than returns TRUE if UNIX time of a DateTime is
+    // > corresponding UNIX time of the RHS
     bool operator > (DateTime const &rhs);
 
-    //Less-than returns TRUE if all non-UNIX time fields in a DateTime are
-    // < corresponding fields in rhs when evaluated hierarchically
+    //Less-than returns TRUE if UNIX time of a DateTime is
+    // < corresponding UNIX time of the RHS
     bool operator < (DateTime const &rhs);
 	
-    //Comparison checks if all non-UNIX time fields in a DateTime match, but NOT if the UNIX time matches,
-    //since UNIX time involes setting the clock to UTC
+    //Equality returns TRUE if UNIX time of a DateTime is
+	// == to corresponding UNIX time of the RHS
     bool operator == (DateTime const &rhs);
+
+	//Inequality returns TRUE if UNIX time of a DateTime is
+	// != to corresponding UNIX time of the RHS
+	bool operator != (DateTime const &rhs);
+
+	//Greater-than-or-equal-to returns TRUE if UNIX time of a DateTime is
+	// >= to corresponding UNIX time of the RHS
+	bool operator >= (DateTime const &rhs);
+	
+	//Less-than-or-equal-to returns TRUE if UNIX time of a DateTime is
+	// <= to corresponding UNIX time of the RHS
+	bool operator <= (DateTime const &rhs);
+
 protected:
     uint8_t yOff, m, d, hh, mm, ss;
 };

@@ -194,19 +194,35 @@ DateTime DateTime::operator + (uint32_t const &rhs){
 	return DateTime(this->unixtime() + rhs);
 }
 
-	//Greater-than returns TRUE if any non-UNIX time fields in a DateTime in this are strictly greater than values in rhs, evaluated in hierarchical order 
+	//Greater-than returns TRUE if the UNIX time of the LHS is strictly greater than the UNIX time of the RHS
 bool DateTime::operator > (DateTime const &rhs){
-	return this->year() > rhs.year() || this->month() > rhs.month() || this->day() > rhs.day() || this->hour() > rhs.hour() || this->minute() > rhs.minute() || this->second() > rhs.second();
+	return this->unixtime() > rhs.unixtime();
 }
-	//Less-than returns TRUE if any non-UNIX time fields in a DateTime in this are strictly lesser than values in rhs, evaluated in hierarchical order 
+	//Less-than returns TRUE if the UNIX time of the LHS is strictly less than the UNIX time of the RHS
 bool DateTime::operator < (DateTime const &rhs){
-	return this->year() < rhs.year() || this->month() < rhs.month() || this->day() < rhs.day() || this->hour() < rhs.hour() || this->minute() < rhs.minute() || this->second() < rhs.second();
+	return this->unixtime() < rhs.unixtime();
 }
 	
-	//Comparison checks if all non-UNIX time fields in a DateTime match, but NOT if the UNIX time matches,
-	//since UNIX time involes setting the clock to UTC
+	//Comparison checks if the UNIX time matches
 bool DateTime::operator == (DateTime const &rhs){
-	return this->second() == rhs.second() && this->minute() == rhs.minute() && this->hour() == rhs.hour() && this->day() == rhs.day() && this->month() == rhs.month() && this->year() == rhs.year();
+	return this->unixtime() == rhs.unixtime();
+}
+
+	//The following operators make use of the operators defined above to extend functionality
+
+	//!= checks if the UNIX time does not match
+bool DateTime::operator != (DateTime const &rhs){
+	return !(*this == rhs);
+}
+
+	//>= returns TRUE if the UNIX time of the LHS is > or is == the UNIX time of the RHS
+bool DateTime::operator >= (DateTime const &rhs){
+	return (*this > rhs || *this == rhs);
+}
+
+	//<= checks if the UNIX time of the LHS is > RHS or is == the UNIX time of the RHS
+bool DateTime::operator <= (DateTime const &rhs){
+	return (*this < rhs || *this == rhs);
 }
 
 ///// ERIC'S ORIGINAL CODE FOLLOWS /////
