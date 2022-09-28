@@ -168,19 +168,19 @@ Readers are encouraged to visit the [Documentation folder](https://github.com/No
 
 ### Read the Date or Time
 - *RTClib::now()* <sup>\*</sup>
-- getSecond()
-- getMinute()
-- getHour()
-- getDoW()
-- getDate()
-- getMonth()
-- getYear()
+- [getSecond()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getsecond)
+- [getMinute()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getminute)
+- [getHour(bool, bool)](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#gethour)
+- [getDoW()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getdow)
+- [getDate()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getdate)
+- [getMonth(bool)](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getmonth)
+- [getYear()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getyear)
 
 \* The *RTClib::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in <a href="#RTClib_now_function">The Special <code>RTClib::now&#40;&#41;</code> Function</a>.
 
 
 ### Set the Date or Time
-- setEpoch()
+- setEpoch() 
 - setSecond()
 - setMinute()
 - setHour()
