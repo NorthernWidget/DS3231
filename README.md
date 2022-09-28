@@ -180,7 +180,7 @@ Readers are encouraged to visit the [Documentation folder](https://github.com/No
 
 
 ### Set the Date or Time
-We emphasize here and elsewhere that the code writer bears[ responsibility to ensure that the values passed into the following functions fall within the valid range, as specified in the documentation for each function.
+We emphasize here and elsewhere that the code writer bears responsibility to ensure that the values passed into the following functions fall within the valid range, as specified in the documentation for each function.
 
 Unexpected settings in the DS3231 may follow from the insertion of an invalid parameter into any one of these functions.
 
