@@ -167,7 +167,7 @@ Readers are encouraged to visit the [Documentation folder](https://github.com/No
 * [DS3231.cpp](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.cpp)
 
 ### Read the Date or Time
-- *RTClib::now()* <sup>\*</sup>
+- [RTClib::now() <sup>\*</sup>](https://github.com/IowaDave/DS3231/tree/readme#RTClib_now_function)
 - [getSecond()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getsecond)
 - [getMinute()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getminute)
 - [getHour(bool, bool)](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#gethour)
@@ -176,7 +176,7 @@ Readers are encouraged to visit the [Documentation folder](https://github.com/No
 - [getMonth(bool)](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getmonth)
 - [getYear()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getyear)
 
-\* The *RTClib::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in <a href="#RTClib_now_function">The Special <code>RTClib::now&#40;&#41;</code> Function</a>.
+\* The *RTClib::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in <a href="#RTClib_now_function">The Special RTClib::now() Function</a>.
 
 
 ### Set the Date or Time
