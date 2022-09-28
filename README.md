@@ -202,7 +202,7 @@ Readers may find additional information about this parameter at following links:
 - [getA1Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta1time)
 - [getA1Time() with Option](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta1time-with-option)
 - [getA2Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta2time)
-- getA2Time() with Option](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta2time-with-option)
+- [getA2Time() with Option](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta2time-with-option)
 - [setA1Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#seta1time)
 - [setA2Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#seta2time)
 
