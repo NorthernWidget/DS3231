@@ -166,7 +166,7 @@ Readers are encouraged to visit the [Documentation folder](https://github.com/No
 * [DS3231.h](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.h)
 * [DS3231.cpp](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.cpp)
 
-### Read the Date or Time
+### [Read the Date or Time](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md)
 - [RTClib::now() <sup>\*</sup>](https://github.com/IowaDave/DS3231/tree/readme#RTClib_now_function)
 - [getSecond()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getsecond)
 - [getMinute()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getminute)
@@ -179,10 +179,10 @@ Readers are encouraged to visit the [Documentation folder](https://github.com/No
 \* The *RTClib::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in <a href="#RTClib_now_function">The Special RTClib::now() Function</a>.
 
 
-### Set the Date or Time
+### [Set the Date or Time](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md)
 We emphasize here and elsewhere that the code writer bears responsibility to ensure that the values passed into the following functions fall within the valid range, as specified in the documentation for each function.
 
-Unexpected settings in the DS3231 may follow from the insertion of an invalid parameter into any one of these functions.
+Unexpected values in the DS3231 hardware registers may follow from the insertion of an invalid parameter into any one of these functions.
 
 - [setEpoch()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setepochtime_t-epoch--0-bool-flag_localtime--false)
 - [setSecond()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setsecondbyte-second)
@@ -194,26 +194,40 @@ Unexpected settings in the DS3231 may follow from the insertion of an invalid pa
 - [setYear()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setyearbyte-year)
 - [setClockMode()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setclockmodebool-h12)
 
-### Set, Clear and Check Alarms
-- getA1Time()
-- getA2Time()
-- setA1Time()
-- setA2Time()
-- turnOnAlarm()
-- turnOffAlarm()
-- checkAlarmEnabled()
-- checkIfAlarm()
+### [Set, Clear and Check Alarms](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md)
+The following functions set and retrieve time and date values in the DS3231 hardware alarm registers. Parameters include a special 8-bit value named "AlarmBits". 
 
-### Manage DS3231 Hardware
-- getTemperature()
-- enableOscillator()
-- enable32kHz()
-- oscillatorCheck()
+Readers may find additional information about this parameter at following links: [Alarm Bits Quick Reference](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#alarm-bits-quick-reference), and [Alarm Bits in Detail(https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#alarm-bits-in-detail).
 
-The above list covers for interacting with the DS3231 hardware. Those listed below provide read-only access to information contained inside a DateTime object variable declared in program code.
+- [getA1Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta1time)
+- [getA1Time() with Option](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta1time-with-option)
+- [getA2Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta2time)
+- getA2Time() with Option](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta2time-with-option)
+- [setA1Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#seta1time)
+- [setA2Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#seta2time)
 
-### DateTime Object
-- year()
+The remaining functions in this group set and retrieve certain flags in the DS3231 hardware that govern or report the operation of the alarms, including their use to generate interrupts for an Arduino program.
+
+- [turnOnAlarm()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#turnonalarm)
+- [turnOffAlarm()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#turnoffalarm)
+- [checkAlarmEnabled()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#checkalarmenabled)
+- [checkIfAlarm()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#checkifalarm)
+- [checkIfAlarm() with Option](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#checkifalarm-with-option)
+
+### [Manage DS3231 Hardware](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Utilities.md)
+The functions in this group support uses for a DS3231 other than as an alarm clock.
+
+- [getTemperature()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Utilities.md#gettemperature)
+- [enableOscillator()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Utilities.md#enableoscillator)
+- [enable32kHz()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Utilities.md#enable32khz)
+- [oscillatorCheck()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Utilities.md#oscillatorcheck)
+
+The functions listed above interact with the DS3231 hardware. Those listed below provide read-only access to information contained inside a DateTime object variable declared in program code.
+
+### [DateTime Object](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/DateTime.md)
+A limited DateTime class is defined in this DS3231.h library. The link, above, provides more information about the class and the methods listed below.
+
+- [year()]
 - month()
 - day()
 - hour()
