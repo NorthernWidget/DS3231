@@ -143,7 +143,9 @@ byte theDate = myRTC.getMonth(CenturyBit);
 
 Note: according to the datasheet, "The century bit (bit 7 of the month register) is toggled when the years register overflows from 99 to 00."
 
-Note also that supplying a boolean constant as the parameter will halt program compilation with an error. The parameter must be the name of a boolean variable defined in the program code.
+Note also that supplying a boolean constant value of *true* or *false* as the parameter will halt program compilation with an error. The parameter must be the name of a boolean variable defined in the program code.
+
+The "Contemplations", below, further discuss the Century Bit.
 
 <h3 id="getYear">getYear&#40;&#41;</h3>
 
@@ -161,7 +163,7 @@ byte theDate = myRTC.getDate();
 
 ### Contemplations of An Aging Documentarian 
 
-The Century bit may be useful when operating the DS3231 near the end of a century. For example, the bit would have toggled when the year changed from 1999 to 2000. It would have been important to recognize that a year "00" actually represented an *increase* of time compared to the year "99".
+The Century bit may supply useful information when operating the DS3231 near the end of a century. For example, the bit would have toggled when the year changed from 1999 to 2000. It would have been important to recognize that a year "00" actually represented an *increase* of time compared to the year "99".
 
 The bit will toggle again when the year changes from 2099 to 2100, and so forth.
 
