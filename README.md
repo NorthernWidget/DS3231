@@ -180,15 +180,19 @@ Readers are encouraged to visit the [Documentation folder](https://github.com/No
 
 
 ### Set the Date or Time
-- setEpoch() 
-- setSecond()
-- setMinute()
-- setHour()
-- setDoW()
-- setDate()
-- setMonth()
-- setYear()
-- setClockMode()
+We emphasize here and elsewhere that the code writer bears[ responsibility to ensure that the values passed into the following functions fall within the valid range, as specified in the documentation for each function.
+
+Unexpected settings in the DS3231 may follow from the insertion of an invalid parameter into any one of these functions.
+
+- [setEpoch()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setepochtime_t-epoch--0-bool-flag_localtime--false)
+- [setSecond()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setsecondbyte-second)
+- [setMinute()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setminutebyte-minute)
+- [setHour()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-sethourbyte-hour)
+- [setDoW()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setdowbyte-dow)
+- [setDate()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setdatebyte-date)
+- [setMonth()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setmonthbyte-month)
+- [setYear()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setyearbyte-year)
+- [setClockMode()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setclockmodebool-h12)
 
 ### Set, Clear and Check Alarms
 - getA1Time()
