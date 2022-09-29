@@ -167,7 +167,7 @@ Readers are encouraged to visit the [Documentation folder](https://github.com/No
 * [DS3231.cpp](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.cpp)
 
 ### [Read the Date or Time](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md)
-- [RTClib::now() <sup>\*</sup>](https://github.com/IowaDave/DS3231/tree/readme#RTClib_now_function)
+- [RTClib::now() <sup>\*</sup>](https://github.com/NorthernWidget/DS3231#the-special-rtclibnow-function-)
 - [getSecond()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getsecond)
 - [getMinute()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getminute)
 - [getHour(bool, bool)](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#gethour)
@@ -225,9 +225,11 @@ The functions in this group support uses for a DS3231 other than as an alarm clo
 The functions listed above interact with the DS3231 hardware. Those listed below provide read-only access to information contained inside a DateTime object variable declared in program code.
 
 ### [DateTime Object](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/DateTime.md)
-A limited DateTime class is defined in this DS3231.h library. The link, above, provides more information about the class and the methods listed below.
+A limited DateTime class is defined in this DS3231.h library. The link, above, provides more information about the class. 
 
-- [year()]
+[Retrieving Date and Time Data](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/DateTime.md#retrieving-date-and-time-data) further documents the DateTime class methods listed below. 
+
+- year()
 - month()
 - day()
 - hour()
