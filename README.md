@@ -197,7 +197,7 @@ Unexpected values in the DS3231 hardware registers may follow from the insertion
 ### [Set, Clear and Check Alarms](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md)
 The following functions set and retrieve time and date values in the DS3231 hardware alarm registers. Parameters include a special 8-bit value named "AlarmBits". 
 
-Readers may find additional information about this parameter at following links: [Alarm Bits Quick Reference](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#alarm-bits-quick-reference), and [Alarm Bits in Detail(https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#alarm-bits-in-detail).
+Readers may find additional information about this parameter at following links: [Alarm Bits Quick Reference](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#alarm-bits-quick-reference), and [Alarm Bits in Detail](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#alarm-bits-in-detail).
 
 - [getA1Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta1time)
 - [getA1Time() with Option](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta1time-with-option)
