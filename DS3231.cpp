@@ -35,6 +35,7 @@ Released into the public domain.
 //#include "WProgram.h"
 #include <Arduino.h>
 
+#define UINT32_MAX 4294967295
 
 #define CLOCK_ADDRESS 0x68
 
@@ -191,7 +192,13 @@ long DateTime::operator - (DateTime const &rhs){
 //I did not implement addition of negative numbers because that causes underflow with the
 //unixtime uint32_t.
 DateTime DateTime::operator + (uint32_t const &rhs){
-	return DateTime(this->unixtime() + rhs);
+	//guard against overflow. if this->unixtime() + rhs > UINT32_MAX, just return the maximum value
+	if (UINT32_MAX - rhs < this->unixtime()){
+		return UINT32_MAX;
+	} else {
+		//otherwise, perform the addition normally.
+		return DateTime(this->unixtime() + rhs);
+	}
 }
 
 	//Greater-than returns TRUE if the UNIX time of the LHS is strictly greater than the UNIX time of the RHS
