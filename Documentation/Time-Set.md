@@ -177,11 +177,18 @@ myRTC.setYear(22); // uploads 22 to register 0x06
 
 <h3 id="setEpoch">void setEpoch(time_t epoch = 0, bool flag_localtime = false)</h3>
 
-Keep in mind that DS3231 has no concept of time zones or daylight savings time. The value of the "epoch" parameter is based on the concept of the Unix Epoch, defined as the number of seconds elapsed since time 00:00:00 (midnight) on January 1, 1970, GMT.  
+Keep in mind that DS3231 has no concept of time zones or daylight savings time. The value of the "epoch" parameter will be interpreted as a Unix Epoch "timestamp", defined as the number of seconds elapsed since time 00:00:00 (midnight) on January 1, 1970, GMT.  
 
 The parameter is set to a value of zero (0) by default.
 
 Note that this function does not verify that the *epoch* value is in fact the correct GMT time. The function relies upon the program writer to supply a value that is correct for the purposes of the program.
+
+Developers are reminded that both the DS3231 hardware and this library are designed to work best with dates and times in the years 2000 through 2099. For this reason, code writers are strongly urged to limit the range of values for the "epoch" parameter as follows:
+
+* Minimum:  946684801 (00:00:01 a.m. on January 1, 2000)
+* Maximum: 4102444799 (23:59:59 p.m. on December 31, 2099)
+
+Unexpected results may follow from the use of parameter values less than the recommended minimum or greater than the maximum.
 
 #### A Note About the Second Parameter, *flag_localtime*
 This parameter exists because the function makes calls deep into the C++ standard library, where "local time" and "GMT time" can be treated differently. Some hardware compatible with Arduino IDE may be sensitive to this difference. 

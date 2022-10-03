@@ -66,7 +66,7 @@ Then, Library functions are typically accessed through the DS3231 object. For ex
 unsigned int theDate = myRTC.getDate();
 ```
 
-The Library defines two other classes to assist with managing date and time data:
+The Library incorporates two other classes to assist with managing date and time data:
 
 * ```DateTime``` enables a versatile object for managing date and time data. A variable of the DateTime type can represent a specific date and time in two different ways:
     1. as distinct values for year, month, day, hour, minute and second, or
@@ -75,7 +75,7 @@ The Library defines two other classes to assist with managing date and time data
 
 ## How to Cite
 
-If you use this library in a publicatoin, please cite it in one or both of the following two ways:
+If you use this library in a publication, please cite it in one or both of the following two ways:
 1. Through the `CITATION.cff` file here, which should be up to date with the permanent archive available from Zenodo
 2. If you need an academic journal reference and/or you are discussing the integration of the DS3231 into a larger hardware + firmware ecosystem,<br/>
 **Wickert, A. D., Sandell, C. T., Schulz, B., & Ng, G. H. C. (2019), [Open-source Arduino-compatible data loggers designed for field research](https://hess.copernicus.org/articles/23/2065/2019/), *Hydrology and Earth System Sciences*, *23*(4), 2065-2076, doi:10.5194/hess-23-2065-2019.**<br/>
@@ -102,11 +102,14 @@ According to the [datasheet](https://datasheets.maximintegrated.com/en/ds/DS3231
 * Month,  and
 * Year, with Leap-Year Compensation Valid Up to 2100"
 
-Data for the time and date are stored in memory locations on the DS3231. Each, distinct value is stored separately. This means the seconds are in one location, the minutes in another, and so forth. The DS3231 updates the values in the memory locations every second.
+Data for the time and date are stored in registers (memory locations) on the DS3231. Each, distinct value is stored separately. This means the seconds are in one register, the minutes in another, and so forth. The DS3231 updates the values in the date and time registers every second.
 
 The device keeps track of time by operating its own 32.768 kHz crystal oscillator, similar to the timekeeper in an electronic watch. Temperature can affect oscillator speed. Accordingly, the DS3231 takes further steps to maintain accuracy. It senses the temperature around the crystal and adjusts the speed of the oscillator.
 
+The oscillator can be accessed directly, independent of the date and time registers, for use as an external timer or source of interrupts.
+
 The temperature can be read from the DS3231 using a Library function. The data sheet declares it to be accurate to within 3 degrees, Celsius. 
+
 
 ### Power Supply and Battery Backup
 The DS3231 can run in a range between 2.3 volts and 5.5 volts. The device actually has two power supply pins: the primary source, V<sub>CC</sub>, and a secondary, backup source, V<sub>BAT</sub>.
@@ -166,49 +169,67 @@ Readers are encouraged to visit the [Documentation folder](https://github.com/No
 * [DS3231.h](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.h)
 * [DS3231.cpp](https://github.com/NorthernWidget/DS3231/blob/master/DS3231.cpp)
 
-### Read the Date or Time
-- *RTClib::now()* <sup>\*</sup>
-- getSecond()
-- getMinute()
-- getHour()
-- getDoW()
-- getDate()
-- getMonth()
-- getYear()
+### [Read the Date or Time](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md)
+- [RTClib::now() <sup>\*</sup>](https://github.com/NorthernWidget/DS3231#the-special-rtclibnow-function-)
+- [getSecond()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getsecond)
+- [getMinute()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getminute)
+- [getHour(bool, bool)](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#gethour)
+- [getDoW()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getdow)
+- [getDate()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getdate)
+- [getMonth(bool)](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getmonth)
+- [getYear()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Retrieval.md#getyear)
 
-\* The *RTClib::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in <a href="#RTClib_now_function">The Special <code>RTClib::now&#40;&#41;</code> Function</a>.
+\* The *RTClib::now()* function is not accessed through the DS3231 object. Rather, it has a very specific syntax as described below in <a href="#RTClib_now_function">The Special RTClib::now() Function</a>.
 
 
-### Set the Date or Time
-- setEpoch()
-- setSecond()
-- setMinute()
-- setHour()
-- setDoW()
-- setDate()
-- setMonth()
-- setYear()
-- setClockMode()
+### [Set the Date or Time](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md)
+We emphasize here and elsewhere that the code writer bears responsibility to ensure that the values passed into the following functions fall within the valid range, as specified in the documentation for each function.
 
-### Set, Clear and Check Alarms
-- getA1Time()
-- getA2Time()
-- setA1Time()
-- setA2Time()
-- turnOnAlarm()
-- turnOffAlarm()
-- checkAlarmEnabled()
-- checkIfAlarm()
+Unexpected values in the DS3231 hardware registers may follow from the insertion of an invalid parameter into any one of these functions.
 
-### Manage DS3231 Hardware
-- getTemperature()
-- enableOscillator()
-- enable32kHz()
-- oscillatorCheck()
+- [setEpoch()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setepochtime_t-epoch--0-bool-flag_localtime--false)
+- [setSecond()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setsecondbyte-second)
+- [setMinute()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setminutebyte-minute)
+- [setHour()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-sethourbyte-hour)
+- [setDoW()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setdowbyte-dow)
+- [setDate()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setdatebyte-date)
+- [setMonth()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setmonthbyte-month)
+- [setYear()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setyearbyte-year)
+- [setClockMode()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Time-Set.md#void-setclockmodebool-h12)
 
-The above list covers for interacting with the DS3231 hardware. Those listed below provide read-only access to information contained inside a DateTime object variable declared in program code.
+### [Set, Clear and Check Alarms](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md)
+The following functions set and retrieve time and date values in the DS3231 hardware alarm registers. 
 
-### DateTime Object
+Parameters include a special 8-bit value named "AlarmBits". Readers may find additional information about it at the following links: [Alarm Bits Quick Reference](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#alarm-bits-quick-reference), and [Alarm Bits in Detail](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#alarm-bits-in-detail).
+
+- [getA1Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta1time)
+- [getA1Time() with Option](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta1time-with-option)
+- [getA2Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta2time)
+- [getA2Time() with Option](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#geta2time-with-option)
+- [setA1Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#seta1time)
+- [setA2Time()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#seta2time)
+
+The remaining functions in this group set and retrieve certain flags in the DS3231 hardware that govern or report the operation of the alarms.
+
+- [turnOnAlarm()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#turnonalarm)
+- [turnOffAlarm()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#turnoffalarm)
+- [checkAlarmEnabled()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#checkalarmenabled)
+- [checkIfAlarm()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#checkifalarm)
+- [checkIfAlarm() with Option](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Alarms.md#checkifalarm-with-option)
+
+### [Manage DS3231 Hardware](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Utilities.md)
+The functions in this group support uses for a DS3231 other than as an alarm clock.
+
+- [getTemperature()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Utilities.md#gettemperature)
+- [enableOscillator()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Utilities.md#enableoscillator)
+- [enable32kHz()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Utilities.md#enable32khz)
+- [oscillatorCheck()](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/Utilities.md#oscillatorcheck)
+
+### [DateTime Object](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/DateTime.md)
+A limited DateTime class is defined in this DS3231.h library. The link, above, provides more information about the class. 
+
+[Retrieving Date and Time Data](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/DateTime.md#retrieving-date-and-time-data) further documents the DateTime class methods listed below. 
+
 - year()
 - month()
 - day()
