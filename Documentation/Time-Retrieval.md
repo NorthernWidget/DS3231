@@ -158,7 +158,7 @@ The "Contemplations", below, further discuss the Century Bit.
  * DS3231 register addressed: 0x06
  */
 
-byte theDate = myRTC.getDate();
+byte theDate = myRTC.getYear();
 ```
 
 ### Contemplations of An Aging Documentarian 
