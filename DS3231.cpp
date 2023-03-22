@@ -40,6 +40,7 @@ Released into the public domain.
 //#include "WProgram.h"
 #include <Arduino.h>
 
+#define UINT32_MAX 4294967295
 
 #define CLOCK_ADDRESS 0x68
 
@@ -184,6 +185,57 @@ DateTime RTClib::now(TwoWire & _Wire) {
   uint16_t y = bcd2bin(_Wire.read()) + 2000;
 
   return DateTime (y, m, d, hh, mm, ss);
+}
+
+//Subtraction returns difference in seconds between 2 DateTimes.
+//This is signed so that you can express situations when the LHS is earlier in time than the RHS.
+long DateTime::operator - (DateTime const &rhs){
+	return this->unixtime() - rhs.unixtime();
+}
+
+//Addition accepts seconds as the RHS, RHS >= 0
+//and returns a new DateTime where RHS is added to LHS.
+//I did not implement addition of negative numbers because that causes underflow with the
+//unixtime uint32_t.
+DateTime DateTime::operator + (uint32_t const &rhs){
+	//guard against overflow. if this->unixtime() + rhs > UINT32_MAX, just return the maximum value
+	if (UINT32_MAX - rhs < this->unixtime()){
+		return UINT32_MAX;
+	} else {
+		//otherwise, perform the addition normally.
+		return DateTime(this->unixtime() + rhs);
+	}
+}
+
+	//Greater-than returns TRUE if the UNIX time of the LHS is strictly greater than the UNIX time of the RHS
+bool DateTime::operator > (DateTime const &rhs){
+	return this->unixtime() > rhs.unixtime();
+}
+	//Less-than returns TRUE if the UNIX time of the LHS is strictly less than the UNIX time of the RHS
+bool DateTime::operator < (DateTime const &rhs){
+	return this->unixtime() < rhs.unixtime();
+}
+	
+	//Comparison checks if the UNIX time matches
+bool DateTime::operator == (DateTime const &rhs){
+	return this->unixtime() == rhs.unixtime();
+}
+
+	//The following operators make use of the operators defined above to extend functionality
+
+	//!= checks if the UNIX time does not match
+bool DateTime::operator != (DateTime const &rhs){
+	return !(*this == rhs);
+}
+
+	//>= returns TRUE if the UNIX time of the LHS is > or is == the UNIX time of the RHS
+bool DateTime::operator >= (DateTime const &rhs){
+	return (*this > rhs || *this == rhs);
+}
+
+	//<= checks if the UNIX time of the LHS is > RHS or is == the UNIX time of the RHS
+bool DateTime::operator <= (DateTime const &rhs){
+	return (*this < rhs || *this == rhs);
 }
 
 ///// ERIC'S ORIGINAL CODE FOLLOWS /////
