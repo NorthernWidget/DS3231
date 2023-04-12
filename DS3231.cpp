@@ -143,6 +143,12 @@ DateTime::DateTime(const char* date, const char* time) {
    sscanf(time, "%hhu:%hhu:%hhu", &hh, &mm, &ss);
 }
 
+// get dayofweek info
+uint8_t DateTime::dayOfTheWeek() const {
+   uint16_t day = date2days(yOff, m, d);
+   return (day + 6) % 7;
+}
+
 // UNIX time: IS CORRECT ONLY WHEN SET TO UTC!!!
 uint32_t DateTime::unixtime(void) const {
   uint32_t t;
@@ -184,6 +190,22 @@ DateTime RTClib::now(TwoWire & _Wire) {
   uint16_t y = bcd2bin(_Wire.read()) + 2000;
 
   return DateTime (y, m, d, hh, mm, ss);
+}
+
+// simple func to adjust the time of DS3231
+void DS3231::adjust(const DateTime& dt)
+{
+  _Wire.beginTransmission(CLOCK_ADDRESS);
+  _Wire.write(0);
+  _Wire.write(decToBcd(dt.second()));
+  _Wire.write(decToBcd(dt.minute()));
+  _Wire.write(decToBcd(dt.hour()));
+  _Wire.write(decToBcd(dowToDS3231(dt.dayOfTheWeek())));
+  _Wire.write(decToBcd(dt.day()));
+  _Wire.write(decToBcd(dt.month()));
+  _Wire.write(decToBcd(dt.year() - 2000));
+  _Wire.write(0);
+  _Wire.endTransmission();
 }
 
 ///// ERIC'S ORIGINAL CODE FOLLOWS /////
@@ -624,6 +646,14 @@ void DS3231::setA2Time(byte A2Day, byte A2Hour, byte A2Minute, byte AlarmBits, b
 	_Wire.write(temp_buffer);
 	// All done!
 	_Wire.endTransmission();
+}
+
+void DS3231::setAlarm1Simple(byte hour, byte minute) {
+	setA1Time(1, hour, minute, 00, 0b00001000, false, false, false);
+}
+
+void DS3231::setAlarm2Simple(byte hour, byte minute) {
+	setA2Time(1, hour, minute, 0b01000000, false, false, false);
 }
 
 void DS3231::turnOnAlarm(byte Alarm) {
