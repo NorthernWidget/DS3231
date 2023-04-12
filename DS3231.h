@@ -97,6 +97,8 @@ class DS3231 {
 		// epoch = UnixTime and starts at 01.01.1970 00:00:00
 		void setEpoch(time_t epoch = 0, bool flag_localtime = false);
 
+		void adjust(const DateTime& dt);
+			// adjust the time by dt info...
 		void setSecond(byte Second);
 			// In addition to setting the seconds, this clears the
 			// "Oscillator Stop Flag".
@@ -158,6 +160,10 @@ class DS3231 {
 			// Set the details for Alarm 1
 		void setA2Time(byte A2Day, byte A2Hour, byte A2Minute, byte AlarmBits, bool A2Dy, bool A2h12, bool A2PM);
 			// Set the details for Alarm 2
+		void setAlarm1Simple(byte hour, byte minute);
+			// A simple hour/minute alarm.
+		void setAlarm2Simple(byte hour, byte minute);
+			// A simple hour/minute alarm.	
 		void turnOnAlarm(byte Alarm);
 			// Enables alarm 1 or 2 and the external interrupt pin.
 			// If Alarm != 1, it assumes Alarm == 2.
