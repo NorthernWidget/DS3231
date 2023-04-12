@@ -201,6 +201,8 @@ class DS3231 {
 
 	private:
 
+		static uint8_t dowToDS3231(uint8_t d) { return d == 0 ? 7 : d; }
+			// Convert dayofweek info to DS3231 format
 		byte decToBcd(byte val);
 			// Convert normal decimal numbers to binary coded decimal
 		byte bcdToDec(byte val);
