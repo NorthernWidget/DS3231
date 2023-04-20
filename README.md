@@ -90,7 +90,7 @@ Several different modules are available from a number of competing vendors. This
 
 DS3231 runs independently and can be kept running for a considerable length of time by a small, backup battery, even if power to the Arduino is turned off.
 
-According to the [datasheet](https://datasheets.maximintegrated.com/en/ds/DS3231-DS3231S.pdf), the DS3231 hardware "completely manages all timekeeping functions (including):
+According to the [datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231.pdf), the DS3231 hardware "completely manages all timekeeping functions (including):
 
 * Seconds, 
 * Minutes, 
