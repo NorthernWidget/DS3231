@@ -13,10 +13,10 @@ struct bits3231 {
   unsigned timeHour10:1; // hour ten digit 0 - 1
   unsigned timeAP20:1;  // 0=am, 1=pm if timeMode12 = 1, else 0 = 0, 1 = 20-hour
   unsigned timeMode12:1; // 1=12-hour mode, 0=24-hour mode
-  unisgned :1; // skip high bit
+  unsigned :1; // skip high bit
   // 03h time day of week
   unsigned timeDay:3; // 1 - 7, user-defined
-  unisgned :5; // skip bits 7:3
+  unsigned :5; // skip bits 7:3
   // 04h time date of month 01 - 31
   unsigned timeDate:4; // date 0 - 9
   unsigned timeDate10:2; // tens 0 - 3
