@@ -52,7 +52,7 @@ public:
     // SETTING YOUR CLOCK TO UTC
     uint32_t unixtime(void) const;
 protected:
-    uint8_t yOff, m, d, hh, mm, ss;
+    uint8_t ss, mm, hh, d, m, yOff;
 };
 
 // Checks if a year is a leap year
