@@ -122,7 +122,7 @@ DateTime::DateTime (uint32_t t) {
 }
 
 DateTime::DateTime (uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t min, uint8_t sec) 
-: ss {sec}, mm {min}, hh = {hour}, d {day}, m {month}
+: ss {sec}, mm {min}, hh {hour}, d {day}, m {month}
 {
     if (year >= 2000) {
         year -= 2000;
