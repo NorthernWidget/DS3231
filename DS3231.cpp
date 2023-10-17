@@ -121,15 +121,13 @@ DateTime::DateTime (uint32_t t) {
     d = days + 1;
 }
 
-DateTime::DateTime (uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t min, uint8_t sec) {
-    if (year >= 2000)
+DateTime::DateTime (uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t min, uint8_t sec) 
+: ss {sec}, mm {min}, hh = {hour}, d {day}, m {month}
+{
+    if (year >= 2000) {
         year -= 2000;
+    }
     yOff = year;
-    m = month;
-    d = day;
-    hh = hour;
-    mm = min;
-    ss = sec;
 }
 
 // supported formats are date "Mmm dd yyyy" and time "hh:mm:ss" (same as __DATE__ and __TIME__)
