@@ -121,15 +121,13 @@ DateTime::DateTime (uint32_t t) {
     d = days + 1;
 }
 
-DateTime::DateTime (uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t min, uint8_t sec) {
-    if (year >= 2000)
+DateTime::DateTime (uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t min, uint8_t sec, uint8_t wday) 
+: ss {sec}, mm {min}, hh {hour}, d {day}, m {month}, wday {wday}
+{
+    if (year >= 2000) {
         year -= 2000;
+    }
     yOff = year;
-    m = month;
-    d = day;
-    hh = hour;
-    mm = min;
-    ss = sec;
 }
 
 // supported formats are date "Mmm dd yyyy" and time "hh:mm:ss" (same as __DATE__ and __TIME__)
@@ -175,15 +173,15 @@ DateTime RTClib::now(TwoWire & _Wire) {
   _Wire.endTransmission();
 
   _Wire.requestFrom(CLOCK_ADDRESS, 7);
-  uint16_t ss = bcd2bin(_Wire.read() & 0x7F);
-  uint16_t mm = bcd2bin(_Wire.read());
-  uint16_t hh = bcd2bin(_Wire.read());
-  _Wire.read();
-  uint16_t d = bcd2bin(_Wire.read());
-  uint16_t m = bcd2bin(_Wire.read());
-  uint16_t y = bcd2bin(_Wire.read()) + 2000;
+  uint8_t ss = bcd2bin(_Wire.read() & 0x7F);
+  uint8_t mm = bcd2bin(_Wire.read());
+  uint8_t hh = bcd2bin(_Wire.read());
+  uint8_t wday = bcd2bin(_Wire.read());
+  uint8_t d = bcd2bin(_Wire.read());
+  uint8_t m = bcd2bin(_Wire.read());
+  uint8_t y = bcd2bin(_Wire.read()) + 2000;
 
-  return DateTime (y, m, d, hh, mm, ss);
+  return DateTime (y, m, d, hh, mm, ss, wday);
 }
 
 ///// ERIC'S ORIGINAL CODE FOLLOWS /////

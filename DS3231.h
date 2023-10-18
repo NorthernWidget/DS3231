@@ -32,17 +32,20 @@
 // Simple general-purpose date/time class (no TZ / DST / leap second handling!)
 class DateTime {
 public:
-    DateTime (uint32_t t =0);
-    DateTime (uint16_t year, uint8_t month, uint8_t day,
-                uint8_t hour =0, uint8_t min =0, uint8_t sec =0);
-    DateTime (const char* date, const char* time);
-    uint16_t year() const       { return 2000 + yOff; }
+    DateTime (uint32_t t = 0);
+    
+		DateTime (uint16_t year, uint8_t month, uint8_t day,
+              uint8_t hour = 0, uint8_t min = 0, uint8_t sec = 0, uint8_t wday = 1);
+    
+		DateTime (const char* date, const char* time);
+    
+		uint16_t year() const       { return 2000 + yOff; }
     uint8_t month() const       { return m; }
     uint8_t day() const         { return d; }
     uint8_t hour() const        { return hh; }
     uint8_t minute() const      { return mm; }
     uint8_t second() const      { return ss; }
-    uint8_t dayOfTheWeek() const;
+    uint8_t dayOfTheWeek() const {return wday;}
 
     // 32-bit times as seconds since 1/1/2000
     long secondstime() const;
@@ -52,7 +55,7 @@ public:
     // SETTING YOUR CLOCK TO UTC
     uint32_t unixtime(void) const;
 protected:
-    uint8_t yOff, m, d, hh, mm, ss;
+    uint8_t ss, mm, hh, d, m, yOff, wday;
 };
 
 // Checks if a year is a leap year
@@ -97,26 +100,26 @@ class DS3231 {
 		// epoch = UnixTime and starts at 01.01.1970 00:00:00
 		void setEpoch(time_t epoch = 0, bool flag_localtime = false);
 
+		// In addition to setting the seconds, this clears the
+		// "Oscillator Stop Flag".
 		void setSecond(byte Second);
-			// In addition to setting the seconds, this clears the
-			// "Oscillator Stop Flag".
+			
+		// Sets the minute
 		void setMinute(byte Minute);
-			// Sets the minute
+		// Sets the hour
 		void setHour(byte Hour);
-			// Sets the hour
+		// Sets the Day of the Week (1-7);
 		void setDoW(byte DoW);
-			// Sets the Day of the Week (1-7);
+		// Sets the Date of the Month
 		void setDate(byte Date);
-			// Sets the Date of the Month
+		// Sets the Month of the year
 		void setMonth(byte Month);
-			// Sets the Month of the year
+		// Last two digits of the year
 		void setYear(byte Year);
-			// Last two digits of the year
+		// Set 12/24h mode. True is 12-h, false is 24-hour.
 		void setClockMode(bool h12);
-			// Set 12/24h mode. True is 12-h, false is 24-hour.
-
+		
 		// Temperature function
-
 		float getTemperature();
 
 		// Alarm functions
