@@ -90,49 +90,42 @@ static long time2long(uint16_t days, uint8_t h, uint8_t m, uint8_t s) {
  * https://github.com/adafruit/RTClib
  ******************************************************************************/
 
-////////////////////////////////////////////////////////////////////////////////
-// DateTime implementation - ignores time zones and DST changes
-// NOTE: also ignores leap seconds, see http://en.wikipedia.org/wiki/Leap_second
-
-DateTime::DateTime (uint32_t t) {
-  t -= SECONDS_FROM_1970_TO_2000;    // bring to 2000 timestamp from 1970
-
-    ss = t % 60;
-    t /= 60;
-    mm = t % 60;
-    t /= 60;
-    hh = t % 24;
-    uint16_t days = t / 24;
-    uint8_t leap;
-    for (yOff = 0; ; ++yOff) {
-        leap = isleapYear((uint16_t) yOff);
-        if (days < (uint16_t)(365 + leap))
-            break;
-        days -= (365 + leap);
-    }
-    for (m = 1; ; ++m) {
-        uint8_t daysPerMonth = pgm_read_byte(daysInMonth + m - 1);
-        if (leap && m == 2)
-            ++daysPerMonth;
-        if (days < daysPerMonth)
-            break;
-        days -= daysPerMonth;
-    }
-    d = days + 1;
+/**
+ * @brief Construct a new Date Time:: Date Time object
+ * 
+ * @param timestamp 
+ */
+DateTime::DateTime (time_t timestamp)
+: _timestamp{timestamp}
+{
+	gmtime_r(&_timestamp, &_tm);
 }
 
-DateTime::DateTime (uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t min, uint8_t sec) {
-    if (year >= 2000)
-        year -= 2000;
-    yOff = year;
-    m = month;
-    d = day;
-    hh = hour;
-    mm = min;
-    ss = sec;
-}
+/**
+ * @brief Construct a new Date Time:: Date Time object
+ * 
+ * @param year 
+ * @param month 
+ * @param day 
+ * @param hour 
+ * @param min 
+ * @param sec 
+ * @param wday 
+ * @param dst 
+ */
+DateTime::DateTime (int year, int month, int day, int hour, int min, int sec,int wday, int dst) 
+: 	_tm.tm_year{year}, _tm.tm_mon{month}, _tm.tm_mday{day},
+	_tm.tm_hour{hour}, _tm.tm_min{min}, _tm.tm_sec{sec},
+	_tm.tm_wday{wday}, _tm.tm_isdst{dst}
+{}
 
 // supported formats are date "Mmm dd yyyy" and time "hh:mm:ss" (same as __DATE__ and __TIME__)
+/*
+ * @brief Construct a new Date Time:: Date Time object
+ * supported formats are date "MM DD YYYY" and time "hh:mm:ss" (same as __DATE__ and __TIME__)
+ * @param date as MM DD YYYY
+ * @param time as hh:mm:ss
+ */
 DateTime::DateTime(const char* date, const char* time) {
    static const char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
    static char buff[4] = {'0','0','0','0'};
@@ -144,66 +137,70 @@ DateTime::DateTime(const char* date, const char* time) {
 }
 
 // UNIX time: IS CORRECT ONLY WHEN SET TO UTC!!!
-uint32_t DateTime::unixtime(void) const {
-  uint32_t t;
+time_t DateTime::unixtime(void) const {
+  time_t t;
   uint16_t days = date2days(yOff, m, d);
   t = time2long(days, hh, mm, ss);
   t += SECONDS_FROM_1970_TO_2000;  // seconds from 1970 to 2000
-
   return t;
 }
 
 // Slightly modified from JeeLabs / Ladyada
 // Get all date/time at once to avoid rollover (e.g., minute/second don't match)
-static uint8_t bcd2bin (uint8_t val) { return val - 6 * (val >> 4); }
 // Commented to avoid compiler warnings, but keeping in case we want this
 // eventually
-//static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
+// static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
+static uint8_t bcd2bin (uint8_t val) {
+	return val - 6 * (val >> 4);
+}
 
 // Sept 2022 changed parameter to uint16_t from uint8_t
 bool isleapYear(const uint16_t y) {
-  if(y&3)//check if divisible by 4
+   //check if divisible by 4
+  if(y&3)
     return false;
   //only check other, when first failed
   return (y % 100 || y % 400 == 0);
 }
 
 DateTime RTClib::now(TwoWire & _Wire) {
-  _Wire.beginTransmission(CLOCK_ADDRESS);
-  _Wire.write(0);	// This is the first register address (Seconds)
-  			// We'll read from here on for 7 bytes: secs reg, minutes reg, hours, days, months and years.
-  _Wire.endTransmission();
+	_Wire.beginTransmission(CLOCK_ADDRESS);
+	_Wire.write(0);	// This is the first register address (Seconds)
+	// We'll read from here on for 7 bytes from registers:
+	// seconds, minutes, hours, day(1...7), date(1...31), month, year.
+	_Wire.endTransmission();
 
-  _Wire.requestFrom(CLOCK_ADDRESS, 7);
-  uint16_t ss = bcd2bin(_Wire.read() & 0x7F);
-  uint16_t mm = bcd2bin(_Wire.read());
-  uint16_t hh = bcd2bin(_Wire.read());
-  _Wire.read();
-  uint16_t d = bcd2bin(_Wire.read());
-  uint16_t m = bcd2bin(_Wire.read());
-  uint16_t y = bcd2bin(_Wire.read()) + 2000;
+	_Wire.requestFrom(CLOCK_ADDRESS, 7);
+	int sec = bcd2bin(_Wire.read() & 0x7F);
+	int min = bcd2bin(_Wire.read());
+	int hour = bcd2bin(_Wire.read());
+	int wday = bcd2bin(_Wire.read());
+	int day = bcd2bin(_Wire.read());
+	int month = bcd2bin(_Wire.read());
+	int year = bcd2bin(_Wire.read()) + 2000;
 
-  return DateTime (y, m, d, hh, mm, ss);
+	// add DST calculation if needed
+	return DateTime (year, month, day, hour, mim, sec, wday);
 }
 
 ///// ERIC'S ORIGINAL CODE FOLLOWS /////
+byte getRegisterValue() {
+	_Wire.requestFrom(CLOCK_ADDRESS, 1);
+	return bcdToDec(_Wire.read());
+}
 
 byte DS3231::getSecond() {
 	_Wire.beginTransmission(CLOCK_ADDRESS);
 	_Wire.write(0x00);
 	_Wire.endTransmission();
-
-	_Wire.requestFrom(CLOCK_ADDRESS, 1);
-	return bcdToDec(_Wire.read());
+	return getRegisterValue();
 }
 
 byte DS3231::getMinute() {
 	_Wire.beginTransmission(CLOCK_ADDRESS);
 	_Wire.write(0x01);
 	_Wire.endTransmission();
-
-	_Wire.requestFrom(CLOCK_ADDRESS, 1);
-	return bcdToDec(_Wire.read());
+	return getRegisterValue();
 }
 
 byte DS3231::getHour(bool& h12, bool& PM_time) {
@@ -219,7 +216,8 @@ byte DS3231::getHour(bool& h12, bool& PM_time) {
 	if (h12) {
 		PM_time = temp_buffer & 0b00100000;
 		hour = bcdToDec(temp_buffer & 0b00011111);
-	} else {
+	}
+	else {
 		hour = bcdToDec(temp_buffer & 0b00111111);
 	}
 	return hour;
@@ -229,18 +227,14 @@ byte DS3231::getDoW() {
 	_Wire.beginTransmission(CLOCK_ADDRESS);
 	_Wire.write(0x03);
 	_Wire.endTransmission();
-
-	_Wire.requestFrom(CLOCK_ADDRESS, 1);
-	return bcdToDec(_Wire.read());
+	return getRegisterValue();
 }
 
 byte DS3231::getDate() {
 	_Wire.beginTransmission(CLOCK_ADDRESS);
 	_Wire.write(0x04);
 	_Wire.endTransmission();
-
-	_Wire.requestFrom(CLOCK_ADDRESS, 1);
-	return bcdToDec(_Wire.read());
+	return getRegisterValue();
 }
 
 byte DS3231::getMonth(bool& Century) {
@@ -259,9 +253,7 @@ byte DS3231::getYear() {
 	_Wire.beginTransmission(CLOCK_ADDRESS);
 	_Wire.write(0x06);
 	_Wire.endTransmission();
-
-	_Wire.requestFrom(CLOCK_ADDRESS, 1);
-	return bcdToDec(_Wire.read());
+	return getRegisterValue();
 }
 
 // setEpoch function gives the epoch as parameter and feeds the RTC

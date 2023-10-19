@@ -28,31 +28,36 @@
 #include <time.h>
 #include <Wire.h>
 
-// DateTime (get everything at once) from JeeLabs / Adafruit
-// Simple general-purpose date/time class (no TZ / DST / leap second handling!)
+// DateTime class restructured by using standardized time functions
 class DateTime {
-public:
-    DateTime (uint32_t t =0);
-    DateTime (uint16_t year, uint8_t month, uint8_t day,
-                uint8_t hour =0, uint8_t min =0, uint8_t sec =0);
-    DateTime (const char* date, const char* time);
-    uint16_t year() const       { return 2000 + yOff; }
-    uint8_t month() const       { return m; }
-    uint8_t day() const         { return d; }
-    uint8_t hour() const        { return hh; }
-    uint8_t minute() const      { return mm; }
-    uint8_t second() const      { return ss; }
-    uint8_t dayOfTheWeek() const;
+	public:
+    	DateTime (time_t timestamp = 0);
+    
+		DateTime (	int year, int month, int mday,
+                	int hour = 0, int min = 0, int sec = 0
+					int wday = 0, int dst = 0);
+    
+		DateTime (const char* date, const char* time);
+    
+		int getYear() const		{ return _tm.tm_year; }
+    	int getMonth() const    { return _tm.tm_mon; }
+    	int getDay() const      { return _tm.tm_mday; }
+    	int getHour() const     { return _tm.tm_hour; }
+    	int getMinute() const   { return _tm.tm_min; }
+    	int getSecond() const   { return _tm.tm_sec; }
+    	int getWeekDay() const	{ return _tm.tm_wday; }
+		int getDST() const 		{ return _tm.tm_isdst; }
 
-    // 32-bit times as seconds since 1/1/2000
-    long secondstime() const;
-    // 32-bit times as seconds since 1/1/1970
-    // THE ABOVE COMMENT IS CORRECT FOR LOCAL TIME; TO USE THIS COMMAND TO
-    // OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
-    // SETTING YOUR CLOCK TO UTC
-    uint32_t unixtime(void) const;
-protected:
-    uint8_t yOff, m, d, hh, mm, ss;
+		// 32-bit times as seconds since 1/1/2000
+		time_t secondstime() const;
+		// 32-bit times as seconds since 1/1/1970
+		// THE ABOVE COMMENT IS CORRECT FOR LOCAL TIME; TO USE THIS COMMAND TO
+		// OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
+		// SETTING YOUR CLOCK TO UTC
+		time_t unixtime(void) const;
+	protected:
+		time_t _timestamp;
+		struct tm _tm;
 };
 
 // Checks if a year is a leap year
