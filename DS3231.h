@@ -31,102 +31,98 @@
 // DateTime class restructured by using standardized time functions
 class DateTime {
 	public:
-    	DateTime (time_t timestamp = 0);
+        DateTime (time_t timestamp = 0);
+		DateTime ( int year, int month, int mday,
+                   int hour = 0, int min = 0, int sec = 0
+				   int wday = 0, int dst = 0);
     
-		DateTime (	int year, int month, int mday,
-                	int hour = 0, int min = 0, int sec = 0
-					int wday = 0, int dst = 0);
+	DateTime (const char* date, const char* time);
     
-		DateTime (const char* date, const char* time);
-    
-		int getYear() const		{ return _tm.tm_year; }
-    	int getMonth() const    { return _tm.tm_mon; }
-    	int getDay() const      { return _tm.tm_mday; }
-    	int getHour() const     { return _tm.tm_hour; }
-    	int getMinute() const   { return _tm.tm_min; }
-    	int getSecond() const   { return _tm.tm_sec; }
-    	int getWeekDay() const	{ return _tm.tm_wday; }
-		int getDST() const 		{ return _tm.tm_isdst; }
+	int getYear() const		{ return _tm.tm_year; }
+    int getMonth() const    { return _tm.tm_mon; }
+    int getDay() const      { return _tm.tm_mday; }
+    int getHour() const     { return _tm.tm_hour; }
+    int getMinute() const   { return _tm.tm_min; }
+    int getSecond() const   { return _tm.tm_sec; }
+    int getWeekDay() const	{ return _tm.tm_wday; }
+	int getDST() const 		{ return _tm.tm_isdst; }
 
-		// 32-bit times as seconds since 1/1/2000
-		time_t secondstime() const;
-		// 32-bit times as seconds since 1/1/1970
-		// THE ABOVE COMMENT IS CORRECT FOR LOCAL TIME; TO USE THIS COMMAND TO
-		// OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
-		// SETTING YOUR CLOCK TO UTC
-		time_t unixtime(void) const;
-	protected:
-		time_t _timestamp;
-		struct tm _tm;
+	// 32-bit times as seconds since 1/1/2000
+	time_t secondstime() const;
+	// 32-bit times as seconds since 1/1/1970
+	// THE ABOVE COMMENT IS CORRECT FOR LOCAL TIME; TO USE THIS COMMAND TO
+	// OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
+	// SETTING YOUR CLOCK TO UTC
+	time_t unixtime(void) const;
+    protected:
+	time_t _timestamp;
+	struct tm _tm;
 };
 
 // Checks if a year is a leap year
 bool isleapYear(const uint16_t);
 
 class RTClib {
-  public:
-		// Get date and time snapshot
-    static DateTime now(TwoWire & _Wire = Wire);
+    public:
+        // Get date and time snapshot
+        static DateTime now(TwoWire & _Wire = Wire);
 };
 
 // Eric's original code is everything below this line
 class DS3231 {
-	public:
+    public:
+	// Constructor
+	DS3231();
+	DS3231(TwoWire & w);
 
-		//Constructor
-		DS3231();
-		DS3231(TwoWire & w);
+	TwoWire & _Wire;
 
-		TwoWire & _Wire;
+	// Time-retrieval functions
 
-		// Time-retrieval functions
+	// the get*() functions retrieve current values of the registers.
+	byte getSecond();
+	byte getMinute();
+	byte getHour(bool& h12, bool& PM_time);
+		// In addition to returning the hour register, this function
+		// returns the values of the 12/24-hour flag and the AM/PM flag.
+	byte getDoW();
+	byte getDate();
+	byte getMonth(bool& Century);
+		// Also sets the flag indicating century roll-over.
+	byte getYear();
+		// Last 2 digits only
 
-		// the get*() functions retrieve current values of the registers.
-		byte getSecond();
-		byte getMinute();
-		byte getHour(bool& h12, bool& PM_time);
-			// In addition to returning the hour register, this function
-			// returns the values of the 12/24-hour flag and the AM/PM flag.
-		byte getDoW();
-		byte getDate();
-		byte getMonth(bool& Century);
-			// Also sets the flag indicating century roll-over.
-		byte getYear();
-			// Last 2 digits only
+	// Time-setting functions
+	// Note that none of these check for sensibility: You can set the
+	// date to July 42nd and strange things will probably result.
 
-		// Time-setting functions
-		// Note that none of these check for sensibility: You can set the
-		// date to July 42nd and strange things will probably result.
+	// set epoch function gives the epoch as parameter and feeds the RTC
+	// epoch = UnixTime and starts at 01.01.1970 00:00:00
+	void setEpoch(time_t epoch = 0, bool flag_localtime = false);
 
-		// set epoch function gives the epoch as parameter and feeds the RTC
-		// epoch = UnixTime and starts at 01.01.1970 00:00:00
-		void setEpoch(time_t epoch = 0, bool flag_localtime = false);
+	void setSecond(byte Second);
+		// In addition to setting the seconds, this clears the
+		// "Oscillator Stop Flag".
+	void setMinute(byte Minute);
+		// Sets the minute
+	void setHour(byte Hour);
+		// Sets the hour
+	void setDoW(byte DoW);
+		// Sets the Day of the Week (1-7);
+	void setDate(byte Date);
+		// Sets the Date of the Month
+	void setMonth(byte Month);
+		// Sets the Month of the year
+	void setYear(byte Year);
+		// Last two digits of the year
+	void setClockMode(bool h12);
+		// Set 12/24h mode. True is 12-h, false is 24-hour.
 
-		void setSecond(byte Second);
-			// In addition to setting the seconds, this clears the
-			// "Oscillator Stop Flag".
-		void setMinute(byte Minute);
-			// Sets the minute
-		void setHour(byte Hour);
-			// Sets the hour
-		void setDoW(byte DoW);
-			// Sets the Day of the Week (1-7);
-		void setDate(byte Date);
-			// Sets the Date of the Month
-		void setMonth(byte Month);
-			// Sets the Month of the year
-		void setYear(byte Year);
-			// Last two digits of the year
-		void setClockMode(bool h12);
-			// Set 12/24h mode. True is 12-h, false is 24-hour.
+	// Temperature function
+	float getTemperature();
 
-		// Temperature function
-
-		float getTemperature();
-
-		// Alarm functions
-
-		void getA1Time(byte& A1Day, byte& A1Hour, byte& A1Minute, byte& A1Second, byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM);
+	// Alarm functions
+	void getA1Time(byte& A1Day, byte& A1Hour, byte& A1Minute, byte& A1Second, byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM);
 /* Retrieves everything you could want to know about alarm
  * one.
  * A1Dy true makes the alarm go on A1Day = Day of Week,
@@ -153,50 +149,50 @@ class DS3231 {
  *	Use the flag bool clearAlarmBits=True to explicitly clear byte AlarmBits on
  *  call to getAXTime.
  */
-		void getA2Time(byte& A2Day, byte& A2Hour, byte& A2Minute, byte& AlarmBits, bool& A2Dy, bool& A2h12, bool& A2PM);
-			// Same as getA1Time();, but A2 only goes on seconds == 00.
-		void getA1Time(byte& A1Day, byte& A1Hour, byte& A1Minute, byte& A1Second, byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM, bool clearAlarmBits);
-			// Same as getA1Time();, but clears byte AlarmBits.
-		void getA2Time(byte& A1Day, byte& A1Hour, byte& A1Minute,byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM, bool clearAlarmBits);
-			// Same as getA1Time();, but clears byte AlarmBits.
-		void setA1Time(byte A1Day, byte A1Hour, byte A1Minute, byte A1Second, byte AlarmBits, bool A1Dy, bool A1h12, bool A1PM);
-			// Set the details for Alarm 1
-		void setA2Time(byte A2Day, byte A2Hour, byte A2Minute, byte AlarmBits, bool A2Dy, bool A2h12, bool A2PM);
-			// Set the details for Alarm 2
-		void turnOnAlarm(byte Alarm);
-			// Enables alarm 1 or 2 and the external interrupt pin.
-			// If Alarm != 1, it assumes Alarm == 2.
-		void turnOffAlarm(byte Alarm);
-			// Disables alarm 1 or 2 (default is 2 if Alarm != 1);
-			// and leaves the interrupt pin alone.
-		bool checkAlarmEnabled(byte Alarm);
-			// Returns T/F to indicate whether the requested alarm is
-			// enabled. Defaults to 2 if Alarm != 1.
-		bool checkIfAlarm(byte Alarm);
-			// Checks whether the indicated alarm (1 or 2, 2 default);
-			// has been activated. Always clears flag.
-		bool checkIfAlarm(byte Alarm, bool clearflag);
-			// Checks whether the indicated alarm (1 or 2, 2 default);
-			// has been activated. IF clearflag is set, clears alarm flag.
+	void getA2Time(byte& A2Day, byte& A2Hour, byte& A2Minute, byte& AlarmBits, bool& A2Dy, bool& A2h12, bool& A2PM);
+		// Same as getA1Time();, but A2 only goes on seconds == 00.
+	void getA1Time(byte& A1Day, byte& A1Hour, byte& A1Minute, byte& A1Second, byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM, bool clearAlarmBits);
+		// Same as getA1Time();, but clears byte AlarmBits.
+	void getA2Time(byte& A1Day, byte& A1Hour, byte& A1Minute,byte& AlarmBits, bool& A1Dy, bool& A1h12, bool& A1PM, bool clearAlarmBits);
+		// Same as getA1Time();, but clears byte AlarmBits.
+	void setA1Time(byte A1Day, byte A1Hour, byte A1Minute, byte A1Second, byte AlarmBits, bool A1Dy, bool A1h12, bool A1PM);
+		// Set the details for Alarm 1
+	void setA2Time(byte A2Day, byte A2Hour, byte A2Minute, byte AlarmBits, bool A2Dy, bool A2h12, bool A2PM);
+		// Set the details for Alarm 2
+	void turnOnAlarm(byte Alarm);
+		// Enables alarm 1 or 2 and the external interrupt pin.
+		// If Alarm != 1, it assumes Alarm == 2.
+	void turnOffAlarm(byte Alarm);
+		// Disables alarm 1 or 2 (default is 2 if Alarm != 1);
+		// and leaves the interrupt pin alone.
+	bool checkAlarmEnabled(byte Alarm);
+		// Returns T/F to indicate whether the requested alarm is
+		// enabled. Defaults to 2 if Alarm != 1.
+	bool checkIfAlarm(byte Alarm);
+		// Checks whether the indicated alarm (1 or 2, 2 default);
+		// has been activated. Always clears flag.
+	bool checkIfAlarm(byte Alarm, bool clearflag);
+		// Checks whether the indicated alarm (1 or 2, 2 default);
+		// has been activated. IF clearflag is set, clears alarm flag.
 
-		// Oscillator functions
+	// Oscillator functions
 
-		void enableOscillator(bool TF, bool battery, byte frequency);
-			// turns oscillator on or off. True is on, false is off.
-			// if battery is true, turns on even for battery-only operation,
-			// otherwise turns off if Vcc is off.
-			// frequency must be 0, 1, 2, or 3.
-			// 0 = 1 Hz
-			// 1 = 1.024 kHz
-			// 2 = 4.096 kHz
-			// 3 = 8.192 kHz (Default if frequency byte is out of range);
-		void enable32kHz(bool TF);
-			// Turns the 32kHz output pin on (true); or off (false).
-		bool oscillatorCheck();;
-			// Checks the status of the OSF (Oscillator Stop Flag);.
-			// If this returns false, then the clock is probably not
-			// giving you the correct time.
-			// The OSF is cleared by function setSecond();.
+	void enableOscillator(bool TF, bool battery, byte frequency);
+		// turns oscillator on or off. True is on, false is off.
+		// if battery is true, turns on even for battery-only operation,
+		// otherwise turns off if Vcc is off.
+		// frequency must be 0, 1, 2, or 3.
+		// 0 = 1 Hz
+		// 1 = 1.024 kHz
+		// 2 = 4.096 kHz
+		// 3 = 8.192 kHz (Default if frequency byte is out of range);
+	void enable32kHz(bool TF);
+		// Turns the 32kHz output pin on (true); or off (false).
+	bool oscillatorCheck();;
+		// Checks the status of the OSF (Oscillator Stop Flag);.
+		// If this returns false, then the clock is probably not
+		// giving you the correct time.
+		// The OSF is cleared by function setSecond();.
 
 	private:
 
@@ -212,7 +208,5 @@ class DS3231 {
 		void writeControlByte(byte control, bool which);
 			// Write the selected control byte.
 			// which == false -> 0x0e, true->0x0f.
-
 };
-
 #endif
