@@ -62,8 +62,8 @@ DateTime::DateTime (time_t unix_timestamp)
  * @param wday 
  * @param dst 
  */
-DateTime::DateTime (int year, int month, int day, int hour, int min, int sec, int wday, int dst)
-: _tm{year, month, day, hour, min, sec, wday, dst}
+DateTime::DateTime (int year, int month, int day, int hour, int min, int sec, int wday, int yday, int dst)
+: _tm {sec, min, hour, day, month, year, wday, yday, dst}
 {}
 
 /**
@@ -97,7 +97,8 @@ static uint8_t bcd2bin (uint8_t val) {
 
 DateTime RTClib::now(TwoWire & _Wire) {
 	_Wire.beginTransmission(CLOCK_ADDRESS);
-	_Wire.write(0);	// This is the first register address (Seconds)
+	// This is the first register address (Seconds)
+    _Wire.write(0);
 	// We'll read from here on for 7 bytes from registers:
 	// seconds, minutes, hours, day(1...7), date(1...31), month, year.
 	_Wire.endTransmission();
@@ -106,12 +107,12 @@ DateTime RTClib::now(TwoWire & _Wire) {
 	int sec = bcd2bin(_Wire.read() & 0x7F);
 	int min = bcd2bin(_Wire.read());
 	int hour = bcd2bin(_Wire.read());
-	int wday = bcd2bin(_Wire.read());
+	int wday = bcd2bin(_Wire.read())-1;
 	int day = bcd2bin(_Wire.read());
 	int month = bcd2bin(_Wire.read());
 	int year = bcd2bin(_Wire.read()) + 2000;
 
-	// add DST calculation if needed
+	// add yday and DST calculation if needed
 	return DateTime{year, month, day, hour, min, sec, wday};
 }
 

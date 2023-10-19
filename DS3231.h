@@ -48,7 +48,7 @@ class DateTime {
 
 		DateTime ( 	int year, int month, int mday,
               	    int hour = 0, int min = 0, int sec = 0,
-				   	int wday = 0, int dst = 0);
+				   	int wday = 0, int yday = 0, int dst = 0);
     
         DateTime (const char *date, const char *time);
         
@@ -98,7 +98,7 @@ class DS3231 {
             _Wire.requestFrom(CLOCK_ADDRESS, 1);
 	        return bcdToDec(_Wire.read());
         }
-        
+
         byte getSecond();
         byte getMinute();
 
@@ -249,7 +249,6 @@ class DS3231 {
 		
         // Write the selected control byte.
 		// which == false -> 0x0e, true->0x0f.
-		void writeControlByte(byte control, bool which);
-			
+		void writeControlByte(byte control, bool which);		
 };
 #endif
