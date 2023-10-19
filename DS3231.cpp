@@ -43,8 +43,15 @@ Released into the public domain.
 
 #define CLOCK_ADDRESS 0x68
 
-#define SECONDS_FROM_1970_TO_2000 946684800
+// SECONDS_FROM_1970_TO_2000
+// Difference between the Y2K and the UNIX epochs, in seconds.
+// To convert a Y2K timestamp to UNIX... 
+#define UNIX_OFFSET 946684800
 
+// SECONDS_FROM_1900_TO_2000
+// Difference between the Y2K and the NTP epochs, in seconds.
+// To convert a Y2K timestamp to NTP... 
+#define NTP_OFFSET 3155673600
 
 // Constructor
 DS3231::DS3231() : _Wire(Wire) {
@@ -137,11 +144,12 @@ DateTime::DateTime(const char* date, const char* time) {
 }
 
 // UNIX time: IS CORRECT ONLY WHEN SET TO UTC!!!
+// UNIX epoch: in ISO 8601 1970-01-01T00:00:00Z
 time_t DateTime::unixtime(void) const {
   time_t t;
   uint16_t days = date2days(yOff, m, d);
   t = time2long(days, hh, mm, ss);
-  t += SECONDS_FROM_1970_TO_2000;  // seconds from 1970 to 2000
+  t += UNIX_OFFSET;
   return t;
 }
 
@@ -261,7 +269,7 @@ byte DS3231::getYear() {
 // HINT: => the AVR time.h Lib is based on the year 2000
 void DS3231::setEpoch(time_t epoch, bool flag_localtime) {
 #if defined (__AVR__)
-	epoch -= SECONDS_FROM_1970_TO_2000;
+	epoch -= UNIX_OFFSET;
 #endif
 	struct tm tmnow;
 	if (flag_localtime) {
