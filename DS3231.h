@@ -31,32 +31,35 @@
 // DateTime class restructured by using standardized time functions
 class DateTime {
 	public:
-        DateTime (time_t timestamp = 0);
+        DateTime (time_t unix_timestamp = 0);
 		DateTime ( int year, int month, int mday,
                    int hour = 0, int min = 0, int sec = 0,
 				   int wday = 0, int dst = 0);
     
-	DateTime (const char* date, const char* time);
-    
-	int getYear() const		{ return _tm.tm_year; }
-    int getMonth() const    { return _tm.tm_mon; }
-    int getDay() const      { return _tm.tm_mday; }
-    int getHour() const     { return _tm.tm_hour; }
-    int getMinute() const   { return _tm.tm_min; }
-    int getSecond() const   { return _tm.tm_sec; }
-    int getWeekDay() const	{ return _tm.tm_wday; }
-	int getDST() const 		{ return _tm.tm_isdst; }
+        DateTime (const char *date, const char *time);
+        
+        int getYear() const		{ return _tm.tm_year; }
+        int getMonth() const    { return _tm.tm_mon; }
+        int getDay() const      { return _tm.tm_mday; }
+        int getHour() const     { return _tm.tm_hour; }
+        int getMinute() const   { return _tm.tm_min; }
+        int getSecond() const   { return _tm.tm_sec; }
+        int getWeekDay() const	{ return _tm.tm_wday; }
+        int getDST() const 		{ return _tm.tm_isdst; }
 
-	// 32-bit times as seconds since 1/1/2000
-	time_t secondstime() const;
-	// 32-bit times as seconds since 1/1/1970
-	// THE ABOVE COMMENT IS CORRECT FOR LOCAL TIME; TO USE THIS COMMAND TO
-	// OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
-	// SETTING YOUR CLOCK TO UTC
-	time_t unixtime(void) const;
+        // 32-bit times as seconds since 1/1/2000
+        time_t secondstime() const;
+        
+        // time_t value as seconds since 1/1/1970
+        // THE ABOVE COMMENT IS CORRECT FOR LOCAL TIME; TO USE THIS COMMAND TO
+        // OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
+        // SETTING YOUR CLOCK TO UTC
+        time_t getUnixtime(void) const  { return _unix_timestamp; };
+    
     protected:
-	time_t _timestamp;
-	struct tm _tm;
+	    time_t _unix_timestamp;
+        time_t _y2k_timestamp;
+	    struct tm _tm;
 };
 
 // Checks if a year is a leap year

@@ -102,10 +102,10 @@ static long time2long(uint16_t days, uint8_t h, uint8_t m, uint8_t s) {
  * 
  * @param timestamp 
  */
-DateTime::DateTime (time_t timestamp)
-: _timestamp{timestamp}
+DateTime::DateTime (time_t unix_timestamp)
+: _unix_timestamp{unix_timestamp}, _y2k_timestamp{unix_timestamp - UNIX_OFFSET}
 {
-	gmtime_r(&_timestamp, &_tm);
+	gmtime_r(&_unix_timestamp, &_tm);
 }
 
 /**
@@ -121,36 +121,30 @@ DateTime::DateTime (time_t timestamp)
  * @param dst 
  */
 DateTime::DateTime (int year, int month, int day, int hour, int min, int sec, int wday, int dst) 
-: 	_tm.tm_year{year}, _tm.tm_mon{month}, _tm.tm_mday{day},
-	_tm.tm_hour{hour}, _tm.tm_min{min}, _tm.tm_sec{sec},
-	_tm.tm_wday{wday}, _tm.tm_isdst{dst}
+: _tm.tm_year{year}, _tm.tm_mon{month}, _tm.tm_mday{day},
+  _tm.tm_hour{hour}, _tm.tm_min{min}, _tm.tm_sec{sec},
+  _tm.tm_wday{wday}, _tm.tm_isdst{dst}
 {}
 
-// supported formats are date "Mmm dd yyyy" and time "hh:mm:ss" (same as __DATE__ and __TIME__)
-/*
- * @brief Construct a new Date Time:: Date Time object
- * supported formats are date "MM DD YYYY" and time "hh:mm:ss" (same as __DATE__ and __TIME__)
- * @param date as MM DD YYYY
- * @param time as hh:mm:ss
+/**
+ * @brief Construct a new Date Time:: Date Time object by givin the precompiler marcos
+ * as __DATE__ and __TIME__
+ * 
+ * @param date as  Mmm dd yyyy (e.g. "Jan 14 2012")
+ * @param time as HH:MM:SS (e.g. "23:59:01")
  */
-DateTime::DateTime(const char* date, const char* time) {
-   static const char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
-   static char buff[4] = {'0','0','0','0'};
-   int y;
-   sscanf(date, "%s %hhu %d", buff, &d, &y);
-   yOff = y >= 2000 ? y - 2000 : y;
-   m = (strstr(month_names, buff) - month_names) / 3 + 1;
-   sscanf(time, "%hhu:%hhu:%hhu", &hh, &mm, &ss);
-}
+DateTime::DateTime(const char *date, const char *time) {
+   // => use strptime...
+   //__DATE__ is a preprocessor macro that expands to current date 
+   // (at compile time) in the form mmm dd yyyy (e.g. "Jan 14 2012"), as a string
+   // strptime(""Jan 14 2012 18:31:01", "%m %d %Y %H:%M:%S", &_tm);
+   char buffer[20U];
+   strcat(buffer, date);
+   strcat(buffer, " ");
+   strcat(buffer, time);
 
-// UNIX time: IS CORRECT ONLY WHEN SET TO UTC!!!
-// UNIX epoch: in ISO 8601 1970-01-01T00:00:00Z
-time_t DateTime::unixtime(void) const {
-  time_t t;
-  uint16_t days = date2days(yOff, m, d);
-  t = time2long(days, hh, mm, ss);
-  t += UNIX_OFFSET;
-  return t;
+   // fill struct tm
+   strptime(buffer, "%m %d %Y %H:%M:%S", &_tm);
 }
 
 // Slightly modified from JeeLabs / Ladyada
