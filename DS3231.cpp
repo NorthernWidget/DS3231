@@ -1,30 +1,5 @@
 /*
-DS3231.cpp: DS3231 Real-Time Clock library
-Eric Ayars
-4/1/11
-
-Spliced in DateTime all-at-once reading (to avoid rollover) and unix time
-from Jean-Claude Wippler and Limor Fried
-Andy Wickert
-5/15/11
-
-Fixed problem with SD processors(no function call) by replacing all occurences of the term PM, which
-is defined as a macro on SAMD controllers by PM_time.
-Simon Gassner
-11/28/2017
-
-Fixed setting 12-hour clock in setHour function so that 12:xx AM is not stored as 00:xx and corrected
-the setting of the PM flag for 12:xx PM.  These address certain DS3231 errors in properly setting the
-AM/PM (bit 5) flag in the 02h register when passing from AM to PM and PM to AM.
-David Merrifield
-04/14/2020
-
-Changed parameter to uint16_t in isleapYear() because the function performs 16-bit arithmetic
-at (y % 400) and because date2days() calls it with a uint16_t parameter. Grouped and typecast certain parameters and intermediate results in the constructor DateTime::DateTime (uint32_t t) to resolve a couple of non-fatal compiler warnings.
-David Sparks
-08 Sept 2022
-
-Released into the public domain.
+    DS3231.cpp: DS3231 Real-Time Clock library
 */
 
 #include "DS3231.h"
@@ -36,54 +11,21 @@ Released into the public domain.
 #elif defined(ESP8266)
 #include <pgmspace.h>
 #endif
-// Changed the following to work on 1.0
-//#include "WProgram.h"
-#include <Arduino.h>
 
-
-#define CLOCK_ADDRESS 0x68
-
-// SECONDS_FROM_1970_TO_2000
-// Difference between the Y2K and the UNIX epochs, in seconds.
-// To convert a Y2K timestamp to UNIX... 
-#define UNIX_OFFSET 946684800
-
-// SECONDS_FROM_1900_TO_2000
-// Difference between the Y2K and the NTP epochs, in seconds.
-// To convert a Y2K timestamp to NTP... 
-#define NTP_OFFSET 3155673600
-
-// Constructor
+/**
+ * @brief Construct a new DS3231::DS3231 object
+ * 
+ */
 DS3231::DS3231() : _Wire(Wire) {
 	// nothing to do for this constructor.
 }
 
-DS3231::DS3231(TwoWire & w) : _Wire(w) {
-}
-
-// Utilities from JeeLabs/Ladyada
-
-////////////////////////////////////////////////////////////////////////////////
-// utility code, some of this could be exposed in the DateTime API if needed
-
-// DS3231 is smart enough to know this, but keeping it for now so I don't have
-// to rewrite their code. -ADW
-static const uint8_t daysInMonth [] PROGMEM = { 31,28,31,30,31,30,31,31,30,31,30,31 };
-
-// number of days since 2000/01/01, valid for 2001..2099
-static uint16_t date2days(uint16_t y, uint8_t m, uint8_t d) {
-    if (y >= 2000)
-        y -= 2000;
-    uint16_t days = d;
-    for (uint8_t i = 1; i < m; ++i)
-        days += pgm_read_byte(daysInMonth + i - 1);
-    if (m > 2 && isleapYear(y))
-        ++days;
-    return days + 365 * y + (y + 3) / 4 - 1;
-}
-
-static long time2long(uint16_t days, uint8_t h, uint8_t m, uint8_t s) {
-    return ((days * 24L + h) * 60 + m) * 60 + s;
+/**
+ * @brief Construct a new DS3231::DS3231 object
+ * 
+ * @param w reference of twoWire
+ */
+DS3231::DS3231(TwoWire &twowire) : _Wire(twowire) {
 }
 
 /*****************************************
@@ -120,10 +62,8 @@ DateTime::DateTime (time_t unix_timestamp)
  * @param wday 
  * @param dst 
  */
-DateTime::DateTime (int year, int month, int day, int hour, int min, int sec, int wday, int dst) 
-: _tm.tm_year{year}, _tm.tm_mon{month}, _tm.tm_mday{day},
-  _tm.tm_hour{hour}, _tm.tm_min{min}, _tm.tm_sec{sec},
-  _tm.tm_wday{wday}, _tm.tm_isdst{dst}
+DateTime::DateTime (int year, int month, int day, int hour, int min, int sec, int wday, int dst)
+: _tm{year, month, day, hour, min, sec, wday, dst}
 {}
 
 /**
@@ -142,7 +82,6 @@ DateTime::DateTime(const char *date, const char *time) {
    strcat(buffer, date);
    strcat(buffer, " ");
    strcat(buffer, time);
-
    // fill struct tm
    strptime(buffer, "%m %d %Y %H:%M:%S", &_tm);
 }
@@ -154,15 +93,6 @@ DateTime::DateTime(const char *date, const char *time) {
 // static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
 static uint8_t bcd2bin (uint8_t val) {
 	return val - 6 * (val >> 4);
-}
-
-// Sept 2022 changed parameter to uint16_t from uint8_t
-bool isleapYear(const uint16_t y) {
-   //check if divisible by 4
-  if(y&3)
-    return false;
-  //only check other, when first failed
-  return (y % 100 || y % 400 == 0);
 }
 
 DateTime RTClib::now(TwoWire & _Wire) {
@@ -182,13 +112,7 @@ DateTime RTClib::now(TwoWire & _Wire) {
 	int year = bcd2bin(_Wire.read()) + 2000;
 
 	// add DST calculation if needed
-	return DateTime (year, month, day, hour, mim, sec, wday);
-}
-
-///// ERIC'S ORIGINAL CODE FOLLOWS /////
-byte getRegisterValue() {
-	_Wire.requestFrom(CLOCK_ADDRESS, 1);
-	return bcdToDec(_Wire.read());
+	return DateTime{year, month, day, hour, min, sec, wday};
 }
 
 byte DS3231::getSecond() {
