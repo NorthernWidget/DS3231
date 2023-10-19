@@ -120,7 +120,7 @@ DateTime::DateTime (time_t timestamp)
  * @param wday 
  * @param dst 
  */
-DateTime::DateTime (int year, int month, int day, int hour, int min, int sec,int wday, int dst) 
+DateTime::DateTime (int year, int month, int day, int hour, int min, int sec, int wday, int dst) 
 : 	_tm.tm_year{year}, _tm.tm_mon{month}, _tm.tm_mday{day},
 	_tm.tm_hour{hour}, _tm.tm_min{min}, _tm.tm_sec{sec},
 	_tm.tm_wday{wday}, _tm.tm_isdst{dst}
