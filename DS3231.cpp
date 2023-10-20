@@ -53,18 +53,21 @@ DateTime::DateTime (time_t unix_timestamp)
 /**
  * @brief Construct a new Date Time:: Date Time object
  * 
- * @param year 
- * @param month 
- * @param day 
- * @param hour 
- * @param min 
- * @param sec 
- * @param wday 
- * @param dst 
+ * @param year 20xx
+ * @param month 1...12
+ * @param day 1...31
+ * @param hour 0...23
+ * @param min 0...59
+ * @param sec 0...59
+ * @param wday 0...6
+ * @param dst bool
  */
-DateTime::DateTime (int year, int month, int day, int hour, int min, int sec, int wday, int yday, int dst)
-: _tm {sec, min, hour, day, month, year, wday, yday, dst}
-{}
+DateTime::DateTime(int year, int month, int day, int hour, int min, int sec, int wday, int yday, int dst)
+: _tm {sec, min, hour, day, month-1, year-1900, wday, yday, dst}
+{
+    _unix_timestamp = mktime(&_tm);
+    _y2k_timestamp = _unix_timestamp - UNIX_OFFSET;
+}
 
 /**
  * @brief Construct a new Date Time:: Date Time object by givin the precompiler marcos
@@ -111,9 +114,12 @@ DateTime RTClib::now(TwoWire & _Wire) {
 	int day = bcd2bin(_Wire.read());
 	int month = bcd2bin(_Wire.read());
 	int year = bcd2bin(_Wire.read()) + 2000;
+    int yday = 0;
+    int dst = 0;
 
 	// add yday and DST calculation if needed
-	return DateTime{year, month, day, hour, min, sec, wday};
+    // use the complete set also yday and dst to keep in mind the parameters
+	return DateTime{year, month, day, hour, min, sec, wday, yday, dst};
 }
 
 byte DS3231::getSecond() {

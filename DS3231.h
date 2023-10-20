@@ -27,18 +27,18 @@
 // SECONDS_FROM_1970_TO_2000
 // Difference between the Y2K and the UNIX epochs, in seconds.
 // To convert a Y2K timestamp to UNIX... 
-#define UNIX_OFFSET 946684800
+#define UNIX_OFFSET 946684800UL
 
 // SECONDS_FROM_1900_TO_2000
 // Difference between the Y2K and the NTP epochs, in seconds.
 // To convert a Y2K timestamp to NTP... 
-#define NTP_OFFSET 3155673600
+#define NTP_OFFSET 3155673600UL
 
 // Utilities from JeeLabs/Ladyada
 // utility code, some of this could be exposed in the DateTime API if needed
 // DS3231 is smart enough to know this, but keeping it for now so I don't have
 // to rewrite their code. -ADW
-static const uint8_t daysInMonth [] PROGMEM = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+static const uint8_t daysInMonth [] PROGMEM = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 
 // DateTime class restructured by using standardized time functions
@@ -52,8 +52,8 @@ class DateTime {
     
         DateTime (const char *date, const char *time);
         
-		int getYear()   const	{ return _tm.tm_year; }
-		int getMonth()  const   { return _tm.tm_mon; }
+		int getYear()   const	{ return _tm.tm_year + 1900; }
+		int getMonth()  const   { return _tm.tm_mon + 1; }
 		int getDay()    const   { return _tm.tm_mday; }
 		int getHour()   const   { return _tm.tm_hour; }
 		int getMinute() const   { return _tm.tm_min; }
@@ -112,7 +112,7 @@ class DS3231 {
         // Also sets the flag indicating century roll-over.
         byte getMonth(bool& Century);
             
-        // Last 2 digits only
+        // Last 2 digits only e.g. 2023 => 23
         byte getYear();
             
 
