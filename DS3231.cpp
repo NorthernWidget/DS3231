@@ -53,21 +53,36 @@ DateTime::DateTime (time_t unix_timestamp)
 /**
  * @brief Construct a new Date Time:: Date Time object
  * 
- * @param year 20xx
- * @param month 1...12
- * @param day 1...31
- * @param hour 0...23
- * @param min 0...59
- * @param sec 0...59
- * @param wday 0...6
- * @param dst bool
+ * @param year year e.g. 2022
+ * @param month months since January - [ 1...12 ]
+ * @param day day of the month - [ 1...31 ]
+ * @param hour hours since midnight - [ 0...23 ]
+ * @param min inutes after the hour - [ 0...59 ]
+ * @param sec seconds after the minute - [ 0...59 ]
+ * @param wday wdays since Sunday - [ 1...7 ]
+ * @param dst Daylight Saving Time flag
  */
-DateTime::DateTime(int year, int month, int day, int hour, int min, int sec, int wday, int yday, int dst)
-: _tm {sec, min, hour, day, month-1, year-1900, wday, yday, dst}
+DateTime::DateTime(int16_t year, int8_t month, int8_t day, int8_t hour, int8_t min, int8_t sec, int8_t wday, int16_t yday, int16_t dst)
 {
+    _tm.tm_sec = sec;
+    _tm.tm_min = min;
+    _tm.tm_hour = hour;
+    _tm.tm_mday = day;
+    _tm.tm_mon = month-1;
+    _tm.tm_year = year-1900;
+    _tm.tm_yday = yday;
+    _tm.tm_wday = wday-1;
+    _tm.tm_isdst = dst;
+
+#if defined (__AVR__)
+    _y2k_timestamp = mktime(&_tm);
+    _unix_timestamp = _y2k_timestamp + UNIX_OFFSET;
+#else
     _unix_timestamp = mktime(&_tm);
     _y2k_timestamp = _unix_timestamp - UNIX_OFFSET;
+#endif
 }
+
 
 /**
  * @brief Construct a new Date Time:: Date Time object by givin the precompiler marcos
@@ -86,7 +101,7 @@ DateTime::DateTime(const char *date, const char *time) {
    strcat(buffer, " ");
    strcat(buffer, time);
    // fill struct tm
-   strptime(buffer, "%m %d %Y %H:%M:%S", &_tm);
+   //strptime(buffer, "%m %d %Y %H:%M:%S", &_tm);
 }
 
 // Slightly modified from JeeLabs / Ladyada
@@ -107,15 +122,15 @@ DateTime RTClib::now(TwoWire & _Wire) {
 	_Wire.endTransmission();
 
 	_Wire.requestFrom(CLOCK_ADDRESS, 7);
-	int sec = bcd2bin(_Wire.read() & 0x7F);
-	int min = bcd2bin(_Wire.read());
-	int hour = bcd2bin(_Wire.read());
-	int wday = bcd2bin(_Wire.read())-1;
-	int day = bcd2bin(_Wire.read());
-	int month = bcd2bin(_Wire.read());
-	int year = bcd2bin(_Wire.read()) + 2000;
-    int yday = 0;
-    int dst = 0;
+	int8_t sec = bcd2bin(_Wire.read() & 0x7F);
+	int8_t min = bcd2bin(_Wire.read());
+	int8_t hour = bcd2bin(_Wire.read());
+	int8_t wday = bcd2bin(_Wire.read())-1;
+	int8_t day = bcd2bin(_Wire.read());
+	int8_t month = bcd2bin(_Wire.read());
+	int16_t year = bcd2bin(_Wire.read()) + 2000;
+    int16_t yday = 0;
+    int16_t dst = 0;
 
 	// add yday and DST calculation if needed
     // use the complete set also yday and dst to keep in mind the parameters

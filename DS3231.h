@@ -24,6 +24,7 @@
 
 #define CLOCK_ADDRESS 0x68
 
+#if defined (ESP8266) || defined(ESP32)
 // SECONDS_FROM_1970_TO_2000
 // Difference between the Y2K and the UNIX epochs, in seconds.
 // To convert a Y2K timestamp to UNIX... 
@@ -33,6 +34,7 @@
 // Difference between the Y2K and the NTP epochs, in seconds.
 // To convert a Y2K timestamp to NTP... 
 #define NTP_OFFSET 3155673600UL
+#endif
 
 // Utilities from JeeLabs/Ladyada
 // utility code, some of this could be exposed in the DateTime API if needed
@@ -46,20 +48,20 @@ class DateTime {
 	public:
         DateTime (time_t unix_timestamp = 0);
 
-		DateTime ( 	int year, int month, int mday,
-              	    int hour = 0, int min = 0, int sec = 0,
-				   	int wday = 0, int yday = 0, int dst = 0);
+		DateTime ( 	int16_t year, int8_t month, int8_t mday,
+              	    int8_t hour = 0, int8_t min = 0, int8_t sec = 0,
+				   	int8_t wday = 0, int16_t yday = 0, int16_t dst = 0);
     
         DateTime (const char *date, const char *time);
         
-		int getYear()   const	{ return _tm.tm_year + 1900; }
-		int getMonth()  const   { return _tm.tm_mon + 1; }
-		int getDay()    const   { return _tm.tm_mday; }
-		int getHour()   const   { return _tm.tm_hour; }
-		int getMinute() const   { return _tm.tm_min; }
-		int getSecond() const   { return _tm.tm_sec; }
-		int getWeekDay() const	{ return _tm.tm_wday; }
-		int getDST()    const   { return _tm.tm_isdst; }
+		int16_t getYear()   const	{ return _tm.tm_year + 1900; }
+		int8_t getMonth()   const   { return _tm.tm_mon + 1; }
+		int8_t getDay()     const   { return _tm.tm_mday; }
+		int8_t getHour()    const   { return _tm.tm_hour; }
+		int8_t getMinute()  const   { return _tm.tm_min; }
+		int8_t getSecond()  const   { return _tm.tm_sec; }
+		int8_t getWeekDay() const	{ return _tm.tm_wday; }
+		int16_t getDST()    const   { return _tm.tm_isdst; }
 
 		// time_t value as seconds since 1/1/2000
 		time_t getY2kTime() const { return _y2k_timestamp; }
