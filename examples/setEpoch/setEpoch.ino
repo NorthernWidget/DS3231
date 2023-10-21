@@ -55,7 +55,8 @@ Serial.println("ESP8266 Microcontroller Ready!");
     bool century = false;
     bool h12Flag;
     bool pmFlag;
-    DateTime now = myRTC.now();
+
+    // read directly from DS3231 device
     Serial.print("\n\n");
     Serial.print(" DateTime of DS3231:     ");
     Serial.print(Clock.getYear(), DEC);
@@ -73,19 +74,21 @@ Serial.println("ESP8266 Microcontroller Ready!");
     Serial.print(Clock.getDoW(), DEC);
     Serial.println();
 
+    // Read now from DateTime class
+    DateTime now = myRTC.now();
     Serial.print("\n\n");
     Serial.print(" DateTime of RTC:        ");
-    Serial.print(now.year(), DEC);
+    Serial.print(now.getYear(), DEC);
     Serial.print("-");
-    Serial.print(now.month(), DEC);
+    Serial.print(now.getMonth(), DEC);
     Serial.print("-");
-    Serial.print(now.day(), DEC);
+    Serial.print(now.getDay(), DEC);
     Serial.print(" ");
-    Serial.print(now.hour(), DEC);
+    Serial.print(now.getHour(), DEC);
     Serial.print(":");
-    Serial.print(now.minute(), DEC);
+    Serial.print(now.getMinute(), DEC);
     Serial.print(":");
-    Serial.print(now.second(), DEC);
+    Serial.print(now.getSecond(), DEC);
     Serial.println();
 
     Serial.print("\n\n Output of Struct tm:  ");
