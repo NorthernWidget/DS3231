@@ -104,6 +104,20 @@ DateTime::DateTime(const char *date, const char *time) {
    //strptime(buffer, "%m %d %Y %H:%M:%S", &_tm);
 }
 
+/**
+ * @brief smart time print function based on the standard strftime function
+ * see: https://en.cppreference.com/w/cpp/chrono/c/strftime
+ * 
+ * @param buffer buffer for time string 
+ * @param buffersize size of buffer
+ * @param formatSpec define format see strftime
+ * @return size_t lenth of used buffer
+ */
+size_t DateTime::show_DateTime(char *buffer, size_t buffersize, const char *formatSpec) {
+   size_t len {strftime(buffer, buffersize, formatSpec, &_tm)};
+   return len;
+}
+
 // Slightly modified from JeeLabs / Ladyada
 // Get all date/time at once to avoid rollover (e.g., minute/second don't match)
 // Commented to avoid compiler warnings, but keeping in case we want this
