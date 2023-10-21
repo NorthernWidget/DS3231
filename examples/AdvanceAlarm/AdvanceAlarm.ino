@@ -135,14 +135,14 @@ void loop() {
         Serial.print("Turning LED ");
         Serial.print((state ? "ON" : "OFF"));
         Serial.print(" at ");
-        Serial.print(alarmDT.hour());
+        Serial.print(alarmDT.getHour());
         Serial.print(":");
-        Serial.print(alarmDT.minute());
+        Serial.print(alarmDT.getMinute());
         Serial.print(":");
-        Serial.println(alarmDT.second());
+        Serial.println(alarmDT.getSecond());
 
         // extract the DateTime values as a timestamp 
-        uint32_t nextAlarm = alarmDT.unixtime();
+        uint32_t nextAlarm = alarmDT.getUnixTime();
         // add the INT_FREQ number of seconds
         nextAlarm += INT_FREQ;
         // update the DateTime with the new timestamp
@@ -150,7 +150,7 @@ void loop() {
 
         // upload the new time to Alarm 1
        myRTC.setA1Time(
-         alarmDT.day(), alarmDT.hour(), alarmDT.minute(), alarmDT.second(),
+         alarmDT.getDay(), alarmDT.getHour(), alarmDT.getMinute(), alarmDT.getSecond(),
        alarmBits, alarmDayIsDay, alarmH12, alarmPM);
        
        // enable Alarm 1 interrupts
