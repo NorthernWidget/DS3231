@@ -75,24 +75,29 @@ Serial.println("ESP8266 Microcontroller Ready!");
     Serial.println();
 
     // Read now from DateTime class
-    DateTime now = myRTC.now();
+    DateTime datetime = myRTC.now();
     Serial.print("\n\n");
     Serial.print(" DateTime of RTC:        ");
-    Serial.print(now.getYear(), DEC);
+    Serial.print(datetime.getYear(), DEC);
     Serial.print("-");
-    Serial.print(now.getMonth(), DEC);
+    Serial.print(datetime.getMonth(), DEC);
     Serial.print("-");
-    Serial.print(now.getDay(), DEC);
+    Serial.print(datetime.getDay(), DEC);
     Serial.print(" ");
-    Serial.print(now.getHour(), DEC);
+    Serial.print(datetime.getHour(), DEC);
     Serial.print(":");
-    Serial.print(now.getMinute(), DEC);
+    Serial.print(datetime.getMinute(), DEC);
     Serial.print(":");
-    Serial.print(now.getSecond(), DEC);
+    Serial.print(datetime.getSecond(), DEC);
     Serial.println();
 
     Serial.print("\n\n Output of Struct tm:  ");
     showTimeFormated(tstmp);
+
+    Serial.print("\nUse show_DateTime function:\n ");
+    char buffer[80];
+    datetime.show_DateTime(buffer, sizeof(buffer));
+    Serial.println(buffer);
 }
 
 void loop () {
