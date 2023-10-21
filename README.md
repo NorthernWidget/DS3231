@@ -230,13 +230,17 @@ A limited DateTime class is defined in this DS3231.h library. The link, above, p
 
 [Retrieving Date and Time Data](https://github.com/NorthernWidget/DS3231/blob/master/Documentation/DateTime.md#retrieving-date-and-time-data) further documents the DateTime class methods listed below. 
 
-- year()
-- month()
-- day()
-- hour()
-- minute()
-- second()
-- unixtime()
+- getYear()
+- getMonth()
+- getDay()
+- getHour()
+- getMinute()
+- getSecond()
+- getWeekDay()
+- getDST()
+- show_DateTime()
+- getUnixTime()
+- getY2KTime()
 
 <h3 id="RTClib_now_function">The Special <code>RTClib::now()</code> Function </h3>
 
