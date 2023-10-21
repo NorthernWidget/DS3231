@@ -21,22 +21,22 @@ void loop () {
     
     DateTime now = myRTC.now();
     
-    Serial.print(now.year(), DEC);
+    Serial.print(now.getYear(), DEC);
     Serial.print('/');
-    Serial.print(now.month(), DEC);
+    Serial.print(now.getMonth(), DEC);
     Serial.print('/');
-    Serial.print(now.day(), DEC);
+    Serial.print(now.getDay(), DEC);
     Serial.print(' ');
-    Serial.print(now.hour(), DEC);
+    Serial.print(now.getHour(), DEC);
     Serial.print(':');
-    Serial.print(now.minute(), DEC);
+    Serial.print(now.getMinute(), DEC);
     Serial.print(':');
-    Serial.print(now.second(), DEC);
+    Serial.print(now.getSecond(), DEC);
     Serial.println();
     
     Serial.print(" since midnight 1/1/1970 = ");
-    Serial.print(now.unixtime());
+    Serial.print(now.getUnixTime());
     Serial.print("s = ");
-    Serial.print(now.unixtime() / 86400L);
+    Serial.print(now.getUnixTime() / 86400L);
     Serial.println("d");
 }
