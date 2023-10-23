@@ -24,12 +24,14 @@
 
 #define CLOCK_ADDRESS 0x68
 
-#if defined (ESP8266) || defined(ESP32)
+#if !defined (UNIX_OFFSET)
 // SECONDS_FROM_1970_TO_2000
 // Difference between the Y2K and the UNIX epochs, in seconds.
 // To convert a Y2K timestamp to UNIX... 
 #define UNIX_OFFSET 946684800UL
+#endif
 
+#if !defined (NTP_OFFSET)
 // SECONDS_FROM_1900_TO_2000
 // Difference between the Y2K and the NTP epochs, in seconds.
 // To convert a Y2K timestamp to NTP... 
