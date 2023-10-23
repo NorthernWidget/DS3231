@@ -88,12 +88,17 @@ DateTime::DateTime(int16_t year, int8_t month, int8_t day, int8_t hour, int8_t m
 DateTime::DateTime(const char *date, const char *time) {
     static const char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
     static char month_buff[4] = {'0','0','0','0'};
-    int year;
-    sscanf(date, "%s %2u %4d", month_buff, &_tm.tm_mday, &year);
+    int year, day;
+    sscanf(date, "%s %2d %4d", month_buff, &day, &year);
     int month = (strstr(month_names, month_buff) - month_names) / 3 + 1;
     _tm.tm_year = year-1900;
     _tm.tm_mon = month-1;
-    sscanf(time, "%2u:%2u:%2u", &_tm.tm_hour, &_tm.tm_min, &_tm.tm_sec);
+    _tm.tm_mday = day;
+    byte hour, min, sec;
+    sscanf(time, "%hhu:%hhu:%hhu", &hour, &min, &sec);
+    _tm.tm_hour = hour;
+    _tm.tm_min = min;
+    _tm.tm_sec = sec;
     set_timstamps();
 }
 
