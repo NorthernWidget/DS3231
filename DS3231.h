@@ -45,44 +45,47 @@ static const uint8_t daysInMonth [] PROGMEM = { 31, 28, 31, 30, 31, 30, 31, 31, 
 
 // DateTime class restructured by using standardized time functions
 class DateTime {
-	public:
+    public:
         DateTime (time_t unix_timestamp = 0);
 
-		DateTime ( 	int16_t year, int8_t month, int8_t mday,
-              	    int8_t hour = 0, int8_t min = 0, int8_t sec = 0,
-				   	int8_t wday = 0, int16_t yday = 0, int16_t dst = 0);
+	    DateTime ( 	int16_t year, int8_t month, int8_t mday,
+                    int8_t hour = 0, int8_t min = 0, int8_t sec = 0,
+                    int8_t wday = 0, int16_t yday = 0, int16_t dst = 0);
     
         DateTime (const char *date, const char *time);
         
-		int16_t getYear()   const	{ return _tm.tm_year + 1900; }
-		int8_t getMonth()   const   { return _tm.tm_mon + 1; }
-		int8_t getDay()     const   { return _tm.tm_mday; }
-		int8_t getHour()    const   { return _tm.tm_hour; }
-		int8_t getMinute()  const   { return _tm.tm_min; }
-		int8_t getSecond()  const   { return _tm.tm_sec; }
-		int8_t getWeekDay() const	{ return _tm.tm_wday; }
-		int16_t getDST()    const   { return _tm.tm_isdst; }
+        int16_t getYear()   const	{ return _tm.tm_year + 1900; }
+        int8_t getMonth()   const   { return _tm.tm_mon + 1; }
+        int8_t getDay()     const   { return _tm.tm_mday; }
+        int8_t getHour()    const   { return _tm.tm_hour; }
+        int8_t getMinute()  const   { return _tm.tm_min; }
+        int8_t getSecond()  const   { return _tm.tm_sec; }
+        int8_t getWeekDay() const	{ return _tm.tm_wday; }
+        int16_t getDST()    const   { return _tm.tm_isdst; }
         size_t show_DateTime(char *buffer, size_t buffersize, const char *formatSpec = "%a %h %d %T %Y");
 
-		// time_t value as seconds since 1/1/2000
-		time_t getY2kTime() const { return _y2k_timestamp; }
-		
-		// time_t value as seconds since 1/1/1970
-		// THE ABOVE COMMENT IS CORRECT FOR LOCAL TIME; TO USE THIS COMMAND TO
-		// OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
-		// SETTING YOUR CLOCK TO UTC
-		time_t getUnixTime(void) const  { return _unix_timestamp; }
+        // time_t value as seconds since 1/1/2000
+        time_t getY2kTime() const { return _y2k_timestamp; }
+        
+        // time_t value as seconds since 1/1/1970
+        // THE ABOVE COMMENT IS CORRECT FOR LOCAL TIME; TO USE THIS COMMAND TO
+        // OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
+        // SETTING YOUR CLOCK TO UTC
+        time_t getUnixTime() const  { return _unix_timestamp; }
+    
+    private:
+        void set_timstamps();
     
     protected:
-	    time_t _unix_timestamp;
+        time_t _unix_timestamp;
         time_t _y2k_timestamp;
-	    struct tm _tm;
+        struct tm _tm;
 };
 
 class RTClib {
     public:
-	    // Get date and time snapshot
-		static DateTime now(TwoWire & _Wire = Wire);
+        // Get date and time snapshot
+        static DateTime now(TwoWire & _Wire = Wire);
 };
 
 // Eric's original code is everything below this line
@@ -99,7 +102,7 @@ class DS3231 {
         // the getter functions retrieve current values of the registers.
         byte getRegisterValue() {
             _Wire.requestFrom(CLOCK_ADDRESS, 1);
-	        return bcdToDec(_Wire.read());
+            return bcdToDec(_Wire.read());
         }
 
         byte getSecond();
@@ -237,21 +240,21 @@ class DS3231 {
         // giving you the correct time.
         // The OSF is cleared by function setSecond();.
         bool oscillatorCheck();
-		
 
-	private:
+
+    private:
         // Convert normal decimal numbers to binary coded decimal
-		byte decToBcd(byte val);
-		// Convert binary coded decimal to normal decimal numbers
-		byte bcdToDec(byte val);
-			
+        byte decToBcd(byte val);
+        // Convert binary coded decimal to normal decimal numbers
+        byte bcdToDec(byte val);
 
-	protected:
+
+    protected:
         // Read selected control byte: (0); reads 0x0e, (1) reads 0x0f
-		byte readControlByte(bool which);
-		
+        byte readControlByte(bool which);
+        
         // Write the selected control byte.
-		// which == false -> 0x0e, true->0x0f.
-		void writeControlByte(byte control, bool which);		
+        // which == false -> 0x0e, true->0x0f.
+        void writeControlByte(byte control, bool which);		
 };
 #endif
