@@ -87,7 +87,7 @@ class DateTime {
 class RTClib {
     public:
         // Get date and time snapshot
-        static DateTime now(TwoWire & _Wire = Wire);
+        static DateTime now(TwoWire &_Wire = Wire);
 };
 
 // Eric's original code is everything below this line
