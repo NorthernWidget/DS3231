@@ -9,6 +9,8 @@ The versatile DS3231 is more than just an alarm clock. It supplies a timer and a
 * [oscillatorCheck()](#oscillator-check)
 * [getTemperature()](#temperature)
 * [Pin Change Interrupt](#pin-change-interrupt)
+* [getAgingOffset](#getAgingOffset)
+* [setAgingOffset](#setAgingOffset)
 
 ### <a id="32k">enable32kHz()</a>
 
@@ -258,6 +260,63 @@ Long story short, the temperature sensor is there to help maintain the accuracy 
 This function retrieves the values in those two registers and combines them into a floating-point value.
 
 According to the data sheet, the temperature values stored in the DS3231 registers claim to be accurate within a range of three degrees Celsius above or below the actual temperature.
+
+### <a id="getAgingOffset">getAgingOffset(int8_t offset)</a>
+
+```
+/*
+ * Retrieve the aging offset of the DS3231 and places it in the offset parameter
+ *
+ * return: boolean,
+ * (false) means the function was unable to read the value from the DS3231
+ *
+ * (true) means that the aging offset was read and placed into the passed parameter variable
+ * one parameter:
+ *    offset, int8_t
+ *    Range: -127 to +128
+ *    Each increment adjusts the frequency by approximately 0.1 ppm.
+ */
+
+bool getAgingOffset(int8_t offset)
+
+/* example of usage */
+int8_t agingOffset;
+if (myRTC.getAgingOffset(agingOffset))
+{
+  Serial.println("Aging Offset: " + String(agingOffset));
+}
+else
+{
+  Serial.println("Failed to get aging offset");
+}
+```
+
+The aging offset register takes a user-provided value to add to or subtract from the codes in the capacitance array registers that the device calculates for each temperature compensation.
+This register is used to "nudge" the oscillator frequency +/- from the factory calibration, handy if your DS3231 is starting to drift due to age (or because you are using a cheap DS3231).
+This function reads that offset so you can make sure its set to your desired value.
+
+### <a id="setAgingOffset">setAgingOffset(int8_t offset)</a>
+
+```
+/*
+ * Set the aging offset of the DS3231 with the value of the offset parameter
+ *
+ * return: nothing (void)
+ * one parameter:
+ *    offset, int8_t
+ *    Range: -127 to +128
+ *    Each increment adjusts the frequency by approximately 0.1 ppm.
+ */
+
+void setAgingOffset(int8_t offset)
+
+/* example of usage */
+myRTC.setAgingOffset(-10);
+```
+
+The aging offset register takes a user-provided value to add to or subtract from the codes in the capacitance array registers that the device calculates for each temperature compensation.
+This register is used to "nudge" the oscillator frequency +/- from the factory calibration, handy if your DS3231 is starting to drift due to age (or because you are using a cheap DS3231).
+This function sets the offset to the value passed in the offset parameter.
 
 ### Pin Change Interrupt
 The oscillating output from the 32K pin of a DS3231 makes an excellent source of timer input for the  Pin Change Interrupt capability of AVR-based Arduino boards.

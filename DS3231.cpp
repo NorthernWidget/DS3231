@@ -765,6 +765,29 @@ bool DS3231::oscillatorCheck() {
 	return result;
 }
 
+bool DS3231::getAgingOffset(int8_t& offset) {
+	// Read the current aging offset from the DS3231 and puts the result in the	offset variable.
+	// Returns true if the read successful, false if not.
+	_Wire.beginTransmission(CLOCK_ADDRESS);
+	_Wire.write(0x10); // Aging offset register
+	_Wire.endTransmission();
+
+	_Wire.requestFrom(CLOCK_ADDRESS, 1);
+	if (_Wire.available()) {
+			offset = (int8_t)_Wire.read(); // Read and update the current offset
+			return true; // Successfully read the RTC
+	}
+	return false; // Failed to read the RTC
+}
+
+void DS3231::setAgingOffset(int8_t offset) {
+	// sets the aging offset.
+	_Wire.beginTransmission(CLOCK_ADDRESS);
+	_Wire.write(0x10);
+	_Wire.write(offset);
+	_Wire.endTransmission();
+}
+
 /*****************************************
 	Private Functions
  *****************************************/

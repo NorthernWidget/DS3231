@@ -31,3 +31,5 @@ checkIfAlarm	KEYWORD2
 enableOscillator	KEYWORD2
 enable32kHz	KEYWORD2
 oscillatorCheck	KEYWORD2
+getAgingOffset KEYWORD2
+setAgingOffset KEYWORD2

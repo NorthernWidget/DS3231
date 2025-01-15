@@ -193,6 +193,12 @@ class DS3231 {
 			// giving you the correct time.
 			// The OSF is cleared by function setSecond();.
 
+		// Aging offset functions
+		bool getAgingOffset(int8_t& offset);
+			// Returns the aging offset for the RTC
+		void setAgingOffset(int8_t offset);
+			// Sets the aging offset for the RTC
+
 	private:
 
 		byte decToBcd(byte val);
