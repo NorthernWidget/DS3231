@@ -33,3 +33,4 @@ enable32kHz	KEYWORD2
 oscillatorCheck	KEYWORD2
 getAgingOffset KEYWORD2
 setAgingOffset KEYWORD2
+is1HzSquareWaveActive KEYWORD2

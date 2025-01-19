@@ -788,6 +788,21 @@ void DS3231::setAgingOffset(int8_t offset) {
 	_Wire.endTransmission();
 }
 
+bool DS3231::is1HzSquareWaveActive() {
+    Wire.beginTransmission(DS3231_ADDRESS);
+    Wire.write(0x0E); // Control register address
+    Wire.endTransmission();
+
+    Wire.requestFrom(DS3231_ADDRESS, 1); // Request 1 byte from control register
+    byte controlRegister = Wire.read();
+
+    // Check if square wave is enabled (INTCN = 0) and frequency is set to 1Hz (RS2=0, RS1=0)
+    bool isSquareWaveEnabled = !(controlRegister & 0x04); // INTCN = 0 means square wave is enabled
+    bool isFrequency1Hz = (controlRegister & 0x18) == 0x00; // RS2 and RS1 are both 0
+
+    return isSquareWaveEnabled && isFrequency1Hz;
+}
+
 /*****************************************
 	Private Functions
  *****************************************/

@@ -198,6 +198,8 @@ class DS3231 {
 			// Returns the aging offset for the RTC
 		void setAgingOffset(int8_t offset);
 			// Sets the aging offset for the RTC
+		bool is1HzSquareWaveActive();
+			// Returns true if the 1Hz square wave is active, false if not.
 
 	private:
 

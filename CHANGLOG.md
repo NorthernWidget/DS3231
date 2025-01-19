@@ -7,6 +7,11 @@ When adding new features to the repository (i.e. by merging your PR), please add
 - [PR00](https://github.com/NorthernWidget/DS3231/pull/00) Description of change
     * this is just a placeholder: to be replaced with first unreleased change
 
+## v1.1.4
+- [PR03](https://github.com/The-Kinky-Coder/DS3231/pull/3) Added a check to see if the 1hz sqaureware is operating.
+
+## v1.1.3
+- [PR02](https://github.com/The-Kinky-Coder/DS3231/pull/2) Added Aging Offset
 
 ## v1.1.2
 
