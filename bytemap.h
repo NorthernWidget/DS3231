@@ -36,7 +36,7 @@ struct bits3231 {
   // 08h Alarm 1 minutes 00 - 59
   unsigned A1Min:4; // minutes digit 0 - 9
   unsigned A1Min10:3; // tens of minuts digit 0 - 5
-  unsigned: A1M2; // Alarm 1 Bit 2
+  unsigned A1M2; // Alarm 1 Bit 2
   // 09h Alarm 1 hour 1 - 12 or 0 - 23
   unsigned A1Hour:4; // hours digit 0 - 9
   unsigned A1Hour10:1; // hour ten digit 0 - 1
@@ -54,7 +54,7 @@ struct bits3231 {
   // 0Bh Alarm 2 minutes 00 - 59
   unsigned A2Min:4; // minutes digit 0 - 9
   unsigned A2Min10:3; // tens of minuts digit 0 - 5
-  unsigned: A2M2; // Alarm 2 Bit 2
+  unsigned A2M2; // Alarm 2 Bit 2
   // 0Ch Alarm 2 hour 1 - 12 or 0 - 23
   unsigned A2Hour:4; // hours digit 0 - 9
   unsigned A2Hour10:1; // hour ten digit 0 - 1
