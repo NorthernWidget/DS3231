@@ -116,7 +116,7 @@ In total, eleven different combinations of values exist for these two parameters
 |10| True<br>(Day in Week) | 0b00000000 | Alarm 2 every week, when the Alarm 2 day, hours and minutes values match those of the time and the time seconds value equals zero. The time modes, 24- or 12-hour and AM/PM, are evaluated.|
 |11| False<br>(Date in Month) | 0b00000000 | Alarm 2 every month, when the Alarm 2 date, hours and minutes values match those of the time and the time seconds value equals zero. The time modes, 24- or 12-hour and AM/PM, are evaluated.|
 
-Notice that combinations 5 and 6 appear identical to 11 and 12. Fortunately, the methods for setting Alarm 1 and Alarm 2 prevent confusion. Each method sets values for just one of the alarms.
+Notice that combinations 5 and 6 appear identical to 10 and 11. Fortunately, the methods for setting Alarm 1 and Alarm 2 prevent confusion. Each method sets values for just one of the alarms.
 
 [Back to Contents](#contents)
 
