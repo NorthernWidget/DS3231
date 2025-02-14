@@ -19,11 +19,14 @@ setDate	KEYWORD2
 setMonth	KEYWORD2
 setYear	KEYWORD2
 setClockMode	KEYWORD2
+adjust	KEYWORD2
 getTemperature	KEYWORD2
 getA1Time	KEYWORD2
 getA2Time	KEYWORD2
 setA1Time	KEYWORD2
 setA2Time	KEYWORD2
+setAlarm1Simple	KEYWORD2
+setAlarm2Simple	KEYWORD2
 turnOnAlarm	KEYWORD2
 turnOffAlarm	KEYWORD2
 checkAlarmEnabled	KEYWORD2
