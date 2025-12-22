@@ -7,6 +7,17 @@ When adding new features to the repository (i.e. by merging your PR), please add
 - [PR00](https://github.com/NorthernWidget/DS3231/pull/00) Description of change
     * this is just a placeholder: to be replaced with first unreleased change
 
+## v1.2.0
+
+- [PR84](https://github.com/NorthernWidget/DS3231/pull/84) Updated CHANGELOG.md
+- [PR87](https://github.com/NorthernWidget/DS3231/pull/87) and outside of the PR as well: Added functions
+    * setAlarm1Simple
+    * setAlarm2Simple
+    * adjust
+- [PR89](https://github.com/NorthernWidget/DS3231/pull/89) and outside of the PR as well: Fixed unsigned (unisgned) typo
+    * (Outside of the PR) Removed colons after unsigned-type declaration
+- Updated alarms.md
+- [PR98](https://github.com/NorthernWidget/DS3231/pull/98) Alarm combinations 5, 6 are similar to 10, 11
 
 ## v1.1.2
 
