@@ -256,7 +256,7 @@ The value of ```currentMoment``` can then be accessed as either:
 
 ## Examples of Use
 
-There are many examples provided in the [examples](https://github.com/NorthernWidget/DS3231/tree/master/examples) folder of this repository.  At the time of writing the examples include:
+There are many examples provided in the [examples directory](/examples/README.md) of this repository.  At the time of writing the examples include:
 
 * *set*: demonstrates selected time-setting functions
 * *test*: demonstrates selected time-reading functions
