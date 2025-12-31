@@ -1,4 +1,4 @@
-#DS3231 Library
+# DS3231 Library
 ## Functions for Alarms
 The DS3231 offers two, versatile, independent alarms. 
 
