@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7754275.svg)](https://doi.org/10.5281/zenodo.7754275)
+
 # DS3231 Library
 An Arduino library for the DS3231 real-time clock (RTC).  
 
