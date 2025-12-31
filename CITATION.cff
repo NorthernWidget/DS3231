@@ -11,6 +11,8 @@ authors:
 - family-names: "Sparks"
   given-names: "David G."
   orcid: "https://orcid.org/0000-0002-9545-3365"
+- family-names: "Häfele"
+  given-names: "Frank"
 - family-names: "Open-Source Hardware Community"
   given-names: "Global"
 title: "DS3231"
