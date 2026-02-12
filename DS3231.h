@@ -44,8 +44,6 @@ public:
     uint8_t second() const      { return ss; }
     uint8_t dayOfTheWeek() const;
 
-    // 32-bit times as seconds since 1/1/2000
-    long secondstime() const;
     // 32-bit times as seconds since 1/1/1970
     // THE ABOVE COMMENT IS CORRECT FOR LOCAL TIME; TO USE THIS COMMAND TO
     // OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
