@@ -1,7 +1,9 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7754275.svg)](https://doi.org/10.5281/zenodo.7754275)
 
 # DS3231 Library
-An Arduino library for the DS3231 real-time clock (RTC).  
+An Arduino library designed for programming 8-bit AVR microcontrollers to work with the DS3231 real-time clock (RTC).  
+
+Support for using it with other, different hardware architectures may vary according to how certain dependencies, external to this Library, are implemented for those devices.
 
 ## Description
 The library provides easy-to-use methods to:
@@ -61,7 +63,24 @@ DS3231 myRTC;
 Wire.begin();
 ```
 
-Then, Library functions are typically accessed through the DS3231 object. For example, to read the current date of the month (1 through 28, 29, 30 or 31, depending on the month and the year):
+
+<blockquote>
+<p>Note for Novice Code Writers</p>
+
+<p>The variable named myRTC defined in step 2 above is an &ldquo;object&rdquo; of the DS3231 &ldquo;class&rdquo;.</p>
+
+<p>In Arduino code (as in the C++ language generally) a class object can be thought of as a &ldquo;smart variable&rdquo;. Instead of only containing data, an object variable may also perform actions when it contains code.</p>
+
+<p>A DS3231 class object contains many, distinct segments of code that perform different operations with a connected DS3231 device. The code segments implement what are called &ldquo;methods&rdquo; of the class. A method is a C++ function defined within a class.</p>
+
+<p>Object methods may also be called &ldquo;functions&rdquo; in the documentation here, because the two terms mean the same thing for practical purposes. Only the syntax for accesssing them is different.</p>
+
+<p>The code syntax to invoke an object method is to type the name of the object variable, then a dot, then the method name, like this:  <code>variable.method()</code>. For example, look again at step 3, above. <code>begin()</code> is a method of the <code>Wire</code> object.</p>
+
+<p>If you want to know more about objects and methods in general, please explore the many C++ tutorials and references available online.</p>
+</blockquote>
+
+The following example invokes the ```getDate()``` function of the DS3231 object named <code>myRTC</code> which was declared in Step 2, above. It returns the current date of the month from a connected DS3231 device. The variable named ```theDate``` will receive a numeric value in the range 1 through 28, 29, 30 or 31, depending on the month and the year.
 
 
 ```
@@ -102,13 +121,13 @@ According to the [datasheet](https://datasheets.maximintegrated.com/en/ds/DS3231
 * Day of the Week,
 * Date of the Month, 
 * Month,  and
-* Year, with Leap-Year Compensation Valid Up to 2100"
+* Year, with Leap-Year Compensation Valid Until 2100
 
 Data for the time and date are stored in registers (memory locations) on the DS3231. Each, distinct value is stored separately. This means the seconds are in one register, the minutes in another, and so forth. The DS3231 updates the values in the date and time registers every second.
 
 The device keeps track of time by operating its own 32.768 kHz crystal oscillator, similar to the timekeeper in an electronic watch. Temperature can affect oscillator speed. Accordingly, the DS3231 takes further steps to maintain accuracy. It senses the temperature around the crystal and adjusts the speed of the oscillator.
 
-The oscillator can be accessed directly, independent of the date and time registers, for use as an external timer or source of interrupts.
+The oscillator can be accessed directly, independent of the date and time registers, for use as an external pulse generator or source of interrupts.
 
 The temperature can be read from the DS3231 using a Library function. The data sheet declares it to be accurate to within 3 degrees, Celsius. 
 
@@ -260,13 +279,17 @@ The value of ```currentMoment``` can then be accessed as either:
 
 There are many examples provided in the [examples directory](/examples/README.md) of this repository.  At the time of writing the examples include:
 
-* *set*: demonstrates selected time-setting functions
-* *test*: demonstrates selected time-reading functions
-* *echo*: demonstrates setting the time and date then reading it back
-* *echo_time*: similar to *echo*, demonstrates setting and reading time/date data
-* *oscillator_test*: demonstrates advanced techniques for managing and using the DS3231 device as a pulse generator
+* *DS3231_set*: demonstrates selected time-setting functions
+* *setEpoch*: takes UTC into account for setting the time
+* *DS3231_test*: demonstrates selected time-reading functions
+* *set_echo*: demonstrates setting the time and date then reading it back
+* *echo_time*: similar to *set_echo*, demonstrates setting and reading time/date data
+* *DS3231_oscillator_test*: demonstrates advanced techniques for managing and using the DS3231 device as a pulse generator
+* *AlarmPolling*: set an alarm then detect it by checking an internal register of the DS3231 for indication of the alarm
+* *AlarmInterrupt*: set an alarm then configure the DS3231 and the AVR controller to interrupt a running program when the DS3231 signals the alarm
+* *AdvanceAlarm*: set an alarm then, after the alarm is detected, set the alarm again for a future time
 
-Future development plans include updating these examples and adding more of them.
+Readers are invited to submit pull requests via Github offering additional examples.
 
 See also [Working with the DS3231 libraries and interrupts](https://github.com/IowaDave/RTC-DS3231-Arduino-Interrupt), a tutorial provided by [IowaDave](https://github.com/IowaDave).
 
@@ -318,10 +341,4 @@ DS3231 is licensed under [The Unlicense](https://github.com/NorthernWidget/DS323
 <hr>
 
 ## To Do
-A project is underway to update the library's documentation.
-
-### Existing Repo Issues to be addressed:
-* \#42 Alarm Documentation
-* \#24 DateTime Comparison Operators
-* \#20 AlarmBits Documentation
-
+This list intentionally empty. 
