@@ -31,6 +31,11 @@ It is the code developer's sole responsibility to upload only "sensible" values 
 
 The Library does not check the values to be set. The compiler only checks that the value is of the right size, i.e., 8 bits. A large value such as 117 will fit in 8 bits and would be passed along by the Library. Yet it makes no sense for any part of a time or a date. Code with care!
 
+**No ```setCentury()``` Function**
+
+The Library does not provide a method for writing a value to the Century bit in the DS3231 hardware, because that bit is only an informational output of the DS3231, and not an input to any of its internal time and date computations. In other words, for practical purposes, the Century bit should be viewed as read-only.
+
+## Examples of Using the Functions
 
 <h3 id="setClockMode">void setClockMode(bool h12)</h3>
 
