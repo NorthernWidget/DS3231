@@ -163,6 +163,12 @@ byte theDate = myRTC.getYear();
 
 ### Contemplations of An Aging Documentarian 
 
+The Library does not provide a function to write a value for this bit into the DS3231 hardware, because the DS3231 hardware does not appear to take the Century bit into account as an input affecting its computations of date and time. 
+
+In other words, the DS3231 only writes this bit; therefore, this Library only reads it, storing its value in a program-defined variable as a side effect of the ```getMonth()``` method, as information only. 
+
+A program that needs to detect a change in the Century bit may define suitable variables and procedures for the purpose within the program. 
+
 The Century bit may supply useful information when operating the DS3231 near the end of a century. For example, the bit would have toggled when the year changed from 1999 to 2000. It would have been important to recognize that a year "00" actually represented an *increase* of time compared to the year "99".
 
 The bit will toggle again when the year changes from 2099 to 2100, and so forth.
